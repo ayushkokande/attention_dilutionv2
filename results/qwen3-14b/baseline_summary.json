@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "slug": "qwen3-14b",
+  "dtype": "bfloat16",
+  "batch_size": 8,
+  "max_new_tokens": 512,
+  "temperature": 0.0,
+  "seed": 0,
+  "enable_thinking": false,
+  "alpaca_n": 512,
+  "advbench_n": 520,
+  "harmless_refusal_rate": 0.013671875,
+  "harmless_compliance_rate": 0.986328125,
+  "harmful_refusal_rate": 0.9365384615384615
+}

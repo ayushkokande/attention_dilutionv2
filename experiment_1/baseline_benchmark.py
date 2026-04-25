@@ -89,7 +89,7 @@ def write_summary(path: Path, summary: dict) -> None:
 
 def batched(seq: list, n: int):
     for i in range(0, len(seq), n):
-        yield i, seq[i:i + n]
+        yield i, seq[i : i + n]
 
 
 def main() -> None:
@@ -161,7 +161,7 @@ def main() -> None:
                 truncation=False,
             ).to(first_device)
             out_ids = model.generate(**inputs, **gen_kwargs)
-            new_ids = out_ids[:, inputs["input_ids"].shape[1]:]
+            new_ids = out_ids[:, inputs["input_ids"].shape[1] :]
             decoded = tokenizer.batch_decode(new_ids, skip_special_tokens=True)
             for j, raw in enumerate(decoded):
                 idx = start + j
@@ -206,9 +206,6 @@ def main() -> None:
         "seed": args.seed,
         "enable_thinking": args.enable_thinking,
     })
-
-    harmless_rate = None
-    harmful_rate = None
 
     if run_harmless:
         print("\n--- Harmless (Alpaca, empty input) ---")
