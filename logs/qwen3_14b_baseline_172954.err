@@ -1,0 +1,15 @@
+Resolved 190 packages in 3.30s
+Downloading hf-transfer (3.4MiB)
+ Downloaded hf-transfer
+Prepared 1 package in 386ms
+Installed 1 package in 177ms
+ + hf-transfer==0.1.9
+/scratch/ak13124/attention_dilutionv2/.venv/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|                                  | 0/8 [00:00<?, ?it/s]Loading checkpoint shards:  12%|███▎                      | 1/8 [00:22<02:34, 22.03s/it]Loading checkpoint shards:  25%|██████▌                   | 2/8 [00:42<02:08, 21.40s/it]Loading checkpoint shards:  38%|█████████▊                | 3/8 [01:02<01:42, 20.49s/it]Loading checkpoint shards:  50%|█████████████             | 4/8 [01:22<01:22, 20.50s/it]Loading checkpoint shards:  62%|████████████████▎         | 5/8 [01:43<01:01, 20.47s/it]Loading checkpoint shards:  75%|███████████████████▌      | 6/8 [02:04<00:41, 20.71s/it]Loading checkpoint shards:  88%|██████████████████████▊   | 7/8 [02:25<00:20, 20.85s/it]Loading checkpoint shards: 100%|██████████████████████████| 8/8 [02:35<00:00, 17.33s/it]Loading checkpoint shards: 100%|██████████████████████████| 8/8 [02:35<00:00, 19.43s/it]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+real	86m21.819s
+user	80m20.404s
+sys	2m3.029s

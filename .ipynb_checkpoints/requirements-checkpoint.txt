@@ -1,0 +1,13 @@
+torch>=2.6
+transformers>=4.56,<=4.57.3
+hf_transfer
+transformer_lens>=2.18,<3
+circuit-tracer>=0.5
+datasets
+accelerate
+pandas
+numpy
+matplotlib
+scipy
+tqdm
+jupyter

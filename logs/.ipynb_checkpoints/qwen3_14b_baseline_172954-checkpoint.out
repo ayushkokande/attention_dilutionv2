@@ -1,0 +1,26 @@
+=== preflight | REPO=/scratch/ak13124/attention_dilutionv2 ===
+total 12
+drwxr-xr-x.  8 ak13124 ak13124    0 Apr 25 11:45 .
+drwx------. 19 ak13124 ak13124    0 Apr 25 11:21 ..
+-rw-r--r--.  1 ak13124 ak13124 8196 Apr 25 11:20 .DS_Store
+drwxr-xr-x.  2 ak13124 ak13124    0 Apr 24 21:45 .claude
+drwxr-xr-x.  6 ak13124 ak13124    0 Apr 24 21:22 .git
+drwxr-xr-x.  2 ak13124 ak13124    0 Apr 25 11:42 .ipynb_checkpoints
+drwxr-xr-x.  6 ak13124 ak13124    0 Apr 25 11:31 .venv
+drwxr-xr-x.  3 ak13124 ak13124    0 Apr 25 11:33 experiment_1
+drwxr-xr-x.  2 ak13124 ak13124    0 Apr 25 11:45 logs
+-rw-r--r--.  1 ak13124 ak13124  160 Apr 25 11:42 requirements.txt
+=== qwen3_14b_baseline | job 172954 ===
+Repo : /scratch/ak13124/attention_dilutionv2
+CUDA : 0,1
+index, name, memory.total [MiB], driver_version
+0, NVIDIA A100-SXM4-40GB, 40960 MiB, 580.126.09
+1, NVIDIA A100-SXM4-40GB, 40960 MiB, 580.126.09
+torch 2.11.0+cu130 cuda True ngpu 2
+
+----- [baseline_qwen3_14b] 2026-04-25T15:46:20Z -----
+Model      : Qwen/Qwen3-14B
+Slug       : qwen3-14b
+Output dir : /scratch/ak13124/attention_dilutionv2/results/qwen3-14b
+dtype      : bfloat16  | batch_size=8  max_new_tokens=512  T=0.0
+GPUs visible: 2

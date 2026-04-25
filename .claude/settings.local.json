@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone *)",
+      "Read(//Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/**)"
+    ]
+  }
+}
