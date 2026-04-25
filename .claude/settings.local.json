@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(git clone *)",
-      "Read(//Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/**)"
+      "Read(//Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/**)",
+      "Bash(chmod +x \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_2/sbatch_refusal_direction.sh\" \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_2/sbatch_context_sweep.sh\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_2/refusal_direction.py'\\).read\\(\\)\\); ast.parse\\(open\\('experiment_2/context_sweep.py'\\).read\\(\\)\\); print\\('OK: both files parse'\\)\")",
+      "Bash(git add *)"
     ]
   }
 }
