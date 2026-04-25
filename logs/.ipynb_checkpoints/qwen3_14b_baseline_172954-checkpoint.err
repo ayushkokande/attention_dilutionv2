@@ -1,0 +1,9 @@
+Resolved 190 packages in 3.30s
+Downloading hf-transfer (3.4MiB)
+ Downloaded hf-transfer
+Prepared 1 package in 386ms
+Installed 1 package in 177ms
+ + hf-transfer==0.1.9
+/scratch/ak13124/attention_dilutionv2/.venv/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
