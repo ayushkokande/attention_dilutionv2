@@ -57,7 +57,24 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--enable-thinking", action="store_true")
     p.add_argument("--output-dir", default=None,
                    help="Override; default: results/<slug>/refusal_direction")
+    p.add_argument("--harmful-file", default=None,
+                   help="Optional JSONL of {\"prompt\": str} per line. If set, "
+                        "overrides AdvBench loader and ignores --n-harmful.")
+    p.add_argument("--harmless-file", default=None,
+                   help="Optional JSONL of {\"prompt\": str} per line. If set, "
+                        "overrides Alpaca loader and ignores --n-harmless.")
     return p.parse_args()
+
+
+def _load_jsonl_prompts(path: str) -> list[str]:
+    out: list[str] = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            out.append(json.loads(line)["prompt"])
+    return out
 
 
 @torch.no_grad()
@@ -113,12 +130,23 @@ def main() -> None:
     model.eval()
     device = next(model.parameters()).device
 
-    # Disjoint from the sweep split: skip the first SWEEP_HARMFUL_N rows.
-    all_harmful = load_harmful_prompts(SWEEP_HARMFUL_N + args.n_harmful)
-    harmful = all_harmful[SWEEP_HARMFUL_N:SWEEP_HARMFUL_N + args.n_harmful]
-    harmless = load_harmless_prompts(args.n_harmless)
-    print(f"Harmful  (idx {SWEEP_HARMFUL_N}..) : {len(harmful)}")
-    print(f"Harmless                        : {len(harmless)}")
+    if args.harmful_file:
+        harmful = _load_jsonl_prompts(args.harmful_file)
+        harmful_offset_for_meta: int | str = f"file:{args.harmful_file}"
+        print(f"Harmful  (from {args.harmful_file}) : {len(harmful)}")
+    else:
+        # Disjoint from the sweep split: skip the first SWEEP_HARMFUL_N rows.
+        all_harmful = load_harmful_prompts(SWEEP_HARMFUL_N + args.n_harmful)
+        harmful = all_harmful[SWEEP_HARMFUL_N:SWEEP_HARMFUL_N + args.n_harmful]
+        harmful_offset_for_meta = SWEEP_HARMFUL_N
+        print(f"Harmful  (idx {SWEEP_HARMFUL_N}..) : {len(harmful)}")
+
+    if args.harmless_file:
+        harmless = _load_jsonl_prompts(args.harmless_file)
+        print(f"Harmless (from {args.harmless_file}) : {len(harmless)}")
+    else:
+        harmless = load_harmless_prompts(args.n_harmless)
+        print(f"Harmless                        : {len(harmless)}")
 
     harmful_p = [format_chat_prompt(tok, p, enable_thinking=args.enable_thinking) for p in harmful]
     harmless_p = [format_chat_prompt(tok, p, enable_thinking=args.enable_thinking) for p in harmless]
@@ -149,7 +177,9 @@ def main() -> None:
         "d_model": d_model,
         "n_harmful": len(harmful),
         "n_harmless": len(harmless),
-        "harmful_idx_offset": SWEEP_HARMFUL_N,
+        "harmful_idx_offset": harmful_offset_for_meta,
+        "harmful_file": args.harmful_file,
+        "harmless_file": args.harmless_file,
         "diff_norms_per_layer": norms.squeeze(-1).tolist(),
         "default_layer": n_layers // 2,
         "suggested_layers_to_try": [
