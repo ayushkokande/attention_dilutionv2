@@ -15,7 +15,16 @@
       "Bash(chmod +x *)",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('experiment_2/refusal_direction.py'\\).read\\(\\)\\); ast.parse\\(open\\('experiment_4/curate_matched_pools.py'\\).read\\(\\)\\); ast.parse\\(open\\('experiment_4/compare_directions.py'\\).read\\(\\)\\); print\\('all three parse OK'\\)\")",
       "Bash(bash -n experiment_4/sbatch_refusal_direction_matched.sh)",
-      "Bash(python3 experiment_2/refusal_direction.py --help)"
+      "Bash(python3 experiment_2/refusal_direction.py --help)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_5/build_edgy_lexicon.py'\\).read\\(\\)\\); print\\('build_edgy_lexicon.py OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_5/build_styled_pools.py'\\).read\\(\\)\\); print\\('build_styled_pools.py OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_5/eval_validity.py'\\).read\\(\\)\\); print\\('eval_validity.py OK'\\)\")",
+      "Bash(bash -n experiment_5/sbatch_eval_validity.sh)",
+      "Bash(python experiment_5/build_edgy_lexicon.py)",
+      "Bash(pip list *)",
+      "Bash(.venv/bin/pip list *)",
+      "Bash(.venv/bin/python experiment_5/build_edgy_lexicon.py)",
+      "Bash(.venv/bin/python)"
     ]
   }
 }
