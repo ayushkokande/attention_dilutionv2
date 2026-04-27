@@ -1,0 +1,120 @@
+{
+  "verb_set": [
+    "build",
+    "compose",
+    "construct",
+    "craft",
+    "create",
+    "design",
+    "develop",
+    "draft",
+    "generate",
+    "give",
+    "make",
+    "outline",
+    "produce",
+    "provide",
+    "write"
+  ],
+  "advbench_offset": 100,
+  "harmful_after_verb_filter": 335,
+  "harmless_after_verb_filter": 7523,
+  "harmful_final": {
+    "n": 335,
+    "wl_mean": 12.226865671641791,
+    "wl_median": 12,
+    "wl_min": 6,
+    "wl_max": 25,
+    "top_verbs": [
+      [
+        "write",
+        88
+      ],
+      [
+        "create",
+        79
+      ],
+      [
+        "develop",
+        59
+      ],
+      [
+        "provide",
+        42
+      ],
+      [
+        "give",
+        27
+      ],
+      [
+        "outline",
+        14
+      ],
+      [
+        "design",
+        10
+      ],
+      [
+        "generate",
+        9
+      ],
+      [
+        "produce",
+        4
+      ],
+      [
+        "compose",
+        2
+      ]
+    ]
+  },
+  "harmless_final": {
+    "n": 335,
+    "wl_mean": 12.226865671641791,
+    "wl_median": 12,
+    "wl_min": 6,
+    "wl_max": 25,
+    "top_verbs": [
+      [
+        "generate",
+        97
+      ],
+      [
+        "create",
+        73
+      ],
+      [
+        "write",
+        51
+      ],
+      [
+        "provide",
+        27
+      ],
+      [
+        "give",
+        24
+      ],
+      [
+        "design",
+        18
+      ],
+      [
+        "make",
+        17
+      ],
+      [
+        "construct",
+        11
+      ],
+      [
+        "compose",
+        9
+      ],
+      [
+        "develop",
+        5
+      ]
+    ]
+  }
+}
