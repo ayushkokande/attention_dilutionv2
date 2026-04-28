@@ -2,8 +2,8 @@
 #SBATCH --job-name=qwen3_14b_validity
 #SBATCH --account=csci_ga_3033_131-2026sp
 #SBATCH --partition=c24m170-a100-2
-#SBATCH --gres=gpu:1
-#SBATCH --time=00:45:00
+#SBATCH --gres=gpu:2
+#SBATCH --time=02:00:00
 #SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_validity_%j.out
 #SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_validity_%j.err
 
