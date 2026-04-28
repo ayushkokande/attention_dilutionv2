@@ -1,0 +1,13 @@
+setting,N,accuracy,refusal_on_benign,n_evaluated,status,error_msg
+ablated,0,1.0,0.0,20,ok,
+ablated,128,0.95,0.0,20,ok,
+ablated,512,0.95,0.0,20,ok,
+ablated,1024,0.95,0.0,20,ok,
+ablated,2048,0.95,0.0,20,ok,
+ablated,4096,0.95,0.0,20,ok,
+intact,0,1.0,0.0,20,ok,
+intact,128,1.0,0.0,20,ok,
+intact,512,1.0,0.0,20,ok,
+intact,1024,1.0,0.0,20,ok,
+intact,2048,1.0,0.0,20,ok,
+intact,4096,1.0,0.0,20,ok,
