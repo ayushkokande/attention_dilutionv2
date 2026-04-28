@@ -24,7 +24,8 @@
       "Bash(pip list *)",
       "Bash(.venv/bin/pip list *)",
       "Bash(.venv/bin/python experiment_5/build_edgy_lexicon.py)",
-      "Bash(.venv/bin/python)"
+      "Bash(.venv/bin/python)",
+      "Bash(claude plugin *)"
     ]
   }
 }
