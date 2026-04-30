@@ -48,7 +48,7 @@ _HARMLESS_EXCLUDE_SUBSTRINGS = (
     "draw",
     "paint",
     "generate a picture",
-    "generate an image",
+    "generate an image",what
     "create an image",
     "your experience",
     "you felt",

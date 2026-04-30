@@ -9,5 +9,6 @@ pandas
 numpy
 matplotlib
 scipy
+statsmodels
 tqdm
 jupyter

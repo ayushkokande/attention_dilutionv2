@@ -1,0 +1,356 @@
+{
+  "tokens": [
+    "tutorial",
+    "information",
+    "step",
+    "hack",
+    "steal",
+    "instructions",
+    "sensitive",
+    "commit",
+    "secure",
+    "fake",
+    "violence",
+    "users",
+    "promotes",
+    "news",
+    "government",
+    "bomb",
+    "spreads",
+    "script",
+    "identity",
+    "guide",
+    "database",
+    "video",
+    "theft",
+    "teach",
+    "systems",
+    "steals",
+    "speech",
+    "someone",
+    "software",
+    "social",
+    "program",
+    "personal",
+    "others",
+    "network",
+    "media",
+    "harm",
+    "distribute",
+    "cause",
+    "against",
+    "user",
+    "used",
+    "system",
+    "political",
+    "other",
+    "online",
+    "misinformation",
+    "minority",
+    "manipulate",
+    "letter",
+    "instruct"
+  ],
+  "details": [
+    {
+      "token": "tutorial",
+      "log_odds_adv_over_alp": 7.026309462060816,
+      "adv_count": 16,
+      "alp_count": 0
+    },
+    {
+      "token": "information",
+      "log_odds_adv_over_alp": 7.026309462060816,
+      "adv_count": 16,
+      "alp_count": 0
+    },
+    {
+      "token": "step",
+      "log_odds_adv_over_alp": 6.892867295401109,
+      "adv_count": 14,
+      "alp_count": 0
+    },
+    {
+      "token": "hack",
+      "log_odds_adv_over_alp": 6.738835571144085,
+      "adv_count": 12,
+      "alp_count": 0
+    },
+    {
+      "token": "steal",
+      "log_odds_adv_over_alp": 6.651899885786781,
+      "adv_count": 11,
+      "alp_count": 0
+    },
+    {
+      "token": "instructions",
+      "log_odds_adv_over_alp": 6.556680528379322,
+      "adv_count": 10,
+      "alp_count": 0
+    },
+    {
+      "token": "sensitive",
+      "log_odds_adv_over_alp": 6.451431006672439,
+      "adv_count": 9,
+      "alp_count": 0
+    },
+    {
+      "token": "commit",
+      "log_odds_adv_over_alp": 6.451431006672439,
+      "adv_count": 9,
+      "alp_count": 0
+    },
+    {
+      "token": "secure",
+      "log_odds_adv_over_alp": 6.200433636098691,
+      "adv_count": 7,
+      "alp_count": 0
+    },
+    {
+      "token": "fake",
+      "log_odds_adv_over_alp": 6.200433636098691,
+      "adv_count": 7,
+      "alp_count": 0
+    },
+    {
+      "token": "violence",
+      "log_odds_adv_over_alp": 6.046520683599309,
+      "adv_count": 6,
+      "alp_count": 0
+    },
+    {
+      "token": "users",
+      "log_odds_adv_over_alp": 6.046520683599309,
+      "adv_count": 6,
+      "alp_count": 0
+    },
+    {
+      "token": "promotes",
+      "log_odds_adv_over_alp": 6.046520683599309,
+      "adv_count": 6,
+      "alp_count": 0
+    },
+    {
+      "token": "news",
+      "log_odds_adv_over_alp": 6.046520683599309,
+      "adv_count": 6,
+      "alp_count": 0
+    },
+    {
+      "token": "government",
+      "log_odds_adv_over_alp": 6.046520683599309,
+      "adv_count": 6,
+      "alp_count": 0
+    },
+    {
+      "token": "bomb",
+      "log_odds_adv_over_alp": 6.046520683599309,
+      "adv_count": 6,
+      "alp_count": 0
+    },
+    {
+      "token": "spreads",
+      "log_odds_adv_over_alp": 5.864531850148967,
+      "adv_count": 5,
+      "alp_count": 0
+    },
+    {
+      "token": "script",
+      "log_odds_adv_over_alp": 5.864531850148967,
+      "adv_count": 5,
+      "alp_count": 0
+    },
+    {
+      "token": "identity",
+      "log_odds_adv_over_alp": 5.864531850148967,
+      "adv_count": 5,
+      "alp_count": 0
+    },
+    {
+      "token": "guide",
+      "log_odds_adv_over_alp": 5.864531850148967,
+      "adv_count": 5,
+      "alp_count": 0
+    },
+    {
+      "token": "database",
+      "log_odds_adv_over_alp": 5.864531850148967,
+      "adv_count": 5,
+      "alp_count": 0
+    },
+    {
+      "token": "video",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "theft",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "teach",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "systems",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "steals",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "speech",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "someone",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "software",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "social",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "program",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "personal",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "others",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "network",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "media",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "harm",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "distribute",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "cause",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "against",
+      "log_odds_adv_over_alp": 5.641887176370671,
+      "adv_count": 4,
+      "alp_count": 0
+    },
+    {
+      "token": "user",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "used",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "system",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "political",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "other",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "online",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "misinformation",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "minority",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "manipulate",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "letter",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    },
+    {
+      "token": "instruct",
+      "log_odds_adv_over_alp": 5.355036013812977,
+      "adv_count": 3,
+      "alp_count": 0
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "layers": [
+    20,
+    28
+  ],
+  "refusal_dirs": [
+    {
+      "name": "refusal_direction",
+      "path": "results/qwen3-14b/refusal_direction",
+      "by_layer": {
+        "20": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.0
+        },
+        "28": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.0
+        }
+      }
+    },
+    {
+      "name": "refusal_direction_matched",
+      "path": "results/qwen3-14b/refusal_direction_matched",
+      "by_layer": {
+        "20": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.0
+        },
+        "28": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.0
+        }
+      }
+    }
+  ],
+  "verdict_first_dir_layer20": "SEMANTIC \u2014 projection tracks harmful intent more than lexicon.",
+  "decision_constants": {
+    "intent_hi": 0.85,
+    "vocab_lo": 0.65,
+    "layer": 20
+  }
+}
