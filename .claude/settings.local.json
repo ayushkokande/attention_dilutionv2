@@ -25,7 +25,11 @@
       "Bash(.venv/bin/pip list *)",
       "Bash(.venv/bin/python experiment_5/build_edgy_lexicon.py)",
       "Bash(.venv/bin/python)",
-      "Bash(claude plugin *)"
+      "Bash(claude plugin *)",
+      "Bash(git *)",
+      "Bash(awk 'NR>=165' \"/Users/kokande/.claude/projects/-Users-kokande-Desktop-NYU-Semester-2-Building-LLM-Reasoners-attention-dilutionv2/89b9479e-45c3-46cc-985c-c9f2d7a0dc7c.jsonl\")",
+      "Bash(python3 -m py_compile \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_6/build_topic_pools.py\" \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_6/eval_topic_decouple.py\")",
+      "Bash(bash -n \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_6/sbatch_topic_decouple.sh\")"
     ]
   }
 }
