@@ -1,0 +1,23 @@
+# Recommended Python: 3.11.
+# CUDA 12.1 PyTorch wheels. Suitable for A100 environments with recent NVIDIA drivers.
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+torch>=2.4,<2.12
+transformers>=4.51,<4.53
+transformer-lens>=2.15
+accelerate>=0.33
+datasets>=2.20
+jaxtyping>=0.2.34
+einops>=0.8
+plotly>=5.22
+kaleido==0.2.1
+pandas>=2.2
+numpy>=1.26,<2.1; python_version < "3.13"
+numpy>=2.1,<2.4; python_version >= "3.13"
+scikit-learn>=1.5
+tqdm>=4.66
+wandb>=0.17
+sentencepiece>=0.2
+protobuf>=4.25
+ipykernel>=6.29
+jupyterlab>=4.2
