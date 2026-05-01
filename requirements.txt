@@ -1,4 +1,4 @@
-torch>=2.6
+torch>=2.6,<2.11
 transformers>=4.56,<=4.57.3
 hf_transfer
 transformer_lens>=2.18,<3
