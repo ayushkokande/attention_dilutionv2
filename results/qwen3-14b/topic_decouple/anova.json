@@ -1,0 +1,139 @@
+{
+  "decision_constants": {
+    "layer": 20,
+    "intent_eta2_hi": 0.5,
+    "topic_eta2_lo": 0.1
+  },
+  "refusal_dirs": [
+    {
+      "name": "refusal_direction",
+      "path": "results/qwen3-14b/refusal_direction",
+      "by_layer": {
+        "20": {
+          "terms": {
+            "C(intent)": {
+              "sum_sq": 121769.90677940381,
+              "df": 1.0,
+              "F": 1655.1916269907404,
+              "p": 1.6224088193344774e-97,
+              "partial_eta2": 0.8941222523145193
+            },
+            "C(topic)": {
+              "sum_sq": 1406.6779698641858,
+              "df": 1.0,
+              "F": 19.120665024483262,
+              "p": 1.9904291565593756e-05,
+              "partial_eta2": 0.08888344140395393
+            },
+            "C(intent):C(topic)": {
+              "sum_sq": 51.36096722746894,
+              "df": 1.0,
+              "F": 0.698138359119048,
+              "p": 0.40442732476041704,
+              "partial_eta2": 0.003549288086521851
+            }
+          },
+          "residual_df": 196.0,
+          "r_squared": 0.8952437694530726,
+          "auc_intent": 1.0,
+          "auc_topic": 0.611
+        },
+        "28": {
+          "terms": {
+            "C(intent)": {
+              "sum_sq": 2389335.4855056503,
+              "df": 1.0,
+              "F": 4640.230691234097,
+              "p": 2.1064799544164963e-138,
+              "partial_eta2": 0.9594725701660056
+            },
+            "C(topic)": {
+              "sum_sq": 4777.482392650641,
+              "df": 1.0,
+              "F": 9.278153093062404,
+              "p": 0.002638126301931892,
+              "partial_eta2": 0.04519795678820324
+            },
+            "C(intent):C(topic)": {
+              "sum_sq": 6903.140766391093,
+              "df": 1.0,
+              "F": 13.406307253390294,
+              "p": 0.0003225213148924131,
+              "partial_eta2": 0.06402055138276283
+            }
+          },
+          "residual_df": 196.0,
+          "r_squared": 0.9596617776014789,
+          "auc_intent": 1.0,
+          "auc_topic": 0.5605
+        }
+      },
+      "verdict_layer20": "CLEAN \u2014 d_hat tracks harmful intent; topic effect negligible."
+    },
+    {
+      "name": "refusal_direction_matched",
+      "path": "results/qwen3-14b/refusal_direction_matched",
+      "by_layer": {
+        "20": {
+          "terms": {
+            "C(intent)": {
+              "sum_sq": 113374.4873453758,
+              "df": 1.0,
+              "F": 1354.669558562917,
+              "p": 5.6818744489694606e-90,
+              "partial_eta2": 0.8736029872272446
+            },
+            "C(topic)": {
+              "sum_sq": 1136.6782655290506,
+              "df": 1.0,
+              "F": 13.581745595916079,
+              "p": 0.0002955208007607577,
+              "partial_eta2": 0.06480404845039488
+            },
+            "C(intent):C(topic)": {
+              "sum_sq": 6.5705791291830975,
+              "df": 1.0,
+              "F": 0.07850940486564613,
+              "p": 0.7796231791856212,
+              "partial_eta2": 0.0004003978054705567
+            }
+          },
+          "residual_df": 196.0,
+          "r_squared": 0.8747067285296488,
+          "auc_intent": 0.9998,
+          "auc_topic": 0.5857
+        },
+        "28": {
+          "terms": {
+            "C(intent)": {
+              "sum_sq": 2219479.3278176007,
+              "df": 1.0,
+              "F": 3929.2392207436337,
+              "p": 1.2382220235527846e-131,
+              "partial_eta2": 0.9524876038668448
+            },
+            "C(topic)": {
+              "sum_sq": 6520.616591113481,
+              "df": 1.0,
+              "F": 11.543726554294052,
+              "p": 0.0008232237939871503,
+              "partial_eta2": 0.05562069615857157
+            },
+            "C(intent):C(topic)": {
+              "sum_sq": 5259.197686640789,
+              "df": 1.0,
+              "F": 9.310582694326143,
+              "p": 0.002593940935835038,
+              "partial_eta2": 0.045348771466827295
+            }
+          },
+          "residual_df": 196.0,
+          "r_squared": 0.9527265850173992,
+          "auc_intent": 1.0,
+          "auc_topic": 0.5579
+        }
+      },
+      "verdict_layer20": "CLEAN \u2014 d_hat tracks harmful intent; topic effect negligible."
+    }
+  ]
+}
