@@ -35,11 +35,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -n "${SLURM_SUBMIT_DIR:-}" ]]; then
-  REPO_DEFAULT="${SLURM_SUBMIT_DIR}"
-else
-  REPO_DEFAULT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-fi
+REPO_DEFAULT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 
 REPO="${REPO:-${REPO_DEFAULT}}"
 MODEL="${MODEL:-Qwen/Qwen3-14B}"
