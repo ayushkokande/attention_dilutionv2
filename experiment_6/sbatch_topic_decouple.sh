@@ -34,6 +34,16 @@
 
 set -euo pipefail
 
+echo "=== debug: pre-resolve env ==="
+echo "PWD=$(pwd)"
+echo "REPO_env=${REPO:-<unset>}"
+echo "LOG_DIR_env=${LOG_DIR:-<unset>}"
+echo "WORK_ROOT_env=${WORK_ROOT:-<unset>}"
+echo "CACHE_ROOT_env=${CACHE_ROOT:-<unset>}"
+echo "SCRATCH=${SCRATCH:-<unset>}"
+echo "SLURM_SUBMIT_DIR=${SLURM_SUBMIT_DIR:-<unset>}"
+echo "==="
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DEFAULT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 
@@ -52,7 +62,8 @@ if [[ ! -d "${WORK_ROOT}" ]]; then
 fi
 
 CACHE_ROOT="${CACHE_ROOT:-${WORK_ROOT}}"
-LOG_DIR="${LOG_DIR:-${REPO}/logs}"
+unset LOG_DIR
+LOG_DIR="${REPO}/logs"
 VENV_DIR="${VENV_DIR:-${REPO}/.venv}"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 INSTALL_DEPS="${INSTALL_DEPS:-1}"
