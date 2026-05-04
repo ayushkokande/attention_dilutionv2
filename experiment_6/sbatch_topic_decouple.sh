@@ -4,6 +4,7 @@
 #SBATCH --partition=c24m170-a100-2
 #SBATCH --gres=gpu:2
 #SBATCH --time=02:00:00
+#SBATCH --chdir=/scratch/ak13124/attention_dilutionv2
 #SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_topic_decouple_%j.out
 #SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_topic_decouple_%j.err
 
