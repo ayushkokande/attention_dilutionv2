@@ -45,7 +45,11 @@ echo "SLURM_SUBMIT_DIR=${SLURM_SUBMIT_DIR:-<unset>}"
 echo "==="
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DEFAULT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+if [[ -n "${SLURM_SUBMIT_DIR:-}" ]] && [[ -d "${SLURM_SUBMIT_DIR}" ]]; then
+  REPO_DEFAULT="${SLURM_SUBMIT_DIR}"
+else
+  REPO_DEFAULT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+fi
 
 REPO="${REPO:-${REPO_DEFAULT}}"
 MODEL="${MODEL:-Qwen/Qwen3-14B}"
@@ -62,8 +66,7 @@ if [[ ! -d "${WORK_ROOT}" ]]; then
 fi
 
 CACHE_ROOT="${CACHE_ROOT:-${WORK_ROOT}}"
-unset LOG_DIR
-LOG_DIR="${REPO}/logs"
+LOG_DIR="${LOG_DIR:-${REPO}/logs}"
 VENV_DIR="${VENV_DIR:-${REPO}/.venv}"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 INSTALL_DEPS="${INSTALL_DEPS:-1}"
