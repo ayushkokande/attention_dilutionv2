@@ -7,12 +7,10 @@
 #SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_validity_%j.out
 #SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_validity_%j.err
 
-# Experiment 5: style-mismatched validity (AUC_intent vs AUC_vocab).
+# Experiment 5: 2x2 style/vocabulary robustness (AUC_intent vs AUC_vocab).
 #
 # Before GPU step:
 #   python experiment_5/build_edgy_lexicon.py
-#   python experiment_5/build_styled_pools.py --dump-seeds-only   # optional
-#   # Author experiment_5/data/manual_rewrites.json then:
 #   python experiment_5/build_styled_pools.py
 #
 # Outputs:
@@ -44,6 +42,7 @@ LAYERS="${LAYERS:-20 28}"
 ORIG_DIR="${ORIG_DIR:-results/qwen3-14b/refusal_direction}"
 MATCHED_DIR="${MATCHED_DIR:-results/qwen3-14b/refusal_direction_matched}"
 OUT_DIR="${OUT_DIR:-results/qwen3-14b/validity}"
+FACTORIAL_FILE="${FACTORIAL_FILE:-experiment_5/data/factorial_2x2.jsonl}"
 
 WORK_ROOT="${WORK_ROOT:-${SCRATCH:-/workspace}}"
 if [[ ! -d "${WORK_ROOT}" ]]; then
@@ -147,8 +146,7 @@ run_job() {
            experiment_2/refusal_direction.py \
            experiment_5/eval_validity.py \
            experiment_5/data/edgy_lexicon.json \
-           experiment_5/data/camouflaged_harmful.jsonl \
-           experiment_5/data/edgy_harmless.jsonl \
+           "${FACTORIAL_FILE}" \
            "${ORIG_DIR}/d_hat_all_layers.pt" \
            "${MATCHED_DIR}/d_hat_all_layers.pt"; do
     if [[ ! -e "${f}" ]]; then
@@ -161,7 +159,7 @@ run_job() {
     echo >&2
     echo "Run locally first:" >&2
     echo "  python experiment_5/build_edgy_lexicon.py" >&2
-    echo "  python experiment_5/build_styled_pools.py  (needs data/manual_rewrites.json)" >&2
+    echo "  python experiment_5/build_styled_pools.py" >&2
     echo "Also sync refusal_direction artifacts from experiment 2 and 4." >&2
     exit 1
   fi
@@ -181,6 +179,7 @@ run_job() {
     --dtype "${DTYPE}" \
     --refusal-dirs "${ORIG_DIR}" "${MATCHED_DIR}" \
     --refusal-dir-names refusal_direction refusal_direction_matched \
+    --factorial-file "${FACTORIAL_FILE}" \
     --layers "${layer_args[@]}" \
     --batch-size "${BATCH_SIZE}" \
     --output-dir "${OUT_DIR}"
@@ -197,7 +196,7 @@ if [[ "${USE_SINGULARITY}" == "auto" ]]; then
   fi
 fi
 
-export REPO MODEL DTYPE BATCH_SIZE LAYERS ORIG_DIR MATCHED_DIR OUT_DIR
+export REPO MODEL DTYPE BATCH_SIZE LAYERS ORIG_DIR MATCHED_DIR OUT_DIR FACTORIAL_FILE
 export WORK_ROOT CACHE_ROOT LOG_DIR VENV_DIR PYTHON_BIN INSTALL_DEPS
 
 if [[ "${USE_SINGULARITY}" == "1" ]]; then

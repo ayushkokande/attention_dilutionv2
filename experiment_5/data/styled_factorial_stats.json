@@ -1,0 +1,59 @@
+{
+  "cell_size": 50,
+  "lexicon_threshold": 2,
+  "dhat_excluded_advbench_range": [
+    100,
+    355
+  ],
+  "advbench_start": 356,
+  "cells": {
+    "harmful_edgy": {
+      "n": 50,
+      "word_len_mean": 12.1,
+      "word_len_min": 6,
+      "word_len_max": 20,
+      "lex_count_hist": {
+        "4": 9,
+        "2": 25,
+        "3": 8,
+        "8": 1,
+        "5": 4,
+        "6": 3
+      },
+      "advbench_overlap_with_dhat": 0
+    },
+    "harmful_plain": {
+      "n": 50,
+      "word_len_mean": 12.52,
+      "word_len_min": 8,
+      "word_len_max": 20,
+      "lex_count_hist": {
+        "1": 40,
+        "0": 10
+      },
+      "advbench_overlap_with_dhat": 0
+    },
+    "harmless_edgy": {
+      "n": 50,
+      "word_len_mean": 27.8,
+      "word_len_min": 25,
+      "word_len_max": 34,
+      "lex_count_hist": {
+        "2": 20,
+        "4": 10,
+        "3": 20
+      },
+      "advbench_overlap_with_dhat": 0
+    },
+    "harmless_plain": {
+      "n": 50,
+      "word_len_mean": 8.92,
+      "word_len_min": 5,
+      "word_len_max": 24,
+      "lex_count_hist": {
+        "0": 50
+      },
+      "advbench_overlap_with_dhat": 0
+    }
+  }
+}

@@ -32,7 +32,15 @@
       "Bash(bash -n \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_6/sbatch_topic_decouple.sh\")",
       "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_6/data/manual_harmful_mundane.json'\\)\\); filled=sum\\(1 for x in d if x['prompt'].strip\\(\\)\\); print\\(f'harmful_mundane filled: {filled}/{len\\(d\\)}'\\)\")",
       "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_6/data/manual_harmless_edgy.json'\\)\\); filled=sum\\(1 for x in d if x['prompt'].strip\\(\\)\\); print\\(f'harmless_edgy filled: {filled}/{len\\(d\\)}'\\)\")",
-      "Bash(python3 -m py_compile \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_1/utils.py\")"
+      "Bash(python3 -m py_compile \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/experiment_1/utils.py\")",
+      "Bash(python3 experiment_7/build_policy_pools.py --allow-partial)",
+      "Bash(python3 *)",
+      "Bash(.venv/bin/hf auth *)",
+      "Bash(.venv/bin/python experiment_7/build_policy_pools.py --list-categories)",
+      "Bash(.venv/bin/python experiment_7/build_policy_pools.py --categories 41 42 43 44 45 --per-category 10)",
+      "Bash(.venv/bin/python -c ' *)",
+      "Bash(rm phase12_qwen3_notebook.ipynb phase12_qwen3_notebook.ipynb.bak phase12_qwen3_notebook.ipynb.bak2 phase12_qwen3_notebook.ipynb.bak3 phase12_qwen3_notebook.ipynb.bak4 phase12_qwen3_notebook.ipynb.bak5 phase3_steering.py)",
+      "Bash(rm -rf results)"
     ]
   }
 }
