@@ -30,11 +30,11 @@ Usage
   python experiment.py --phases 1,2_triage,2_dense
   python experiment.py --phases 5,6 --resume
 
-  # Override model:
-  python experiment.py --model Qwen/Qwen3-8B --n_ctx 12000
-
   # Single A100-80GB preset:
   python experiment.py --a100_80gb
+
+  # 2x A100-80GB (NYU Greene default):
+  python experiment.py --n_devices 2
 
   # Disable wandb:
   python experiment.py --no_wandb
@@ -225,11 +225,11 @@ class WandbLogger:
 class State:
     """State that propagates across phases. Persisted as files in OUT/."""
     out_dir: Path = DEFAULT_OUTPUT_DIR
-    model_name: str = "Qwen/Qwen3-8B"
-    model_slug: str = "qwen3-8b"
+    model_name: str = "Qwen/Qwen3-14B"
+    model_slug: str = "qwen3-14b"
     n_devices: int = 1
-    n_ctx: int = 12000
-    max_attn_n: int = 2048
+    n_ctx: int = 16000
+    max_attn_n: int = 4096
 
     n_layers: int = 0
     n_heads: int = 0
@@ -716,24 +716,23 @@ def load_data(state: State, smoke: bool = False, resume: bool = False) -> Dict[s
 # Model loading - GPU-aware
 # =============================================================================
 def select_model_config(args) -> Tuple[str, str, int, int, int]:
-    """Returns (model_name, model_slug, n_devices, n_ctx, max_attn_n)."""
+    """Returns (model_name, model_slug, n_devices, n_ctx, max_attn_n).
+
+    Locked to Qwen3-14B. Hardware below 1× A100-80GB is not supported.
+    """
     import torch
 
-    if args.a100_80gb:
-        return (
-            args.model or "Qwen/Qwen3-14B",
-            (args.model or "Qwen/Qwen3-14B").split("/")[-1].lower().replace(".", ""),
-            1,
-            args.n_ctx or 16000,
-            args.max_attn_n or 4096,
+    model_name = args.model or "Qwen/Qwen3-14B"
+    if model_name != "Qwen/Qwen3-14B":
+        raise ValueError(
+            f"Only Qwen/Qwen3-14B is supported in this pipeline; got {model_name!r}."
         )
+    slug = "qwen3-14b"
+    n_ctx = args.n_ctx or 16000
+    max_attn_n = args.max_attn_n or 4096
 
-    if args.model:
-        slug = args.model.split("/")[-1].lower().replace(".", "")
-        n_dev = args.n_devices or (torch.cuda.device_count() if torch.cuda.is_available() else 1)
-        n_ctx = args.n_ctx or 12000
-        m_at = args.max_attn_n or 2048
-        return args.model, slug, n_dev, n_ctx, m_at
+    if args.a100_80gb:
+        return model_name, slug, 1, n_ctx, max_attn_n
 
     n_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 0
     gpu_mem_gb = []
@@ -748,12 +747,13 @@ def select_model_config(args) -> Tuple[str, str, int, int, int]:
     )
 
     if n_gpus >= 2 and total_gb >= 60:
-        return "Qwen/Qwen3-14B", "qwen3-14b", n_gpus, 16000, 4096
+        return model_name, slug, args.n_devices or n_gpus, n_ctx, max_attn_n
     if n_gpus >= 1 and max_per_gpu >= 75:
-        return "Qwen/Qwen3-14B", "qwen3-14b", 1, 16000, 4096
-    if n_gpus >= 1 and max_per_gpu >= 30:
-        return "Qwen/Qwen3-8B", "qwen3-8b", 1, 12000, 2048
-    return "Qwen/Qwen3-4B", "qwen3-4b", max(1, n_gpus), 8192, 2048
+        return model_name, slug, 1, n_ctx, max_attn_n
+    raise RuntimeError(
+        "Qwen3-14B requires either 2+ GPUs with >=60 GB total, or 1 GPU with "
+        f">=75 GB. Got n_gpus={n_gpus}, max_per_gpu={max_per_gpu:.0f} GB."
+    )
 
 
 def load_model(state: State, args) -> Tuple[Any, Any, ModelHelpers]:
@@ -2568,7 +2568,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output_dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--model", default=None,
-                        help="Override model name (e.g. Qwen/Qwen3-8B). Default: GPU-aware.")
+                        help="Model name. Locked to Qwen/Qwen3-14B; flag retained for explicit override.")
     parser.add_argument("--a100_80gb", action="store_true",
                         help="Use the 1xA100-80GB preset: Qwen/Qwen3-14B, n_ctx=16000, max_attn_n=4096.")
     parser.add_argument("--n_devices", type=int, default=None)

@@ -2,13 +2,26 @@
 
 Difference-of-means (Arditi et al., 2024): for each transformer block, take
 the mean last-token residual on harmful prompts minus the mean on harmless
-prompts, then unit-normalize. We save d̂ for *every* layer; the sweep script
-picks one (default: middle) to project out at every block.
+prompts, then unit-normalize. We save d̂ for *every* layer.
+
+Layer selection. We report two candidates:
+  - norm_best_layer:  layer with largest ||mean_h - mean_b||. Cheap, no
+                      generation. Original criterion.
+  - causal_best_layer: for each candidate layer ℓ, project out d̂_ℓ at every
+                      block and generate on a small held-out pool. Pick ℓ
+                      that minimises post-ablation harmful refusal (Arditi
+                      standard / Suraj 14B convention). Tie-break by
+                      ablated_harmless_refusal then by distance-to-peak-norm.
+                      `causal_best_layer` is the canonical d̂ used downstream
+                      unless --layer-criterion=norm is passed.
 
 The harmful prompts used here are taken from AdvBench rows
 [SWEEP_HARMFUL_N : SWEEP_HARMFUL_N + n_harmful], i.e. *disjoint* from the
-rows context_sweep.py runs on, so the direction is not estimated from the
-same prompts it will later be evaluated against.
+rows experiment_8/context_sweep.py runs on, so the direction is not
+estimated from the same prompts it will later be evaluated against. The
+held-out pool used for causal layer selection lives at AdvBench[480:480+N)
++ Alpaca[480:480+N) by default, disjoint from every other numbered
+experiment's split (see ../splits.json).
 """
 
 from __future__ import annotations
@@ -33,7 +46,9 @@ from utils import (  # type: ignore  (reused from experiment_1/utils.py)
     format_chat_prompt,
     load_harmful_prompts,
     load_harmless_prompts,
+    looks_like_refusal,
     results_dir,
+    strip_think_block,
 )
 
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
@@ -63,6 +78,25 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--harmless-file", default=None,
                    help="Optional JSONL of {\"prompt\": str} per line. If set, "
                         "overrides Alpaca loader and ignores --n-harmless.")
+
+    # Causal-ablation layer-selection knobs (Suraj-style / Arditi standard).
+    p.add_argument("--causal-ablation-n", type=int, default=24,
+                   help="Held-out pool size for causal layer selection. "
+                        "Set 0 to skip and rely on norm criterion only.")
+    p.add_argument("--causal-harmful-start", type=int, default=480,
+                   help="AdvBench start index for held-out causal eval pool.")
+    p.add_argument("--causal-harmless-start", type=int, default=480,
+                   help="Alpaca start index (post-filter) for held-out causal eval pool.")
+    p.add_argument("--candidate-depth-min", type=float, default=0.35,
+                   help="Lower bound on candidate-layer depth (fraction of n_layers).")
+    p.add_argument("--candidate-depth-max", type=float, default=0.90,
+                   help="Upper bound on candidate-layer depth (fraction of n_layers).")
+    p.add_argument("--candidate-layer-step", type=int, default=2,
+                   help="Stride between candidate layers in the sweep.")
+    p.add_argument("--causal-max-new-tokens", type=int, default=128,
+                   help="max_new_tokens for layer-selection greedy generation.")
+    p.add_argument("--layer-criterion", default="causal", choices=["causal", "norm"],
+                   help="Which layer to record as canonical in meta.json.")
     return p.parse_args()
 
 
@@ -104,6 +138,75 @@ def collect_last_token_residuals(model, tokenizer, prompts, batch_size, device):
             h.remove()
 
     return torch.stack([torch.cat(cached[i], dim=0) for i in range(n_layers)], dim=0)
+
+
+def _ablation_hook_factory(d_unit: torch.Tensor):
+    """Forward-hook that subtracts (h @ d_unit) * d_unit from layer output.
+
+    Works with raw transformers DecoderLayer modules whose forward returns
+    `(hidden_states, ...)` or a bare hidden_states tensor.
+    """
+    def fn(module, inp, out):
+        if isinstance(out, tuple):
+            h = out[0]
+            d = d_unit.to(h.device, h.dtype)
+            new_h = h - (h @ d).unsqueeze(-1) * d
+            return (new_h,) + out[1:]
+        d = d_unit.to(out.device, out.dtype)
+        return out - (out @ d).unsqueeze(-1) * d
+    return fn
+
+
+def _register_ablation(model, d_unit: torch.Tensor) -> list:
+    handles = []
+    for layer in model.model.layers:
+        handles.append(layer.register_forward_hook(_ablation_hook_factory(d_unit)))
+    return handles
+
+
+@torch.no_grad()
+def _measure_refusal_rate(model, tokenizer, prompts: list[str], max_new_tokens: int,
+                          batch_size: int, device) -> float:
+    """Greedy generate over `prompts`, return fraction looks_like_refusal=True."""
+    if not prompts:
+        return float("nan")
+    n_refused = 0
+    for start in range(0, len(prompts), batch_size):
+        batch = prompts[start:start + batch_size]
+        enc = tokenizer(batch, return_tensors="pt", padding=True, truncation=False).to(device)
+        out_ids = model.generate(
+            **enc, max_new_tokens=max_new_tokens, do_sample=False,
+            pad_token_id=tokenizer.pad_token_id, use_cache=True,
+        )
+        # Decode only the newly generated portion (post-prompt) per row.
+        prompt_lens = enc["attention_mask"].sum(dim=1).tolist()
+        for i, ids in enumerate(out_ids):
+            new_ids = ids[enc["input_ids"].shape[1]:]
+            text = tokenizer.decode(new_ids, skip_special_tokens=True)
+            if looks_like_refusal(strip_think_block(text)):
+                n_refused += 1
+    return n_refused / len(prompts)
+
+
+def _candidate_layers(n_layers: int, depth_min: float, depth_max: float, step: int) -> list[int]:
+    lo = max(0, int(round(n_layers * depth_min)))
+    hi = min(n_layers - 1, int(round(n_layers * depth_max)))
+    return list(range(lo, hi + 1, max(1, step)))
+
+
+def _load_causal_pools(args, n_eval: int) -> tuple[list[str], list[str]]:
+    """Held-out harmful + harmless pools for layer selection.
+
+    Drawn at high indices to stay disjoint from every other numbered
+    experiment's split (see ../splits.json).
+    """
+    if n_eval <= 0:
+        return [], []
+    all_h = load_harmful_prompts(args.causal_harmful_start + n_eval)
+    h_eval = all_h[args.causal_harmful_start:args.causal_harmful_start + n_eval]
+    all_b = load_harmless_prompts(args.causal_harmless_start + n_eval)
+    b_eval = all_b[args.causal_harmless_start:args.causal_harmless_start + n_eval]
+    return h_eval, b_eval
 
 
 def main() -> None:
@@ -171,6 +274,89 @@ def main() -> None:
     pt_path = out_dir / "d_hat_all_layers.pt"
     torch.save(d_hat, pt_path)
 
+    norms_per_layer = norms.squeeze(-1).tolist()
+    norm_best_layer = int(torch.tensor(norms_per_layer).argmax().item())
+
+    # === Causal-ablation layer sweep =========================================
+    sweep_records: list[dict] = []
+    causal_best_layer: int | None = None
+    if args.causal_ablation_n > 0:
+        cand_layers = _candidate_layers(
+            n_layers, args.candidate_depth_min, args.candidate_depth_max, args.candidate_layer_step,
+        )
+        h_eval, b_eval = _load_causal_pools(args, args.causal_ablation_n)
+        h_eval_p = [format_chat_prompt(tok, p, enable_thinking=args.enable_thinking) for p in h_eval]
+        b_eval_p = [format_chat_prompt(tok, p, enable_thinking=args.enable_thinking) for p in b_eval]
+
+        print(f"\n[causal layer sweep] candidates={cand_layers}  "
+              f"n_harmful_eval={len(h_eval_p)}  n_harmless_eval={len(b_eval_p)}")
+
+        sweep_csv = out_dir / "phase1_layer_sweep.csv"
+        sweep_csv.write_text("layer,harmful_refusal_post_ablate,harmless_refusal_post_ablate,norm,status,error_msg\n")
+
+        for layer in cand_layers:
+            d_unit = d_hat[layer].detach().clone()
+            handles = _register_ablation(model, d_unit)
+            try:
+                rate_h = _measure_refusal_rate(model, tok, h_eval_p,
+                                               args.causal_max_new_tokens,
+                                               args.batch_size, device)
+                rate_b = _measure_refusal_rate(model, tok, b_eval_p,
+                                               args.causal_max_new_tokens,
+                                               args.batch_size, device)
+                status, err = "ok", ""
+            except torch.cuda.OutOfMemoryError as e:  # noqa: BLE001
+                rate_h, rate_b, status, err = float("nan"), float("nan"), "OOM", repr(e)[:200]
+                print(f"  L{layer:02d} OOM: {err}", flush=True)
+            finally:
+                for hh in handles:
+                    hh.remove()
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+
+            rec = {
+                "layer": layer,
+                "harmful_refusal_post_ablate": rate_h,
+                "harmless_refusal_post_ablate": rate_b,
+                "norm": norms_per_layer[layer],
+                "status": status,
+                "error_msg": err,
+            }
+            sweep_records.append(rec)
+            with sweep_csv.open("a") as f:
+                f.write(f"{layer},{rate_h},{rate_b},{norms_per_layer[layer]},{status},{err.replace(',', ';')}\n")
+            print(f"  L{layer:02d}  ablated_harmful={rate_h:.2f}  "
+                  f"ablated_harmless={rate_b:.2f}  norm={norms_per_layer[layer]:.1f}  status={status}",
+                  flush=True)
+
+        ok_records = [r for r in sweep_records if r["status"] == "ok"]
+        if not ok_records:
+            print("WARNING: causal sweep produced zero successful layers; "
+                  "falling back to norm criterion.")
+        else:
+            ok_records.sort(key=lambda r: (
+                r["harmful_refusal_post_ablate"],
+                r["harmless_refusal_post_ablate"],
+                abs(r["layer"] - norm_best_layer),
+            ))
+            causal_best_layer = int(ok_records[0]["layer"])
+            print(f"\n[causal sweep] best_layer={causal_best_layer}  "
+                  f"ablated_harmful={ok_records[0]['harmful_refusal_post_ablate']:.2f}  "
+                  f"ablated_harmless={ok_records[0]['harmless_refusal_post_ablate']:.2f}  "
+                  f"norm_best_layer={norm_best_layer}")
+
+    # Canonical layer per --layer-criterion (causal default; falls back to norm
+    # if causal sweep was skipped or failed).
+    if args.layer_criterion == "causal" and causal_best_layer is not None:
+        canonical_layer = causal_best_layer
+    else:
+        canonical_layer = norm_best_layer
+
+    torch.save(
+        {"V_refusal": d_hat[canonical_layer].clone(), "layer": canonical_layer},
+        out_dir / "d_hat_best_layer.pt",
+    )
+
     meta = {
         "model": args.model,
         "n_layers": n_layers,
@@ -180,8 +366,20 @@ def main() -> None:
         "harmful_idx_offset": harmful_offset_for_meta,
         "harmful_file": args.harmful_file,
         "harmless_file": args.harmless_file,
-        "diff_norms_per_layer": norms.squeeze(-1).tolist(),
-        "default_layer": n_layers // 2,
+        "diff_norms_per_layer": norms_per_layer,
+        "norm_best_layer": norm_best_layer,
+        "causal_best_layer": causal_best_layer,
+        "canonical_layer": canonical_layer,
+        "layer_criterion": args.layer_criterion,
+        "causal_sweep_records": sweep_records,
+        "causal_sweep_pool": {
+            "n": args.causal_ablation_n,
+            "harmful_advbench_range": [args.causal_harmful_start,
+                                       args.causal_harmful_start + args.causal_ablation_n],
+            "harmless_alpaca_post_filter_range": [args.causal_harmless_start,
+                                                  args.causal_harmless_start + args.causal_ablation_n],
+        },
+        "default_layer": canonical_layer,  # legacy field; downstream readers see canonical
         "suggested_layers_to_try": [
             int(round(n_layers * 0.50)),
             int(round(n_layers * 0.60)),
@@ -191,8 +389,12 @@ def main() -> None:
     (out_dir / "meta.json").write_text(json.dumps(meta, indent=2))
 
     print(f"\nSaved {pt_path}")
+    print(f"      {out_dir / 'd_hat_best_layer.pt'}")
     print(f"      {out_dir / 'meta.json'}")
-    print(f"\nNext: python experiment_2/context_sweep.py --refusal-dir {pt_path.parent}")
+    if args.causal_ablation_n > 0:
+        print(f"      {out_dir / 'phase1_layer_sweep.csv'}")
+    print(f"\nCanonical layer = {canonical_layer} (criterion: {args.layer_criterion})")
+    print(f"\nNext: python experiment_8/context_sweep.py --refusal-dir {pt_path.parent}")
 
 
 if __name__ == "__main__":

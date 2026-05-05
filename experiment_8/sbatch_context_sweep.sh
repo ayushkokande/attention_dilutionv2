@@ -7,7 +7,7 @@
 #SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_sweep_%j.out
 #SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_sweep_%j.err
 
-# Experiment 2 / step 2: two-arm context-length sweep.
+# Experiment 8: two-arm context-length sweep (binary refusal rate vs N).
 #   Arm A (baseline): refusal vector intact.
 #   Arm B (ablated):  refusal vector projected out at every block.
 # Each (arm, L) cell is written as soon as it finishes; summary.json is updated
@@ -17,7 +17,7 @@
 #   results/qwen3-14b/refusal_direction/d_hat_all_layers.pt
 #
 # Submit:
-#   sbatch experiment_2/sbatch_context_sweep.sh
+#   sbatch experiment_8/sbatch_context_sweep.sh
 
 set -euo pipefail
 
@@ -70,7 +70,7 @@ echo \"=== preflight | REPO=\$(pwd) ===\"
 ls -la
 
 missing=0
-for f in requirements.txt experiment_1/utils.py experiment_2/context_sweep.py \
+for f in requirements.txt experiment_1/utils.py experiment_8/context_sweep.py \
          results/qwen3-14b/refusal_direction/d_hat_all_layers.pt; do
   if [ ! -e \"\$f\" ]; then
     echo \"ERROR: missing \$(pwd)/\$f\" >&2
@@ -96,7 +96,7 @@ echo \"CUDA : \${CUDA_VISIBLE_DEVICES:-unset}\"
 nvidia-smi --query-gpu=index,name,memory.total,driver_version --format=csv || true
 python -c 'import torch; print(\"torch\", torch.__version__, \"cuda\", torch.cuda.is_available(), \"ngpu\", torch.cuda.device_count())'
 
-time python experiment_2/context_sweep.py \
+time python experiment_8/context_sweep.py \
     --model \"${MODEL}\" \
     --dtype bfloat16 \
     --refusal-dir results/qwen3-14b/refusal_direction \

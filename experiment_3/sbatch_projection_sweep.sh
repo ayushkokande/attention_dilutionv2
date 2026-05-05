@@ -68,7 +68,7 @@ echo \"=== preflight | REPO=\$(pwd) ===\"
 ls -la
 
 missing=0
-for f in requirements.txt experiment_1/utils.py experiment_2/context_sweep.py \
+for f in requirements.txt experiment_1/utils.py experiment_8/context_sweep.py \
          experiment_3/projection_sweep.py \
          results/qwen3-14b/refusal_direction/d_hat_all_layers.pt \
          results/qwen3-14b/refusal_direction/meta.json; do

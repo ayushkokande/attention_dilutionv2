@@ -1,0 +1,58 @@
+{
+  "_comment": "Single source of truth for AdvBench (LLM-attacks harmful_behaviors.csv) and Alpaca (tatsu-lab/alpaca, train, empty-input rows after experiment_1/utils.py:_HARMLESS_EXCLUDE_SUBSTRINGS filter) row indices used by each numbered experiment. Update here, not in scripts.",
+  "advbench_source": "https://raw.githubusercontent.com/llm-attacks/llm-attacks/main/data/advbench/harmful_behaviors.csv",
+  "alpaca_source": "tatsu-lab/alpaca [train], empty-input rows only, filter via experiment_1/utils._harmless_instruction_is_clean",
+  "experiments": {
+    "experiment_1": {
+      "purpose": "baseline refusal rates",
+      "advbench": [0, 520],
+      "alpaca": [0, 512]
+    },
+    "experiment_2_refusal_direction": {
+      "purpose": "d_hat extraction (DiffMean) — disjoint from sweep eval",
+      "advbench": [100, 200],
+      "alpaca": [0, 100],
+      "constant": "SWEEP_HARMFUL_N=100"
+    },
+    "experiment_3_projection_sweep": {
+      "purpose": "continuous projection vs N",
+      "advbench": [0, 100],
+      "alpaca": "n/a"
+    },
+    "experiment_4_matched": {
+      "purpose": "covariate-matched d_hat* extraction",
+      "advbench_pool": [100, "end"],
+      "advbench_filter": "produce-artifact verbs only",
+      "alpaca_candidates": [0, 1000],
+      "alpaca_filter": "verb-class- and word-length-matched"
+    },
+    "experiment_5_styled_pools": {
+      "purpose": "style-mismatch validity (AUC_intent vs AUC_vocab)",
+      "advbench_pool": [356, "end"],
+      "alpaca_pool": "preferred from experiment_1 baseline_alpaca.jsonl, else load_dataset",
+      "dhat_excluded_advbench": [100, 356]
+    },
+    "experiment_6_topic_2x2": {
+      "purpose": "intent x topic 2x2 ANOVA (CELL_SIZE=50)",
+      "advbench": [0, 50],
+      "alpaca": [0, 50],
+      "manual_jsonl": ["data/manual_harmful_mundane.json (50)", "data/manual_harmless_edgy.json (50)"]
+    },
+    "experiment_7_policy_validity": {
+      "purpose": "harm vs policy AUC (CELL_SIZE=50)",
+      "advbench": [50, 100],
+      "alpaca": [100, 150],
+      "sorry_bench": "sorry-bench/sorry-bench-202406, base-style, categories 41-45, 10 each"
+    },
+    "experiment_8": {
+      "purpose": "binary refusal vs N (split out of experiment_2 in step 1)",
+      "advbench": [0, 100],
+      "alpaca": "n/a"
+    }
+  },
+  "overlap_warnings": [
+    "exp_6 advbench[0:50] sits inside exp_8 sweep eval [0:100). Not a d_hat training leak (d_hat trained on [100:200)) but exp_6 evaluates d_hat on prompts also used as exp_8 sweep eval prompts.",
+    "exp_7 advbench[50:100) sits inside exp_8 sweep eval [0:100). Same caveat as exp_6: not a d_hat training leak but a shared eval space.",
+    "exp_2 d_hat alpaca[0:100) overlaps exp_6 raw harmless pool alpaca[0:50). exp_6 evaluates d_hat on Alpaca prompts that were part of d_hat training set. THIS IS A LEAK for the harmless_mundane cell of the 2x2 — projections are biased high for in-distribution. Flag in paper or rerun exp_6 with disjoint Alpaca slice (e.g. [200:250))."
+  ]
+}

@@ -48,8 +48,9 @@ from utils import (  # type: ignore
 
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
-# Must mirror refusal_direction.py — the first 100 AdvBench rows are this
-# experiment's eval split; refusal_direction.py uses [100, 100+n_harmful).
+# Must mirror experiment_2/refusal_direction.py — the first 100 AdvBench rows
+# are this experiment's eval split; refusal_direction.py uses
+# [100, 100+n_harmful). See ../splits.json for the canonical row manifest.
 SWEEP_HARMFUL_N = 100
 
 DEFAULT_LENGTHS = [0, 1024, 4096, 16384]
