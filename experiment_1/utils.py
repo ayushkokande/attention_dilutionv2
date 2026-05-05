@@ -10,9 +10,8 @@ import pandas as pd
 import torch
 from datasets import load_dataset
 
-MODEL_NAME = "Qwen/Qwen3-1.7B"
-MODEL_SLUG = "qwen3-1.7b"
-TRANSCODER_SET = "mwhanna/qwen3-1.7b-transcoders-lowl0"
+MODEL_NAME = "Qwen/Qwen3-14B"
+MODEL_SLUG = "qwen3-14b"
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 RESULTS_ROOT = PROJECT_ROOT / "results"

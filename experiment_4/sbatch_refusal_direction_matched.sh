@@ -104,7 +104,8 @@ time python experiment_2/refusal_direction.py \
     --batch-size ${BATCH_SIZE} \
     --harmful-file experiment_4/data/matched_harmful.jsonl \
     --harmless-file experiment_4/data/matched_harmless.jsonl \
-    --output-dir ${MATCHED_OUT}
+    --output-dir ${MATCHED_OUT} \
+    --causal-ablation-n 0
 
 echo \"\n=== step 3: cosine similarity d̂ vs d̂* per layer ===\"
 python experiment_4/compare_directions.py \

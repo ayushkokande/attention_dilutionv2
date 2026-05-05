@@ -3,14 +3,17 @@
 #SBATCH --account=csci_ga_3033_131-2026sp
 #SBATCH --partition=c24m170-a100-2
 #SBATCH --gres=gpu:2
-#SBATCH --time=01:30:00
+#SBATCH --time=02:30:00
 #SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_refdir_%j.out
 #SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_refdir_%j.err
 
-# Experiment 2 / step 1: compute the per-layer refusal direction d̂ for
-# Qwen3-14B via difference-of-means on disjoint AdvBench / Alpaca subsets.
-# Outputs (read by experiment_2/context_sweep.py):
+# Experiment 2: compute the per-layer refusal direction d̂ for Qwen3-14B via
+# difference-of-means on disjoint AdvBench / Alpaca subsets, then run a
+# causal-ablation layer sweep to pick the canonical layer (Arditi standard).
+# Outputs (read by experiment_8/context_sweep.py and experiment_3/projection_sweep.py):
 #   results/qwen3-14b/refusal_direction/d_hat_all_layers.pt
+#   results/qwen3-14b/refusal_direction/d_hat_best_layer.pt   (canonical)
+#   results/qwen3-14b/refusal_direction/phase1_layer_sweep.csv
 #   results/qwen3-14b/refusal_direction/meta.json
 #
 # Submit:
