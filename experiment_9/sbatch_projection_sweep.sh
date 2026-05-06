@@ -1,23 +1,23 @@
 #!/bin/bash
-#SBATCH --job-name=qwen3_14b_refdir
+#SBATCH --job-name=qwen3_14b_proj
 #SBATCH --account=csci_ga_3033_131-2026sp
 #SBATCH --partition=c24m170-a100-2
 #SBATCH --gres=gpu:2
-#SBATCH --time=02:30:00
-#SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_refdir_%j.out
-#SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_refdir_%j.err
+#SBATCH --time=04:00:00
+#SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_proj_%j.out
+#SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_proj_%j.err
 
-# Experiment 2: compute the per-layer refusal direction d̂ for Qwen3-14B via
-# difference-of-means on disjoint AdvBench / Alpaca subsets, then run a
-# causal-ablation layer sweep to pick the canonical layer (Arditi standard).
-# Outputs (read by experiment_8/context_sweep.py and experiment_9/projection_sweep.py):
+# Experiment 9: continuous projection vs N (activation-projection sweep).
+# Forward-only (no generate) — captures the residual at the harmful-instruction's
+# last token at chosen layers and projects onto d_hat[layer]. Measures the
+# *continuous* refusal signal that context_sweep.py's binary refusal rate is a
+# thresholded function of.
+#
+# Prereq: experiment_2/sbatch_refusal_direction.sh must have produced
 #   results/qwen3-14b/refusal_direction/d_hat_all_layers.pt
-#   results/qwen3-14b/refusal_direction/d_hat_best_layer.pt   (canonical)
-#   results/qwen3-14b/refusal_direction/phase1_layer_sweep.csv
-#   results/qwen3-14b/refusal_direction/meta.json
 #
 # Submit:
-#   sbatch experiment_2/sbatch_refusal_direction.sh
+#   sbatch experiment_9/sbatch_projection_sweep.sh
 
 set -euo pipefail
 
@@ -27,9 +27,14 @@ OVERLAY="${SCRATCH}/overlay-25GB-500K.ext3:ro"
 REPO="${SCRATCH}/attention_dilutionv2"
 
 MODEL="Qwen/Qwen3-14B"
-N_HARMFUL=256
-N_HARMLESS=256
-BATCH_SIZE=8
+# Same L grid as context_sweep so the two metrics are directly comparable cell
+# by cell. Stay <=32K to avoid the YaRN extrapolation confound.
+LENGTHS="0 128 512 1024 2048 4096 8192 16384 32768"
+# Layer 18 is meta.json:default_layer (causal-ablation canonical, step 2);
+# 24/28 are suggested_layers_to_try.
+LAYERS="18 24 28"
+HARMFUL_N=100
+SEED=0
 
 mkdir -p "${REPO}/logs"
 
@@ -64,17 +69,19 @@ echo \"=== preflight | REPO=\$(pwd) ===\"
 ls -la
 
 missing=0
-for f in requirements.txt experiment_1/utils.py experiment_2/refusal_direction.py; do
-  if [ ! -f \"\$f\" ]; then
+for f in requirements.txt experiment_1/utils.py experiment_8/context_sweep.py \
+         experiment_9/projection_sweep.py \
+         results/qwen3-14b/refusal_direction/d_hat_all_layers.pt \
+         results/qwen3-14b/refusal_direction/meta.json; do
+  if [ ! -e \"\$f\" ]; then
     echo \"ERROR: missing \$(pwd)/\$f\" >&2
     missing=1
   fi
 done
 if [ \"\$missing\" = \"1\" ]; then
   echo >&2
-  echo \"Sync the full repo to \${REPO} first:\" >&2
-  echo \"  rsync -avz --exclude .venv --exclude __pycache__ --exclude results/ \\\\\" >&2
-  echo \"    ./ greene:${REPO}/\" >&2
+  echo \"Run sbatch_refusal_direction.sh first to produce d_hat_all_layers.pt,\" >&2
+  echo \"or sync the repo with rsync if scripts are missing.\" >&2
   exit 1
 fi
 
@@ -84,20 +91,22 @@ fi
 source .venv/bin/activate
 uv pip install --python .venv/bin/python -r requirements.txt
 
-echo \"=== qwen3_14b_refusal_direction | job \${SLURM_JOB_ID:-local} ===\"
+echo \"=== qwen3_14b_projection_sweep | job \${SLURM_JOB_ID:-local} ===\"
 echo \"Repo : \$(pwd)\"
 echo \"CUDA : \${CUDA_VISIBLE_DEVICES:-unset}\"
 nvidia-smi --query-gpu=index,name,memory.total,driver_version --format=csv || true
 python -c 'import torch; print(\"torch\", torch.__version__, \"cuda\", torch.cuda.is_available(), \"ngpu\", torch.cuda.device_count())'
 
-time python experiment_2/refusal_direction.py \
+time python experiment_9/projection_sweep.py \
     --model \"${MODEL}\" \
     --dtype bfloat16 \
-    --n-harmful ${N_HARMFUL} \
-    --n-harmless ${N_HARMLESS} \
-    --batch-size ${BATCH_SIZE}
+    --refusal-dir results/qwen3-14b/refusal_direction \
+    --lengths ${LENGTHS} \
+    --layers ${LAYERS} \
+    --harmful-n ${HARMFUL_N} \
+    --seed ${SEED}
 
 echo
 echo \"=== done ===\"
-ls -la results/qwen3-14b/refusal_direction || true
+ls -la results/qwen3-14b/projection_sweep.* || true
 "

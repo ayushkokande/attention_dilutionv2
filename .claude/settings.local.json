@@ -42,7 +42,19 @@
       "Bash(rm phase12_qwen3_notebook.ipynb phase12_qwen3_notebook.ipynb.bak phase12_qwen3_notebook.ipynb.bak2 phase12_qwen3_notebook.ipynb.bak3 phase12_qwen3_notebook.ipynb.bak4 phase12_qwen3_notebook.ipynb.bak5 phase3_steering.py)",
       "Bash(rm -rf results)",
       "Bash(python -c \"import json; json.load\\(open\\('splits.json'\\)\\)\")",
-      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_2/refusal_direction.py'\\).read\\(\\)\\); print\\('parse OK'\\)\")"
+      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_2/refusal_direction.py'\\).read\\(\\)\\); print\\('parse OK'\\)\")",
+      "Bash(ls \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/results/qwen3-14b/validity\")",
+      "Bash(pdftotext Project_Proposal_LLM_Reasoners.pdf -)",
+      "Bash(brew list *)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(/usr/bin/python3 -c ' *)",
+      "Bash(pip3 list *)",
+      "Bash(.venv/bin/python -c \"import pypdf; print\\('ok'\\)\")",
+      "Bash(.venv/bin/pip install *)",
+      "Bash(python -c ' *)",
+      "Bash(bash -n experiment_3/sbatch_guardrail_heads.sh)",
+      "Bash(python experiment_3/guardrail_heads.py --help)"
     ]
   }
 }
