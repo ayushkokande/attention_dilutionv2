@@ -40,7 +40,9 @@
       "Bash(.venv/bin/python experiment_7/build_policy_pools.py --categories 41 42 43 44 45 --per-category 10)",
       "Bash(.venv/bin/python -c ' *)",
       "Bash(rm phase12_qwen3_notebook.ipynb phase12_qwen3_notebook.ipynb.bak phase12_qwen3_notebook.ipynb.bak2 phase12_qwen3_notebook.ipynb.bak3 phase12_qwen3_notebook.ipynb.bak4 phase12_qwen3_notebook.ipynb.bak5 phase3_steering.py)",
-      "Bash(rm -rf results)"
+      "Bash(rm -rf results)",
+      "Bash(python -c \"import json; json.load\\(open\\('splits.json'\\)\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('experiment_2/refusal_direction.py'\\).read\\(\\)\\); print\\('parse OK'\\)\")"
     ]
   }
 }
