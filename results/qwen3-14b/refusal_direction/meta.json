@@ -5,6 +5,8 @@
   "n_harmful": 256,
   "n_harmless": 256,
   "harmful_idx_offset": 100,
+  "harmful_file": null,
+  "harmless_file": null,
   "diff_norms_per_layer": [
     0.40114539861679077,
     0.7819715738296509,
@@ -47,7 +49,120 @@
     714.8612670898438,
     818.8640747070312
   ],
-  "default_layer": 20,
+  "norm_best_layer": 39,
+  "causal_best_layer": 18,
+  "canonical_layer": 18,
+  "layer_criterion": "causal",
+  "causal_sweep_records": [
+    {
+      "layer": 14,
+      "harmful_refusal_post_ablate": 0.7916666666666666,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 16.143003463745117,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 16,
+      "harmful_refusal_post_ablate": 0.2916666666666667,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 23.65848731994629,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 18,
+      "harmful_refusal_post_ablate": 0.0,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 43.01402282714844,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 20,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 58.3480339050293,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 22,
+      "harmful_refusal_post_ablate": 0.7083333333333334,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 75.2326889038086,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 24,
+      "harmful_refusal_post_ablate": 0.2916666666666667,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 117.84009552001953,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 26,
+      "harmful_refusal_post_ablate": 0.125,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 177.72421264648438,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 28,
+      "harmful_refusal_post_ablate": 0.16666666666666666,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 246.5400390625,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 30,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 354.1401672363281,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 32,
+      "harmful_refusal_post_ablate": 0.16666666666666666,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 452.74639892578125,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 34,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 527.9046020507812,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 36,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 625.6134033203125,
+      "status": "ok",
+      "error_msg": ""
+    }
+  ],
+  "causal_sweep_pool": {
+    "n": 24,
+    "harmful_advbench_range": [
+      480,
+      504
+    ],
+    "harmless_alpaca_post_filter_range": [
+      480,
+      504
+    ]
+  },
+  "default_layer": 18,
   "suggested_layers_to_try": [
     20,
     24,
