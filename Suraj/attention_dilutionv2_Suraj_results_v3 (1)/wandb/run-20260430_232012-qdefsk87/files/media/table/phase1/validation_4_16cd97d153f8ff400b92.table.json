@@ -1,0 +1,1 @@
+{"columns": ["best_layer", "n_harmful_eval", "n_harmless_eval", "intact_harmful", "ablated_harmful", "intact_harmless", "ablated_harmless", "delta_harmful", "delta_harmless"], "data": [[36, 100, 100, 0.86, 0.0, 0.0, 0.0, 0.86, 0.0]]}

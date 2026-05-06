@@ -1,0 +1,7 @@
+alpha,n_quick,accuracy,refusal_rate_on_benign,n_evaluated,status,error_msg
+0.0,50,0.76,0.0,50,ok,
+1.0,50,0.76,0.0,50,ok,
+2.0,50,0.76,0.0,50,ok,
+4.0,50,0.76,0.0,50,ok,
+8.0,50,0.76,0.0,50,ok,
+16.0,50,0.76,0.0,50,ok,

@@ -1,0 +1,46 @@
+{
+  "os":  "Linux-6.8.0-1007-gcp-x86_64-with-glibc2.39",
+  "python":  "CPython 3.12.11",
+  "startedAt":  "2026-05-04T19:49:19.719685Z",
+  "args":  [
+    "--a100_80gb",
+    "--resume",
+    "--phases",
+    "5,6"
+  ],
+  "program":  "/teamspace/studios/this_studio/attention_dilutionv2/Suraj/experiment.py",
+  "codePath":  "Suraj/experiment.py",
+  "codePathLocal":  "experiment.py",
+  "git":  {
+    "remote":  "https://github.com/ayushkokande/attention_dilutionv2.git",
+    "commit":  "17db9c9358a508c553fb88b08b134c6d89b08d90"
+  },
+  "email":  "sm12377@nyu.edu",
+  "root":  "results_v3",
+  "host":  "cs-01kqt7dcsv82vxjnhvx6pg8tdk-3dbx",
+  "executable":  "/home/zeus/miniconda3/envs/cloudspace/bin/python",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "gpu":  "NVIDIA A100-SXM4-80GB",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "395184570368",
+      "used":  "91328024576"
+    }
+  },
+  "memory":  {
+    "total":  "179360841728"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA A100-SXM4-80GB",
+      "memoryTotal":  "85899345920",
+      "cudaCores":  6912,
+      "architecture":  "Ampere",
+      "uuid":  "GPU-646ecde6-87ff-7f9d-b2ab-485c71e88956"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "a138jj1y0746ckib6gurqebsylm4xnrz"
+}

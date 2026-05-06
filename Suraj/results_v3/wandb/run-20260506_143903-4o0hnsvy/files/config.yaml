@@ -1,0 +1,110 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            9ng3a5n9ayy54ads1xb44pop8j14tm9x:
+                args:
+                    - --a100_80gb
+                    - --resume
+                    - --phases
+                    - 5,6
+                codePath: Suraj/experiment.py
+                codePathLocal: experiment.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "395184570368"
+                        used: "105745260544"
+                email: sm12377@nyu.edu
+                executable: /home/zeus/miniconda3/envs/cloudspace/bin/python
+                git:
+                    commit: 17db9c9358a508c553fb88b08b134c6d89b08d90
+                    remote: https://github.com/ayushkokande/attention_dilutionv2.git
+                gpu: NVIDIA A100-SXM4-80GB
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-0e5ae6a8-30bf-2c94-cc11-7da6e2948359
+                host: cs-01kqytt2qh7qxnfv1cwj5b102e-sjng
+                memory:
+                    total: "179360841728"
+                os: Linux-6.8.0-1007-gcp-x86_64-with-glibc2.39
+                program: /teamspace/studios/this_studio/attention_dilutionv2/Suraj/experiment.py
+                python: CPython 3.12.11
+                root: results_v3
+                startedAt: "2026-05-06T14:39:03.278738Z"
+                writerId: 9ng3a5n9ayy54ads1xb44pop8j14tm9x
+        m: []
+        python_version: 3.12.11
+        t:
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+            "3":
+                - 2
+                - 16
+            "4": 3.12.11
+            "5": 0.26.1
+            "10":
+                - 20
+            "12": 0.26.1
+            "13": linux-x86_64
+a100_80gb:
+    value: true
+force_redo:
+    value: false
+force_redo_phase1:
+    value: false
+force_redo_phase2_dense:
+    value: false
+force_redo_phase2_triage:
+    value: false
+force_redo_phase3:
+    value: false
+force_redo_phase4:
+    value: false
+force_redo_phase5:
+    value: false
+force_redo_phase6:
+    value: false
+max_attn_n:
+    value: null
+model:
+    value: null
+n_ctx:
+    value: null
+n_devices:
+    value: null
+no_wandb:
+    value: false
+output_dir:
+    value: results_v3
+phase1_skip_cache:
+    value: false
+phases:
+    value: 5,6
+resume:
+    value: true
+skip_smoke_test:
+    value: true
+smoke:
+    value: false
+verbose:
+    value: false
+wandb_entity:
+    value: sm12377-new-york-university
+wandb_name:
+    value: null
+wandb_project:
+    value: llmRFin

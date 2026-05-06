@@ -1,0 +1,9 @@
+2026-05-04 19:32:21,107 [INFO] Logging to results_v3/run_20260504_193221.log
+2026-05-04 19:32:21,108 [INFO] --resume: implying --skip_smoke_test
+2026-05-04 19:32:21,108 [INFO] Phases requested: ['5', '6']
+2026-05-04 19:32:21,108 [INFO] CLI args: {'phases': '5,6', 'output_dir': PosixPath('results_v3'), 'model': None, 'a100_80gb': True, 'n_devices': None, 'n_ctx': None, 'max_attn_n': None, 'no_wandb': False, 'wandb_entity': 'sm12377-new-york-university', 'wandb_project': 'llmRFin', 'wandb_name': None, 'smoke': False, 'skip_smoke_test': True, 'resume': True, 'phase1_skip_cache': False, 'force_redo': False, 'force_redo_phase1': False, 'force_redo_phase2_triage': False, 'force_redo_phase2_dense': False, 'force_redo_phase3': False, 'force_redo_phase4': False, 'force_redo_phase5': False, 'force_redo_phase6': False, 'verbose': False}
+2026-05-04 19:32:25,695 [INFO] wandb run started: https://wandb.ai/sm12377-new-york-university/llmRFin/runs/rrs97iqi
+2026-05-04 19:32:39,964 [INFO] Loading Qwen/Qwen3-14B  n_devices=1  n_ctx=16000  max_attn_n=4096
+2026-05-04 19:32:39,965 [INFO] Feasibility note: Qwen3-14B bf16 weights are ~28GB before framework overhead; 1xA100-80GB should fit. Attention-pattern hooks are the dominant memory risk, so max_attn_n=4096 caps H1/Phase 6 attention reads.
+2026-05-04 19:32:40,673 [WARNING] Loading model Qwen/Qwen3-14B requires setting trust_remote_code=True
+2026-05-04 19:32:40,846 [WARNING] Loading model Qwen/Qwen3-14B state dict requires setting trust_remote_code=True

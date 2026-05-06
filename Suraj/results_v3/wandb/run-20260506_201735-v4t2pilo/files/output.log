@@ -1,0 +1,33 @@
+2026-05-06 20:17:36,904 [INFO] wandb run started: https://wandb.ai/sm12377-new-york-university/llmRFin/runs/v4t2pilo
+2026-05-06 20:17:43,404 [INFO] GPUs: 1, per-GPU mem (GB): ['85'], total: 85 GB
+2026-05-06 20:17:43,405 [INFO] Loading Qwen/Qwen3-14B  n_devices=1  n_ctx=16000  max_attn_n=4096
+2026-05-06 20:17:43,405 [INFO] Feasibility note: Qwen3-14B bf16 weights are ~28GB before framework overhead; 1xA100-80GB should fit. Attention-pattern hooks are the dominant memory risk, so max_attn_n=4096 caps H1/Phase 6 attention reads.
+2026-05-06 20:17:43,636 [WARNING] Loading model Qwen/Qwen3-14B requires setting trust_remote_code=True
+2026-05-06 20:17:43,777 [WARNING] Loading model Qwen/Qwen3-14B state dict requires setting trust_remote_code=True
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 147.43it/s]
+Loaded pretrained model Qwen/Qwen3-14B into HookedTransformer
+2026-05-06 20:18:55,502 [INFO] Loaded.  n_layers=40  n_heads=40  d_model=5120  d_head=128  n_ctx=16000
+2026-05-06 20:18:55,527 [INFO] --resume: splits.json size mismatch (got train=256 eval=100 base=164, expected 256/100/512); rebuilding
+2026-05-06 20:18:55,527 [INFO] Loading AdvBench…
+2026-05-06 20:18:56,226 [INFO] AdvBench: 520 usable prompts
+2026-05-06 20:18:56,226 [INFO] Loading Alpaca…
+2026-05-06 20:18:58,545 [INFO] Alpaca filtered: 23380 standalone instructions (with outputs)
+2026-05-06 20:18:58,565 [INFO] matched pool size: 520
+2026-05-06 20:18:58,566 [INFO] splits: train=256 eval=100 base=512  seed_pool_size=100
+2026-05-06 20:18:58,569 [INFO] Saved splits to results_v3/splits.json
+2026-05-06 20:18:58,765 [INFO] Bloat tokens available: 54901
+2026-05-06 20:18:58,766 [INFO]
+========== PHASE 7 ==========
+2026-05-06 20:18:58,779 [INFO] Hydrated focal_format from triage CSV: distractor
+2026-05-06 20:18:58,782 [INFO] === Phase 7 Circuit Tracer pilot (focal=distractor) ===
+2026-05-06 20:18:58,782 [INFO] Phase 7 auto-picked transcoder set: mwhanna/qwen3-14b-transcoders-lowl0
+2026-05-06 20:18:58,790 [INFO] Resuming Phase 7 - done 24 prompt/N proxy cells
+2026-05-06 20:18:58,803 [INFO] Phase 7 formats to run: ['distractor', 'prefix'] (focal=distractor)
+/teamspace/studios/this_studio/attention_dilutionv2/Suraj/experiment.py:3107: DeprecationWarning:
+Support for Kaleido versions less than 1.0.0 is deprecated and will be removed after September 2025.
+Please upgrade Kaleido to version 1.0.0 or greater (`pip install 'kaleido>=1.0.0'` or `pip install 'plotly[kaleido]'`).
+
+  fig.write_image(str(fig_path), width=900, height=520)
+2026-05-06 20:19:01,153 [INFO] Phase 7 wrote results_v3/phase7_circuit_tracing/phase7_circuit_metrics.csv
+2026-05-06 20:19:01,154 [INFO] Phase 7 prompt/CLI manifest: results_v3/phase7_circuit_tracing/phase7_prompt_manifest.json

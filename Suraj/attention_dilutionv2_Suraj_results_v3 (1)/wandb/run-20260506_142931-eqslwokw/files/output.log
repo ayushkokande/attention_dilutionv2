@@ -1,0 +1,6 @@
+2026-05-06 14:29:33,094 [INFO] wandb run started: https://wandb.ai/sm12377-new-york-university/llmRFin/runs/eqslwokw
+2026-05-06 14:29:44,172 [INFO] Loading Qwen/Qwen3-14B  n_devices=1  n_ctx=16000  max_attn_n=4096
+2026-05-06 14:29:44,173 [INFO] Feasibility note: Qwen3-14B bf16 weights are ~28GB before framework overhead; 1xA100-80GB should fit. Attention-pattern hooks are the dominant memory risk, so max_attn_n=4096 caps H1/Phase 6 attention reads.
+2026-05-06 14:29:44,633 [WARNING] Loading model Qwen/Qwen3-14B requires setting trust_remote_code=True
+2026-05-06 14:29:45,029 [WARNING] Loading model Qwen/Qwen3-14B state dict requires setting trust_remote_code=True
+Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:28<00:00,  3.52s/it]

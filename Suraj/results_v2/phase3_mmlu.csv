@@ -1,0 +1,7 @@
+alpha,N,accuracy,refusal_rate_on_benign,n_evaluated,status,error_msg
+0.0,1024,1.0,0.0,20,ok,
+1.0,1024,1.0,0.0,20,ok,
+2.0,1024,0.95,0.0,20,ok,
+4.0,1024,1.0,0.0,20,ok,
+8.0,1024,0.95,0.0,20,ok,
+16.0,1024,1.0,0.0,20,ok,
