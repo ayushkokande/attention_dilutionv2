@@ -34,15 +34,13 @@ Three known overlap warnings live in `splits.json:overlap_warnings`. The exp_6 /
 
 ## Refusal direction
 
-**Status: TBD pending step 2 rerun.**
+**Canonical: layer 18** (Qwen3-14B, causal-ablation criterion, step 2 rerun).
 
-- Current canonical (Ayush exp_2): layer **20** by separation-score (norm of diff-of-means).
-- Suraj 14B archive: layer **24** by causal-ablation (refusal-rate drop on held-out harmful).
-- Old 1.7B mid-sem report: layer 22 by causal-ablation.
+- Step 2 result: `results/qwen3-14b/refusal_direction/meta.json` — causal_best_layer=18 (ablated_harmful=0.00, ablated_harmless=0.00 on 24-prompt held-out pool), norm_best_layer=39.
+- Prior values for the record: Ayush exp_2 norm-criterion was layer 20; Suraj 14B archive causal was layer 24; old 1.7B mid-sem causal was layer 22.
+- d_hat artifact: `results/qwen3-14b/refusal_direction/d_hat_best_layer.pt` (`{V_refusal, layer}`); per-layer bank: `d_hat_all_layers.pt`.
 
-Step 2 will rerun extraction with both criteria on Qwen3-14B against the canonical splits and pick the layer that maximises refusal-rate drop on a held-out harmful set. After step 2, this section gets a single integer.
-
-Downstream consumers of d_hat: experiments 3 (head identification), 4 (matched d_hat*), 5/6/7 (validity battery), 8 (binary sweep), 9 (continuous projection), 10 (attention mass), 11 (steering), 13 (mitigation training data), 14 (capability cost ablation arm). All cascade-rerun if the layer changes.
+Cascade impact: layer changed 20 → 18, so downstream consumers must rerun against the new d_hat: experiments 3 (head identification), 4 (matched d_hat*), 5/6/7 (validity battery), 8 (binary sweep), 9 (continuous projection), 10 (attention mass), 11 (steering), 13 (mitigation training data), 14 (capability cost ablation arm).
 
 ## Bloat content (context-scaling experiments only)
 

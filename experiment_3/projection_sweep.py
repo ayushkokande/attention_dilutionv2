@@ -57,7 +57,7 @@ from context_sweep import (  # type: ignore
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
 DEFAULT_LENGTHS = [0, 512, 2048, 8192, 16384, 32768]
-DEFAULT_LAYERS = [20, 24, 28]
+DEFAULT_LAYERS = [18, 24, 28]
 
 
 def parse_args() -> argparse.Namespace:
