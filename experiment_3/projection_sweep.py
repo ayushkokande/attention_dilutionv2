@@ -36,8 +36,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 EXP1 = ROOT / "experiment_1"
-EXP2 = ROOT / "experiment_2"
-for _p in (str(HERE), str(EXP1), str(EXP2)):
+EXP8 = ROOT / "experiment_8"
+for _p in (str(HERE), str(EXP1), str(EXP8)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
