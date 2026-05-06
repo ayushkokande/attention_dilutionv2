@@ -2,7 +2,7 @@
 
 Runs anywhere (no GPU). Loads two `d_hat_all_layers.pt` files, computes
 cosine similarity per layer, and applies a preregistered decision rule at
-the canonical layer (default: 20, the layer used by context_sweep.py and
+the canonical layer (default: 18, the layer used by context_sweep.py and
 projection_sweep.py).
 
 Decision rule:
@@ -28,7 +28,7 @@ def main() -> None:
     ap.add_argument("--orig-dir", default="results/qwen3-14b/refusal_direction")
     ap.add_argument("--matched-dir",
                     default="results/qwen3-14b/refusal_direction_matched")
-    ap.add_argument("--canonical-layer", type=int, default=20)
+    ap.add_argument("--canonical-layer", type=int, default=18)
     ap.add_argument("--no-plot", action="store_true")
     args = ap.parse_args()
 
