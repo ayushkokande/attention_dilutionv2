@@ -39,6 +39,7 @@ export TRANSFORMERS_CACHE="${HF_HOME}/hub"
 export TORCH_HOME="${WORKSPACE}/.cache/torch"
 export UV_CACHE_DIR="${WORKSPACE}/.uv_cache"
 export UV_PYTHON_INSTALL_DIR="${WORKSPACE}/.uv_python"
+export UV_HTTP_TIMEOUT=600
 export HF_HUB_ENABLE_HF_TRANSFER=1
 export TOKENIZERS_PARALLELISM=false
 export NCCL_P2P_DISABLE=0
