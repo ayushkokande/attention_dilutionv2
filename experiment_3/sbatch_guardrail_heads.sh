@@ -79,7 +79,8 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 
 if [ ! -d .venv ]; then
-  uv venv --python 3.11 .venv
+  # --seed installs pip into the venv so the pip fallback below works.
+  uv venv --python 3.11 --seed .venv
 fi
 source .venv/bin/activate
 
