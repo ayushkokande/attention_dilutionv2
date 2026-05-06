@@ -1,0 +1,154 @@
+2026-05-06 20:40:09,858 [INFO] wandb run started: https://wandb.ai/sm12377-new-york-university/llmRFin/runs/gun0j5mk
+2026-05-06 20:40:16,319 [INFO] Loading Qwen/Qwen3-14B  n_devices=1  n_ctx=16000  max_attn_n=4096
+2026-05-06 20:40:16,320 [INFO] Feasibility note: Qwen3-14B bf16 weights are ~28GB before framework overhead; 1xA100-80GB should fit. Attention-pattern hooks are the dominant memory risk, so max_attn_n=4096 caps H1/Phase 6 attention reads.
+2026-05-06 20:40:16,626 [WARNING] Loading model Qwen/Qwen3-14B requires setting trust_remote_code=True
+2026-05-06 20:40:16,791 [WARNING] Loading model Qwen/Qwen3-14B state dict requires setting trust_remote_code=True
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards: 100%|██████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 148.19it/s]
+Loaded pretrained model Qwen/Qwen3-14B into HookedTransformer
+2026-05-06 20:41:28,388 [INFO] Loaded.  n_layers=40  n_heads=40  d_model=5120  d_head=128  n_ctx=16000
+2026-05-06 20:41:28,412 [INFO] --resume: splits.json size mismatch (got train=256 eval=100 base=164, expected 256/100/512); rebuilding
+2026-05-06 20:41:28,412 [INFO] Loading AdvBench…
+2026-05-06 20:41:29,182 [INFO] AdvBench: 520 usable prompts
+2026-05-06 20:41:29,183 [INFO] Loading Alpaca…
+2026-05-06 20:41:31,312 [INFO] Alpaca filtered: 23380 standalone instructions (with outputs)
+2026-05-06 20:41:31,332 [INFO] matched pool size: 520
+2026-05-06 20:41:31,333 [INFO] splits: train=256 eval=100 base=512  seed_pool_size=100
+2026-05-06 20:41:31,336 [INFO] Saved splits to results_v3/splits.json
+2026-05-06 20:41:31,511 [INFO] Bloat tokens available: 54901
+2026-05-06 20:41:31,512 [INFO]
+========== PHASE 7_pp ==========
+2026-05-06 20:41:31,525 [INFO] Hydrated focal_format from triage CSV: distractor
+2026-05-06 20:41:31,528 [INFO] === Phase 7b path patching (focal=distractor) ===
+2026-05-06 20:41:31,530 [INFO] V_refusal at L36, top guardrail head: (36, 31, 15.403742790222168)
+2026-05-06 20:41:31,530 [INFO] Layer grid: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36] (readoff=L36)  n_prompts=8  n_dirty=512
+layer sweep:  25%|██████████████████████▎                                                                  | 2/8 [00:05<00:16,  2.75s/it]
+2026-05-06 20:41:32,312 [INFO] p=0  baseline projections  clean=554.426  dirty=34.968  gap=519.458
+2026-05-06 20:41:32,506 [INFO]   p=0 L= 0  patched=67.489  recovery=+0.063  status=ok
+2026-05-06 20:41:32,698 [INFO]   p=0 L= 4  patched=43.607  recovery=+0.017  status=ok
+2026-05-06 20:41:32,890 [INFO]   p=0 L= 8  patched=45.426  recovery=+0.020  status=ok
+2026-05-06 20:41:33,083 [INFO]   p=0 L=12  patched=70.606  recovery=+0.069  status=ok
+2026-05-06 20:41:33,275 [INFO]   p=0 L=16  patched=161.488  recovery=+0.244  status=ok
+2026-05-06 20:41:33,468 [INFO]   p=0 L=20  patched=184.388  recovery=+0.288  status=ok
+2026-05-06 20:41:33,661 [INFO]   p=0 L=24  patched=88.963  recovery=+0.104  status=ok
+2026-05-06 20:41:33,855 [INFO]   p=0 L=28  patched=38.405  recovery=+0.007  status=ok
+2026-05-06 20:41:34,048 [INFO]   p=0 L=32  patched=37.218  recovery=+0.004  status=ok
+2026-05-06 20:41:34,241 [INFO]   p=0 L=36  patched=35.923  recovery=+0.002  status=ok
+2026-05-06 20:41:34,947 [INFO] p=1  baseline projections  clean=462.156  dirty=-89.209  gap=551.365
+2026-05-06 20:41:35,137 [INFO]   p=1 L= 0  patched=-87.393  recovery=+0.003  status=ok
+2026-05-06 20:41:35,327 [INFO]   p=1 L= 4  patched=-88.409  recovery=+0.001  status=ok
+2026-05-06 20:41:35,518 [INFO]   p=1 L= 8  patched=-88.101  recovery=+0.002  status=ok
+2026-05-06 20:41:35,708 [INFO]   p=1 L=12  patched=-86.189  recovery=+0.005  status=ok
+2026-05-06 20:41:35,899 [INFO]   p=1 L=16  patched=-85.430  recovery=+0.007  status=ok
+2026-05-06 20:41:36,089 [INFO]   p=1 L=20  patched=-84.869  recovery=+0.008  status=ok
+2026-05-06 20:41:36,278 [INFO]   p=1 L=24  patched=-87.295  recovery=+0.003  status=ok
+2026-05-06 20:41:36,468 [INFO]   p=1 L=28  patched=-89.024  recovery=+0.000  status=ok
+2026-05-06 20:41:36,658 [INFO]   p=1 L=32  patched=-89.273  recovery=-0.000  status=ok
+2026-05-06 20:41:36,848 [INFO]   p=1 L=36  patched=-89.208  recovery=+0.000  status=ok
+2026-05-06 20:41:37,547 [INFO] p=2  baseline projections  clean=485.916  dirty=-42.249  gap=528.165
+2026-05-06 20:41:37,736 [INFO]   p=2 L= 0  patched=-34.707  recovery=+0.014  status=ok
+2026-05-06 20:41:37,927 [INFO]   p=2 L= 4  patched=-33.327  recovery=+0.017  status=ok
+2026-05-06 20:41:38,117 [INFO]   p=2 L= 8  patched=-31.380  recovery=+0.021  status=ok
+2026-05-06 20:41:38,307 [INFO]   p=2 L=12  patched=-30.438  recovery=+0.022  status=ok
+2026-05-06 20:41:38,497 [INFO]   p=2 L=16  patched=4.480  recovery=+0.088  status=ok
+2026-05-06 20:41:38,688 [INFO]   p=2 L=20  patched=48.610  recovery=+0.172  status=ok
+2026-05-06 20:41:38,878 [INFO]   p=2 L=24  patched=-12.881  recovery=+0.056  status=ok
+2026-05-06 20:41:39,068 [INFO]   p=2 L=28  patched=-41.351  recovery=+0.002  status=ok
+2026-05-06 20:41:39,258 [INFO]   p=2 L=32  patched=-41.511  recovery=+0.001  status=ok
+2026-05-06 20:41:39,448 [INFO]   p=2 L=36  patched=-42.235  recovery=+0.000  status=ok
+2026-05-06 20:41:40,185 [INFO] p=3  baseline projections  clean=592.757  dirty=-77.618  gap=670.375
+2026-05-06 20:41:40,378 [INFO]   p=3 L= 0  patched=-70.356  recovery=+0.011  status=ok
+2026-05-06 20:41:40,572 [INFO]   p=3 L= 4  patched=-77.134  recovery=+0.001  status=ok
+2026-05-06 20:41:40,765 [INFO]   p=3 L= 8  patched=-76.452  recovery=+0.002  status=ok
+2026-05-06 20:41:40,958 [INFO]   p=3 L=12  patched=-77.075  recovery=+0.001  status=ok
+2026-05-06 20:41:41,151 [INFO]   p=3 L=16  patched=-64.956  recovery=+0.019  status=ok
+2026-05-06 20:41:41,344 [INFO]   p=3 L=20  patched=-56.527  recovery=+0.031  status=ok
+2026-05-06 20:41:41,538 [INFO]   p=3 L=24  patched=-70.886  recovery=+0.010  status=ok
+2026-05-06 20:41:41,732 [INFO]   p=3 L=28  patched=-76.067  recovery=+0.002  status=ok
+2026-05-06 20:41:41,927 [INFO]   p=3 L=32  patched=-76.368  recovery=+0.002  status=ok
+2026-05-06 20:41:42,120 [INFO]   p=3 L=36  patched=-76.471  recovery=+0.002  status=ok
+2026-05-06 20:41:42,826 [INFO] p=4  baseline projections  clean=512.079  dirty=-54.684  gap=566.763
+2026-05-06 20:41:43,019 [INFO]   p=4 L= 0  patched=-51.593  recovery=+0.005  status=ok
+2026-05-06 20:41:43,212 [INFO]   p=4 L= 4  patched=-54.387  recovery=+0.001  status=ok
+2026-05-06 20:41:43,406 [INFO]   p=4 L= 8  patched=-53.578  recovery=+0.002  status=ok
+2026-05-06 20:41:43,599 [INFO]   p=4 L=12  patched=-52.781  recovery=+0.003  status=ok
+2026-05-06 20:41:43,792 [INFO]   p=4 L=16  patched=-32.117  recovery=+0.040  status=ok
+2026-05-06 20:41:43,986 [INFO]   p=4 L=20  patched=-1.800  recovery=+0.093  status=ok
+2026-05-06 20:41:44,179 [INFO]   p=4 L=24  patched=-48.072  recovery=+0.012  status=ok
+2026-05-06 20:41:44,372 [INFO]   p=4 L=28  patched=-54.311  recovery=+0.001  status=ok
+2026-05-06 20:41:44,566 [INFO]   p=4 L=32  patched=-54.570  recovery=+0.000  status=ok
+2026-05-06 20:41:44,761 [INFO]   p=4 L=36  patched=-54.181  recovery=+0.001  status=ok
+2026-05-06 20:41:45,466 [INFO] p=5  baseline projections  clean=540.987  dirty=-77.433  gap=618.420
+2026-05-06 20:41:45,660 [INFO]   p=5 L= 0  patched=-71.919  recovery=+0.009  status=ok
+2026-05-06 20:41:45,854 [INFO]   p=5 L= 4  patched=-78.660  recovery=-0.002  status=ok
+2026-05-06 20:41:46,049 [INFO]   p=5 L= 8  patched=-74.051  recovery=+0.005  status=ok
+2026-05-06 20:41:46,244 [INFO]   p=5 L=12  patched=-77.240  recovery=+0.000  status=ok
+2026-05-06 20:41:46,439 [INFO]   p=5 L=16  patched=-60.070  recovery=+0.028  status=ok
+2026-05-06 20:41:46,634 [INFO]   p=5 L=20  patched=-54.937  recovery=+0.036  status=ok
+2026-05-06 20:41:46,829 [INFO]   p=5 L=24  patched=-72.593  recovery=+0.008  status=ok
+2026-05-06 20:41:47,023 [INFO]   p=5 L=28  patched=-77.315  recovery=+0.000  status=ok
+2026-05-06 20:41:47,217 [INFO]   p=5 L=32  patched=-76.748  recovery=+0.001  status=ok
+2026-05-06 20:41:47,411 [INFO]   p=5 L=36  patched=-77.149  recovery=+0.000  status=ok
+2026-05-06 20:41:48,114 [INFO] p=6  baseline projections  clean=493.214  dirty=-73.795  gap=567.009
+2026-05-06 20:41:48,307 [INFO]   p=6 L= 0  patched=-67.665  recovery=+0.011  status=ok
+2026-05-06 20:41:48,501 [INFO]   p=6 L= 4  patched=-69.195  recovery=+0.008  status=ok
+2026-05-06 20:41:48,694 [INFO]   p=6 L= 8  patched=-63.861  recovery=+0.018  status=ok
+2026-05-06 20:41:48,888 [INFO]   p=6 L=12  patched=-65.544  recovery=+0.015  status=ok
+2026-05-06 20:41:49,082 [INFO]   p=6 L=16  patched=-46.226  recovery=+0.049  status=ok
+2026-05-06 20:41:49,275 [INFO]   p=6 L=20  patched=-12.172  recovery=+0.109  status=ok
+2026-05-06 20:41:49,469 [INFO]   p=6 L=24  patched=-62.645  recovery=+0.020  status=ok
+2026-05-06 20:41:49,662 [INFO]   p=6 L=28  patched=-76.954  recovery=-0.006  status=ok
+2026-05-06 20:41:49,857 [INFO]   p=6 L=32  patched=-74.707  recovery=-0.002  status=ok
+2026-05-06 20:41:50,051 [INFO]   p=6 L=36  patched=-73.367  recovery=+0.001  status=ok
+2026-05-06 20:41:50,752 [INFO] p=7  baseline projections  clean=457.109  dirty=-84.283  gap=541.392
+2026-05-06 20:41:50,942 [INFO]   p=7 L= 0  patched=-83.567  recovery=+0.001  status=ok
+2026-05-06 20:41:51,133 [INFO]   p=7 L= 4  patched=-83.860  recovery=+0.001  status=ok
+2026-05-06 20:41:51,324 [INFO]   p=7 L= 8  patched=-85.015  recovery=-0.001  status=ok
+2026-05-06 20:41:51,515 [INFO]   p=7 L=12  patched=-87.726  recovery=-0.006  status=ok
+2026-05-06 20:41:51,708 [INFO]   p=7 L=16  patched=-85.690  recovery=-0.003  status=ok
+2026-05-06 20:41:51,902 [INFO]   p=7 L=20  patched=-80.732  recovery=+0.007  status=ok
+2026-05-06 20:41:52,093 [INFO]   p=7 L=24  patched=-86.710  recovery=-0.004  status=ok
+2026-05-06 20:41:52,285 [INFO]   p=7 L=28  patched=-84.349  recovery=-0.000  status=ok
+2026-05-06 20:41:52,475 [INFO]   p=7 L=32  patched=-83.604  recovery=+0.001  status=ok
+2026-05-06 20:41:52,666 [INFO]   p=7 L=36  patched=-84.093  recovery=+0.000  status=ok
+2026-05-06 20:41:52,931 [INFO] Layer sweep aggregate:
+ L_patch     mean      std  count
+       0 0.014690 0.019832      8
+       4 0.005391 0.007584      8
+       8 0.008506 0.009255      8
+      12 0.013640 0.023943      8
+      16 0.058962 0.079719      8
+      20 0.092992 0.097167      8
+      24 0.025967 0.036291      8
+      28 0.000765 0.003359      8
+      32 0.001054 0.001721      8
+      36 0.000754 0.000702      8
+2026-05-06 20:41:52,933 [INFO] >>> Top recovery layer: L20  (mean=0.093)
+/teamspace/studios/this_studio/attention_dilutionv2/Suraj/experiment.py:2959: DeprecationWarning:
+Support for Kaleido versions less than 1.0.0 is deprecated and will be removed after September 2025.
+Please upgrade Kaleido to version 1.0.0 or greater (`pip install 'kaleido>=1.0.0'` or `pip install 'plotly[kaleido]'`).
+
+  fig.write_image(str(layer_fig), width=900, height=480)
+2026-05-06 20:41:55,183 [INFO] Head zoom at L20 (n_heads=40)
+head zoom: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 8/8 [20:56<00:00, 157.11s/it]
+2026-05-06 20:44:31,296 [INFO]   p=0 head zoom done at L20
+2026-05-06 20:47:07,295 [INFO]   p=1 head zoom done at L20
+2026-05-06 20:49:44,272 [INFO]   p=2 head zoom done at L20
+2026-05-06 20:52:21,105 [INFO]   p=3 head zoom done at L20
+2026-05-06 20:54:58,416 [INFO]   p=4 head zoom done at L20
+2026-05-06 20:57:37,239 [INFO]   p=5 head zoom done at L20
+2026-05-06 21:00:15,126 [INFO]   p=6 head zoom done at L20
+2026-05-06 21:02:51,692 [INFO]   p=7 head zoom done at L20
+2026-05-06 21:02:52,321 [INFO] Head zoom aggregate (top 5):
+ head     mean      std  count
+   10 0.003662 0.005612      8
+   16 0.001437 0.003136      8
+   13 0.000666 0.001345      8
+   39 0.000662 0.001825      8
+   34 0.000519 0.001726      8
+/teamspace/studios/this_studio/attention_dilutionv2/Suraj/experiment.py:3092: DeprecationWarning:
+Support for Kaleido versions less than 1.0.0 is deprecated and will be removed after September 2025.
+Please upgrade Kaleido to version 1.0.0 or greater (`pip install 'kaleido>=1.0.0'` or `pip install 'plotly[kaleido]'`).
+
+  fig.write_image(str(head_fig), width=1100, height=480)
+2026-05-06 21:02:52,465 [INFO] Phase 7b path patching complete. Outputs in results_v3/phase7b_path_patching

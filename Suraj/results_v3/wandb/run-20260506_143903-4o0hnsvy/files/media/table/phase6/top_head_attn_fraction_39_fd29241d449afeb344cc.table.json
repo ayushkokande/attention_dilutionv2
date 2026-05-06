@@ -1,0 +1,1 @@
+{"columns": ["head", "format", "N", "frac_attn_on_harmful_span_mean", "frac_attn_on_harmful_span_std", "n_prompts"], "data": [["L36H31", "distractor", 0, 0.006140961221682596, 0.0035340626663509316, 24], ["L36H31", "distractor", 4096, 0.0010439756904827699, 0.0028905826441388374, 24]]}

@@ -1,0 +1,287 @@
+[
+  {
+    "path": "V_refusal.pt",
+    "bytes": 22199,
+    "mtime": 1777594068
+  },
+  {
+    "path": "capability_set.json",
+    "bytes": 98455,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase1_heatmap.png",
+    "bytes": 66586,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase1_norms.png",
+    "bytes": 35635,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase2_dense_distractor.png",
+    "bytes": 90643,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase3_mmlu.png",
+    "bytes": 35848,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase3_rescue_distractor.png",
+    "bytes": 41811,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase4_capability.png",
+    "bytes": 51397,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase5_multi.png",
+    "bytes": 124425,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase6_attribution_maps.png",
+    "bytes": 71781,
+    "mtime": 1778096488
+  },
+  {
+    "path": "fig_phase6_attribution_sourceflow.png",
+    "bytes": 61073,
+    "mtime": 1778096488
+  },
+  {
+    "path": "guardrail_heads.pt",
+    "bytes": 7777,
+    "mtime": 1777595107
+  },
+  {
+    "path": "phase1_acts.pt",
+    "bytes": 419432325,
+    "mtime": 1777591660
+  },
+  {
+    "path": "phase1_baseline.csv",
+    "bytes": 95,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase1_layer_sweep.csv",
+    "bytes": 528,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase1_validation.csv",
+    "bytes": 172,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase2_focal_distractor.csv",
+    "bytes": 6618,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase2_jailbreak_thresholds.csv",
+    "bytes": 530,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase2_triage.csv",
+    "bytes": 408,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase3_mmlu_steering.csv",
+    "bytes": 214,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase3_rescue_distractor.csv",
+    "bytes": 1028,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase4_capability.csv",
+    "bytes": 307,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase5_killer_comparison.csv",
+    "bytes": 267,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase5_multi.csv",
+    "bytes": 9576,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase6_attn_fraction_perprompt.csv",
+    "bytes": 1345,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase6_attrib_ablated_N0.pt",
+    "bytes": 8288,
+    "mtime": 1778086224
+  },
+  {
+    "path": "phase6_attrib_ablated_N4096.pt",
+    "bytes": 8309,
+    "mtime": 1778086310
+  },
+  {
+    "path": "phase6_attrib_intact_N0.pt",
+    "bytes": 8281,
+    "mtime": 1778086133
+  },
+  {
+    "path": "phase6_attrib_intact_N4096.pt",
+    "bytes": 8302,
+    "mtime": 1778086213
+  },
+  {
+    "path": "phase6_attribution_maps.pt",
+    "bytes": 28221,
+    "mtime": 1778090676
+  },
+  {
+    "path": "phase6_top_head_attn_fraction.csv",
+    "bytes": 221,
+    "mtime": 1778096488
+  },
+  {
+    "path": "phase7_circuit_tracing/fig_phase7_proxy_attn.png",
+    "bytes": 77970,
+    "mtime": 1778098740
+  },
+  {
+    "path": "phase7_circuit_tracing/phase7_circuit_metrics.csv",
+    "bytes": 6402,
+    "mtime": 1778098626
+  },
+  {
+    "path": "phase7_circuit_tracing/phase7_prompt_manifest.json",
+    "bytes": 7314,
+    "mtime": 1778098738
+  },
+  {
+    "path": "phase7b_path_patching/fig_phase7b_head_zoom.png",
+    "bytes": 45817,
+    "mtime": 1778101372
+  },
+  {
+    "path": "phase7b_path_patching/fig_phase7b_layer_curve.png",
+    "bytes": 51337,
+    "mtime": 1778100115
+  },
+  {
+    "path": "phase7b_path_patching/head_zoom.csv",
+    "bytes": 28847,
+    "mtime": 1778101371
+  },
+  {
+    "path": "phase7b_path_patching/layer_sweep.csv",
+    "bytes": 6917,
+    "mtime": 1778100112
+  },
+  {
+    "path": "run_20260430_232011.log",
+    "bytes": 17247,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260501_141452.log",
+    "bytes": 8885,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260503_192259.log",
+    "bytes": 7950,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260504_142053.log",
+    "bytes": 1508,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260504_143745.log",
+    "bytes": 8604,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260504_193221.log",
+    "bytes": 1508,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260504_194918.log",
+    "bytes": 7587,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260506_142928.log",
+    "bytes": 1508,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260506_143902.log",
+    "bytes": 7913,
+    "mtime": 1778096488
+  },
+  {
+    "path": "run_20260506_194334.log",
+    "bytes": 1540,
+    "mtime": 1778096616
+  },
+  {
+    "path": "run_20260506_194357.log",
+    "bytes": 4159,
+    "mtime": 1778096831
+  },
+  {
+    "path": "run_20260506_195414.log",
+    "bytes": 3950,
+    "mtime": 1778097407
+  },
+  {
+    "path": "run_20260506_201444.log",
+    "bytes": 6537,
+    "mtime": 1778098633
+  },
+  {
+    "path": "run_20260506_201734.log",
+    "bytes": 3754,
+    "mtime": 1778098744
+  },
+  {
+    "path": "run_20260506_202801.log",
+    "bytes": 3566,
+    "mtime": 1778099373
+  },
+  {
+    "path": "run_20260506_203945.log",
+    "bytes": 1557,
+    "mtime": 1778099985
+  },
+  {
+    "path": "run_20260506_204007.log",
+    "bytes": 12571,
+    "mtime": 1778101372
+  },
+  {
+    "path": "splits.json",
+    "bytes": 104292,
+    "mtime": 1778100091
+  },
+  {
+    "path": "wandb_results_manifest.json",
+    "bytes": 4771,
+    "mtime": 1778099367
+  }
+]

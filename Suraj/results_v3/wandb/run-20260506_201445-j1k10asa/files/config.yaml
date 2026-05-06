@@ -1,0 +1,157 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            nd8q0ir4cjzf4ss4ibre0c6pqeytp83y:
+                args:
+                    - --resume
+                    - --phases
+                    - "7"
+                    - --phase7_max_prompts
+                    - "4"
+                    - --phase7_ns
+                    - 0,128,512
+                    - --phase7_compare_formats
+                    - prefix
+                    - --phase7_top_heads
+                    - "5"
+                codePath: Suraj/experiment.py
+                codePathLocal: experiment.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "395184570368"
+                        used: "243923587072"
+                email: sm12377@nyu.edu
+                executable: /home/zeus/miniconda3/envs/cloudspace/bin/python
+                git:
+                    commit: 7b626670db9699392fbbdfbbe33e3eb3fb4c9750
+                    remote: https://github.com/ayushkokande/attention_dilutionv2.git
+                gpu: NVIDIA A100-SXM4-80GB
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-aa9acc1b-73d8-a2cd-0258-7c4930347605
+                host: cs-01kqzbkpm2s34qfvcs9edhmwaf-4g58
+                memory:
+                    total: "179360849920"
+                os: Linux-6.8.0-1007-gcp-x86_64-with-glibc2.39
+                program: /teamspace/studios/this_studio/attention_dilutionv2/Suraj/experiment.py
+                python: CPython 3.12.11
+                root: results_v3
+                startedAt: "2026-05-06T20:14:45.714991Z"
+                writerId: nd8q0ir4cjzf4ss4ibre0c6pqeytp83y
+        m: []
+        python_version: 3.12.11
+        t:
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+            "3":
+                - 2
+                - 16
+            "4": 3.12.11
+            "5": 0.26.1
+            "10":
+                - 20
+            "12": 0.26.1
+            "13": linux-x86_64
+a100_80gb:
+    value: false
+force_redo:
+    value: false
+force_redo_phase1:
+    value: false
+force_redo_phase2_dense:
+    value: false
+force_redo_phase2_triage:
+    value: false
+force_redo_phase3:
+    value: false
+force_redo_phase4:
+    value: false
+force_redo_phase5:
+    value: false
+force_redo_phase6:
+    value: false
+force_redo_phase7:
+    value: false
+max_attn_n:
+    value: null
+model:
+    value: null
+n_ctx:
+    value: null
+n_devices:
+    value: null
+no_wandb:
+    value: false
+output_dir:
+    value: results_v3
+phase1_skip_cache:
+    value: false
+phase7_analyze_only:
+    value: false
+phase7_backend:
+    value: transformerlens
+phase7_batch_size:
+    value: 64
+phase7_compare_formats:
+    value: prefix
+phase7_compliance_targets:
+    value: Sure,Here,First,To
+phase7_ct_max_graphs:
+    value: 0
+phase7_desired_logit_prob:
+    value: 0.5
+phase7_edge_threshold:
+    value: 0.95
+phase7_max_feature_nodes:
+    value: 1024
+phase7_max_n_logits:
+    value: 3
+phase7_max_prompts:
+    value: 4
+phase7_node_threshold:
+    value: 0.7
+phase7_ns:
+    value: 0,128,512
+phase7_offload:
+    value: cpu
+phase7_refusal_targets:
+    value: I,Sorry,cannot,can't,unable
+phase7_run_ct:
+    value: false
+phase7_skip_ct:
+    value: false
+phase7_top_heads:
+    value: 5
+phase7_transcoder_set:
+    value: null
+phases:
+    value: "7"
+resume:
+    value: true
+skip_smoke_test:
+    value: true
+smoke:
+    value: false
+verbose:
+    value: false
+wandb_entity:
+    value: sm12377-new-york-university
+wandb_name:
+    value: null
+wandb_project:
+    value: llmRFin

@@ -1,0 +1,27 @@
+name: attn-dilution
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pytorch::pytorch=2.4.*
+  - pytorch::pytorch-cuda=12.1
+  - pip:
+      - "transformers>=4.51,<4.53"
+      - "transformer_lens>=2.15"
+      - accelerate>=0.33
+      - datasets>=2.20
+      - jaxtyping>=0.2.34
+      - einops>=0.8
+      - plotly>=5.22
+      - kaleido==0.2.1
+      - pandas>=2.2
+      - numpy>=1.26,<2.1
+      - scikit-learn>=1.5
+      - tqdm>=4.66
+      - ipykernel>=6.29
+      - jupyterlab>=4.2
+      - sentencepiece>=0.2
+      - protobuf>=4.25

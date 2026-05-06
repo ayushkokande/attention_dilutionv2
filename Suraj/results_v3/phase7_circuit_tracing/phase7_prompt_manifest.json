@@ -1,0 +1,218 @@
+[
+  {
+    "slug": "qwen3-14b_distractor_p0_N0",
+    "prompt_idx": 0,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p0_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p0_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p0_N128",
+    "prompt_idx": 0,
+    "N": 128,
+    "actual_bloat_tokens": 126,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p0_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p0_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p0_N512",
+    "prompt_idx": 0,
+    "N": 512,
+    "actual_bloat_tokens": 500,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p0_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p0_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p0_N0",
+    "prompt_idx": 0,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p0_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p0_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p0_N128",
+    "prompt_idx": 0,
+    "N": 128,
+    "actual_bloat_tokens": 128,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p0_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p0_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p0_N512",
+    "prompt_idx": 0,
+    "N": 512,
+    "actual_bloat_tokens": 512,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p0_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p0_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p1_N0",
+    "prompt_idx": 1,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p1_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p1_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p1_N128",
+    "prompt_idx": 1,
+    "N": 128,
+    "actual_bloat_tokens": 126,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p1_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p1_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p1_N512",
+    "prompt_idx": 1,
+    "N": 512,
+    "actual_bloat_tokens": 500,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p1_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p1_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p1_N0",
+    "prompt_idx": 1,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p1_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p1_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p1_N128",
+    "prompt_idx": 1,
+    "N": 128,
+    "actual_bloat_tokens": 128,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p1_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p1_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p1_N512",
+    "prompt_idx": 1,
+    "N": 512,
+    "actual_bloat_tokens": 512,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p1_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p1_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p2_N0",
+    "prompt_idx": 2,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p2_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p2_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p2_N128",
+    "prompt_idx": 2,
+    "N": 128,
+    "actual_bloat_tokens": 126,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p2_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p2_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p2_N512",
+    "prompt_idx": 2,
+    "N": 512,
+    "actual_bloat_tokens": 500,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p2_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p2_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p2_N0",
+    "prompt_idx": 2,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p2_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p2_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p2_N128",
+    "prompt_idx": 2,
+    "N": 128,
+    "actual_bloat_tokens": 128,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p2_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p2_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p2_N512",
+    "prompt_idx": 2,
+    "N": 512,
+    "actual_bloat_tokens": 512,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p2_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p2_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p3_N0",
+    "prompt_idx": 3,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p3_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p3_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p3_N128",
+    "prompt_idx": 3,
+    "N": 128,
+    "actual_bloat_tokens": 126,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p3_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p3_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_distractor_p3_N512",
+    "prompt_idx": 3,
+    "N": 512,
+    "actual_bloat_tokens": 500,
+    "format": "distractor",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_distractor_p3_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_distractor_p3_N512.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p3_N0",
+    "prompt_idx": 3,
+    "N": 0,
+    "actual_bloat_tokens": 0,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p3_N0.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p3_N0.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p3_N128",
+    "prompt_idx": 3,
+    "N": 128,
+    "actual_bloat_tokens": 128,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p3_N128.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p3_N128.pt"
+  },
+  {
+    "slug": "qwen3-14b_prefix_p3_N512",
+    "prompt_idx": 3,
+    "N": 512,
+    "actual_bloat_tokens": 512,
+    "format": "prefix",
+    "prompt_path": "phase7_circuit_tracing/prompts/qwen3-14b_prefix_p3_N512.txt",
+    "graph_path": "phase7_circuit_tracing/graphs/qwen3-14b_prefix_p3_N512.pt"
+  }
+]
