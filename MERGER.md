@@ -139,13 +139,13 @@ design.
 |---|---|---|---|---|---|
 | 1 | baseline refusal rates | Ayush | n/a | done | `results/qwen3-14b/baseline_summary.json` (harmful 0.937, harmless 0.014) |
 | 2 | V_refusal extraction (DiffMean) | Ayush | **18** (causal) | **done — rerun** | `results/qwen3-14b/refusal_direction/{meta.json, d_hat_all_layers.pt}` |
-| 3 | Guardrail Heads (DLA top-K) | NEW (Suraj P1 port) | — | **pending** | (planned: `results/qwen3-14b/guardrail_heads/`) |
+| 3 | Guardrail Heads (DLA top-K) | NEW (Suraj P1 port) | reads canonical_layer from refusal_direction/meta.json (=18) | **code landed; cluster run pending** | (planned: `results/qwen3-14b/guardrail_heads/`) |
 | 4 | matched d_hat* | Ayush | 20 | done; `cos_canonical=0.971`, "CLEAN" verdict — but verdict computed pre-cascade; recheck at layer 18 | `results/qwen3-14b/refusal_direction_matched/` |
 | 5 | style/vocab validity | Ayush | sbatch=18 | **not yet run** (validity dir empty) | `results/qwen3-14b/validity/` (empty) |
 | 6 | topic 2x2 ANOVA | Ayush | result stamped 20 | **stale — needs rerun at L18** | `results/qwen3-14b/topic_decouple/anova.json` |
 | 7 | policy vs harm AUC | Ayush | result stamped 20 | **stale — needs rerun at L18** | `results/qwen3-14b/policy_validity/aucs.json` |
 | 8 | binary refusal vs N | Ayush (split from old exp_2) | ablation_layer=20 | **stale — needs rerun at L18** | `results/qwen3-14b/context_sweep/summary.json` |
-| 9 | continuous projection vs N | Ayush exp_3 | layers=[20,24,28] | **stale — needs rerun at L18** | `results/qwen3-14b/projection_sweep.{json,png}` |
+| 9 | continuous projection vs N | Ayush exp_9 (orig dir `experiment_3/`, renamed) | layers=[20,24,28] | **stale — needs rerun at L18** | `results/qwen3-14b/projection_sweep.{json,png}` |
 | 10 | attention-mass on Guardrail Heads vs N | NEW (Suraj P2 H1 + P6 merged) | — | pending — depends on exp 3 | — |
 | 11 | activation steering rescue | NEW (Suraj P3) | — | pending — depends on exp 2,9 | — |
 | 12 | content-type ablation (Greg ext 2) | NEW | — | pending | — |

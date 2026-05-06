@@ -1,0 +1,309 @@
+\documentclass[11pt]{article}
+
+% ---------- packages ----------
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage[capitalize, noabbrev]{cleveref}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!60!black
+}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+\usepackage{enumitem}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  columns=fullflexible
+}
+
+% ---------- macros ----------
+\newcommand{\dhat}{\hat{d}}
+\newcommand{\dhatstar}{\hat{d}^{*}}
+\newcommand{\Vrefusal}{V_{\mathrm{refusal}}}
+\newcommand{\layerL}{\ell}
+\newcommand{\Ncontext}{N}
+\newcommand{\model}{Qwen3-14B}
+\newcommand{\advbench}{AdvBench}
+\newcommand{\alpaca}{Alpaca}
+\newcommand{\sorrybench}{SORRY-Bench}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+\theoremstyle{definition}
+\newtheorem{decisionrule}{Decision Rule}
+
+% ---------- title ----------
+\title{Attention Dilution: How Long Benign Context Erodes Refusal Behavior in \model{}}
+\author{
+  Ayush Kokande \\
+  New York University \\
+  \texttt{ayushkokande093@gmail.com}
+  \and
+  Suraj Mishra \\
+  New York University \\
+  \texttt{\todo{email}}
+}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+\begin{abstract}
+We study how a single refusal direction $\dhat$ in the residual stream of \model{} mediates safety behavior, and how that mediation degrades when harmful instructions are wrapped in long benign context. Using DiffMean on disjoint AdvBench/Alpaca splits, we extract $\dhat$ at every layer and identify layer~18 as the causal-ablation optimum: projecting $\dhat$ off the residual at layer~18 drives harmful-prompt refusal from $0.94$ to $0.00$ while leaving harmless-prompt refusal unchanged. We then run a four-experiment validity battery (matched verb/length, style/vocabulary, intent$\times$topic ANOVA, harm-vs-policy AUC) showing $\dhat$ tracks harm intent rather than domain shift, lexicon, topic, or generic compliance decline. Finally, we measure refusal rate and continuous projection onto $\dhat$ as a function of benign-context length $\Ncontext \in \{0, 128, \ldots, 32{,}768\}$, identify a small set of \emph{guardrail attention heads} via direct logit attribution onto $\dhat$, and trace how their attention mass shifts off harmful-instruction tokens as $\Ncontext$ grows. We propose a content-type ablation that resolves a discrepancy between Wikipedia-style and creative-writing bloat, and evaluate a LoRA-SFT plus DPO mitigation that recovers long-context refusal at bounded capability cost.
+\end{abstract}
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+\todo{2--3 paragraphs. Motivate: long-context safety, why mechanistic refusal direction is the right unit of analysis, headline finding (refusal dilutes with $\Ncontext$ at fixed instruction). Cite \citet{arditi2024refusal, zou2023representation, panickssery2024steering, lin2025truthfulqa}.}
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=*]
+  \item Re-derive a single causal refusal direction $\dhat$ in \model{} at layer~18 with a strict ablation criterion (\cref{sec:method-dhat}).
+  \item A four-experiment validity battery establishing $\dhat$ is harm-specific, not topic, lexicon, or policy-decline (\cref{sec:validity}).
+  \item Quantify long-context dilution of refusal in both binary and continuous form across $\Ncontext$ up to $32{,}768$ (\cref{sec:dilution}).
+  \item Mechanistic account via guardrail-head identification (DLA onto $\dhat$) and per-head attention-mass-on-harmful-tokens vs.~$\Ncontext$ (\cref{sec:mechanism}).
+  \item A content-type ablation that disentangles a Wikipedia-vs-creative-writing artefact in the dilution curve (\cref{sec:content-ablation}).
+  \item A LoRA-SFT~+~DPO mitigation that restores long-context refusal with bounded MMLU/GSM8K degradation (\cref{sec:mitigation}).
+\end{enumerate}
+
+% ============================================================
+\section{Related Work}
+\label{sec:related}
+
+\todo{Group references into four buckets.}
+
+\paragraph{Refusal as a single direction.} \citet{arditi2024refusal} and follow-ups.
+\paragraph{Activation steering.} \citet{panickssery2024steering, turner2023activation, zou2023representation}.
+\paragraph{Long-context safety failures.} \citet{anil2024manyshot} many-shot jailbreaking; \citet{wei2023jailbroken}.
+\paragraph{Mechanistic interpretability of attention.} \citet{olsson2022context, elhage2021framework, conmy2023automated}.
+
+% ============================================================
+\section{Setup}
+\label{sec:setup}
+
+\paragraph{Model.} \model{}: 40 transformer blocks, 40 query heads (GQA, 8 KV heads), $d_\mathrm{model}=5120$, 32K RoPE context. We disable thinking-mode (\texttt{enable\_thinking=False}) and post-strip any leftover $\langle\text{think}\rangle$ blocks before scoring.
+
+\paragraph{Data.} Harmful prompts: AdvBench \citep{zou2023advbench} \texttt{harmful\_behaviors.csv}. Harmless prompts: \alpaca{} \citep{taori2023alpaca} train split, empty-input rows after a content filter. Per-experiment row indices are pinned in \texttt{splits.json}; disjointness between $\dhat$ training and downstream evaluation pools is enforced.
+
+\paragraph{Refusal detector.} Fixed-list lowercased substring match on the first 200 characters of the post-think-block completion (18 markers; full list in \cref{app:refusal-detector}).
+
+\paragraph{Compute.} 2$\times$NVIDIA A100-80GB. Bf16 inference. Single-A100 OOM ceiling at $\Ncontext = 4096$ for full $[B,H,T,T]$ attention pattern capture; longer $\Ncontext$ uses reduce-on-the-fly hooks.
+
+\subsection{Baseline refusal rates (Exp.~1)}
+\label{sec:setup-baseline}
+
+Before any extraction or intervention, we measure the unconditioned refusal floor of the intact model on each pool. This serves as the reference point for the dilution sweep (\cref{sec:dilution}) and capability cost (\cref{sec:capability}), and as a sanity check that the chat template, decoding configuration, and refusal detector behave correctly on \model{}.
+
+\paragraph{Protocol.} Greedy decode (\texttt{temperature=0}, \texttt{seed=0}, \texttt{max\_new\_tokens=512}) with \texttt{enable\_thinking=False}. Each completion is passed through \texttt{strip\_think\_block} and scored by the refusal detector on the first 200 characters. No hooks, no ablation. Pool sizes: \advbench{} $n{=}520$, \alpaca{} $n{=}512$.
+
+\paragraph{Result.} Harmful refusal rate $0.937$, harmless refusal rate $0.014$. The harmless rate falls well below the $\leq 0.05$ threshold required by Decision Rule~\ref{rule:layer}, so the layer-selection criterion has headroom. The harmful rate of $0.937$ (rather than $\sim 1.0$) gives a meaningful binary signal for the dilution sweep: there is room to move both up (under steering) and down (under context bloat).
+
+\paragraph{Changes from the mid-semester check-in.} The mid-semester report used \emph{Experiment 1} as the label for the $\Vrefusal$-extraction step itself (last-token DiffMean over \advbench{} vs.~\alpaca{}). In the current chronology the extraction step is Exp.~2 (\cref{sec:method-dhat}); Exp.~1 is now the descriptive baseline above. Concretely:
+\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt]
+  \item \textbf{Model.} Qwen3-1.7B (mid-sem) $\to$ Qwen3-14B. The 1.7B refusal floor was too noisy to resolve a clean dilution signal at long $\Ncontext$; the 14B variant is safety-tuned, has a 32K RoPE context window, and yields a sharper $\dhat$.
+  \item \textbf{Sample size.} \advbench{} $n{=}520$, \alpaca{} $n{=}512$ (vs.~smaller mid-sem pools).
+  \item \textbf{Refusal detector.} Formalised as the canonical 18-marker, lowercased, first-200-character substring match used everywhere downstream (\cref{app:refusal-detector}). The mid-semester pipeline did not pin a single detector; the present definition is shared by Exp.~1--14.
+  \item \textbf{Thinking-mode safeguard.} Qwen3 emits $\langle\text{think}\rangle$ blocks that pollute residual-stream activations and refusal scoring. We force \texttt{enable\_thinking=False} at the chat-template level and additionally strip any leading $\langle\text{think}\rangle$ block post-hoc. The 1.7B mid-sem path did not surface this confound.
+  \item \textbf{Reviewer feedback addressed elsewhere.} The mid-semester reviewer raised that \advbench{} and \alpaca{} differ in surface form, so $\dhat$ may track domain shift rather than harm intent. Exp.~1 is intentionally not the answer to this; it is descriptive only. The four-experiment validity battery in \cref{sec:validity} is the response.
+\end{itemize}
+
+% ============================================================
+\section{Method: Extracting and Validating the Refusal Direction}
+\label{sec:method}
+
+\subsection{DiffMean extraction at every layer (Exp.~2)}
+\label{sec:method-dhat}
+
+For each transformer block $\layerL \in \{0, \ldots, 39\}$, we compute the last-token residual mean over disjoint harmful and harmless training pools and define
+\begin{equation}
+  \dhat_\layerL \;=\; \frac{\mu^{(\mathrm{harmful})}_\layerL - \mu^{(\mathrm{harmless})}_\layerL}{\lVert \mu^{(\mathrm{harmful})}_\layerL - \mu^{(\mathrm{harmless})}_\layerL \rVert_2}.
+\end{equation}
+
+\paragraph{Training pools.} \advbench{}[100:356) ($n{=}256$ harmful) and \alpaca{} (filtered, $n{=}256$ harmless), disjoint from the Exp.~8 sweep evaluation pool \advbench{}[0:100) and from the 24-prompt causal-ablation held-out pool \advbench{}[480:504). Per-experiment indices are pinned in \texttt{splits.json}; three known overlap warnings (none of which leak into Exp.~2 training) are listed in \cref{app:splits}.
+
+\subsection{Causal-ablation criterion for layer selection}
+For each candidate $\layerL$, we project $\dhat_\layerL$ \emph{out} of the residual stream at every block during a forward pass on a 24-prompt held-out harmful pool, and measure post-ablation refusal rate. The canonical layer minimizes post-ablation harmful refusal subject to harmless refusal staying near zero.
+
+\begin{decisionrule}[Layer selection]
+\label{rule:layer}
+$\layerL^{*} = \arg\min_{\layerL} \mathrm{Refuse}^{(\mathrm{harmful})}_{\mathrm{ablated}}(\layerL)$ subject to $\mathrm{Refuse}^{(\mathrm{harmless})}_{\mathrm{ablated}}(\layerL) \leq 0.05$.
+\end{decisionrule}
+
+\paragraph{Result.} For \model{}, $\layerL^{*} = 18$: post-ablation harmful refusal $0.00$ ($24/24$ unblocked), post-ablation harmless refusal $0.00$. Norm-criterion best layer is $39$ --- the maximum-norm $\dhat$ is not the causal optimum, so we adopt the strict ablation rule above as canonical.
+
+\todo{insert \cref{fig:layer-sweep}: norm criterion + causal criterion vs.~layer.}
+
+\paragraph{Changes from the mid-semester check-in.} The mid-semester pipeline (Qwen3-1.7B) selected $\layerL^{*}{=}22$ on a comparable causal criterion. Lifting to \model{} required two changes that together drove the canonical layer to 18:
+\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt]
+  \item \textbf{Selection criterion.} An initial 14B run picked $\layerL^{*}{=}20$ using a norm-only criterion (largest $\lVert \mu^{(\mathrm{harmful})}_\layerL - \mu^{(\mathrm{harmless})}_\layerL \rVert$). A subsequent strict-causal rerun on the 24-prompt held-out pool dropped the choice to layer 18 ($0.000$ post-ablation harmful, vs.~$0.083$ at layer 20). The mid-sem 1.7B causal pick of layer 22 does \emph{not} transfer: at 14B, ablating $\dhat_{22}$ leaves harmful refusal at $0.708$. Layer 18 is now canonical and propagated downstream to Exp.~3--14.
+  \item \textbf{Layer scales with depth, but criterion sets the operating point.} An independent 14B extraction in our archive (Suraj's Phase 1, different ablation eval pool and refusal detector) reported $\layerL^{*}{=}24$. Same model, same DiffMean recipe; the 24~vs.~18 gap is the operating-point difference between criteria. We treat that L24 head ranking as a robustness reference for Exp.~3 (\cref{sec:mechanism}) but do not adopt it as the canonical layer.
+  \item \textbf{Pool indices pinned.} Mid-semester used ad-hoc slices; we now pin training pools \advbench{}[100:200), \alpaca{}[0:100) in \texttt{splits.json} so that downstream evaluation pools (Exp.~6/7/8/9) are provably disjoint from the $\dhat$ training set, except for three documented overlaps flagged in \cref{app:splits}.
+  \item \textbf{Inherited.} Refusal detector, \texttt{enable\_thinking=False}, and \texttt{strip\_think\_block} are shared with Exp.~1 (\cref{sec:setup-baseline}).
+\end{itemize}
+
+% ============================================================
+\section{Validity Battery}
+\label{sec:validity}
+
+A reviewer flagged that AdvBench and \alpaca{} differ in surface form, so $\dhat$ may track domain shift rather than harm intent. We address this with four preregistered experiments.
+
+\subsection{Matched verb/length pools (Exp.~4)}
+We construct verb-class- and word-length-matched harmful/harmless pools, re-extract $\dhatstar$, and compute per-layer $\cos(\dhat, \dhatstar)$.
+
+\begin{decisionrule}[Matched pool] $\cos(\dhat,\dhatstar) \geq 0.90$ at $\layerL^{*}$ $\Rightarrow$ clean. $\leq 0.70$ $\Rightarrow$ contaminated. \end{decisionrule}
+
+\paragraph{Result.} $\cos = 0.971$ at $\layerL=20$; recheck at $\layerL=18$ \todo{insert L18 number}.
+
+\subsection{Style/vocabulary (Exp.~5)}
+\todo{Edgy$\times$Polite $\times$ harmful$\times$harmless. Within-intent style effect must be small relative to intent effect.}
+
+\subsection{Intent $\times$ Topic 2$\times$2 ANOVA (Exp.~6)}
+2$\times$2 factorial \{harmful, harmless\} $\times$ \{violent, mundane\}; outcome is projection onto $\dhat$.
+
+\begin{decisionrule}[Topic decoupling] Partial $\eta^2(\text{intent}) \geq 0.5$ AND $\eta^2(\text{topic}) \leq 0.1$. \end{decisionrule}
+\paragraph{Result.} $\eta^2(\text{intent})=0.894$, $\eta^2(\text{topic})=0.089$ at $\layerL=20$; rerun at $\layerL=18$ \todo{}.
+
+\subsection{Harm-refusal vs.~policy-refusal AUC (Exp.~7)}
+Harm-refusal pool: AdvBench[50:100). Policy-refusal pool: \sorrybench{} \citep{xie2024sorrybench} categories 41--45.
+\begin{decisionrule}[Policy specificity] $\mathrm{AUC}(\text{harm vs.~policy}) \geq 0.85$. \end{decisionrule}
+\paragraph{Result.} $\mathrm{AUC} = 0.926$ at $\layerL=20$; rerun at $\layerL=18$ \todo{}.
+
+% ============================================================
+\section{Long-Context Dilution}
+\label{sec:dilution}
+
+\subsection{Setup}
+We wrap each harmful prompt $p$ in a benign prefix of length $\Ncontext$ tokens and measure (a) binary refusal rate and (b) continuous projection of the last-token residual onto $\dhat_{18}$.
+
+\paragraph{Grid.} $\Ncontext \in \{0, 128, 512, 1024, 2048, 4096, 8192, 16384, 32768\}$, capped at the model's 32K RoPE window to avoid YaRN extrapolation confounds.
+
+\paragraph{Bloat content.} Two candidates: a Wikipedia-style passage (Ayush) and a creative-writing passage (Suraj). \cref{sec:content-ablation} disentangles their effect.
+
+\subsection{Binary refusal rate (Exp.~8)}
+\todo{insert \cref{tab:exp8}: refusal rate by $\Ncontext$, two arms (intact vs.~ablated). Falsifiability check: ablated arm flat at $\sim 0.00$ across $\Ncontext$.}
+
+\subsection{Continuous projection (Exp.~9)}
+\todo{insert \cref{fig:exp9}: $\langle h_\layerL^{(\text{last})}, \dhat_\layerL \rangle$ vs.~$\Ncontext$ for $\layerL \in \{18, 24, 28\}$.}
+
+% ============================================================
+\section{Mechanism: Guardrail Heads and Attention Dilution}
+\label{sec:mechanism}
+
+\subsection{Identifying guardrail heads via DLA (Exp.~3)}
+For each (layer, head), compute its per-token output written to the residual, dot with $\dhat_{18}$, average over harmful prompts. Top-$K$ by elbow on cumulative DLA mass.
+
+\todo{insert table: top-8 heads (layer, head, DLA score). Compare to Suraj's $\layerL=24$ top-1 (L22H7) as robustness check.}
+
+\subsection{Attention mass on harmful tokens vs.~$\Ncontext$ (Exp.~10)}
+\paragraph{Hypothesis.} Guardrail heads' attention mass on harmful-instruction tokens decreases monotonically as $\Ncontext$ grows; control heads stay flat.
+
+\todo{insert \cref{fig:exp10}: per-head attn-mass vs.~$\Ncontext$, guardrail vs.~control, $\Ncontext \leq 4096$ due to OOM ceiling.}
+
+\subsection{Activation-steering rescue (Exp.~11)}
+Adding $\alpha \cdot \dhat_{18}$ at the target layer restores refusal at long $\Ncontext$.
+\todo{insert $\alpha \times \Ncontext$ heatmap; MMLU-50 sanity gate.}
+
+% ============================================================
+\section{Content-Type Ablation}
+\label{sec:content-ablation}
+
+A pilot showed an $\Ncontext{=}128$ dip with creative-writing bloat that vanished with Wikipedia-style bloat. We treat \emph{content type} as a row factor and rerun the binary and continuous metrics.
+
+\paragraph{Cells.} \{Wikipedia, creative-writing, code, multi-turn, distractor instructions, many-shot\} $\times$ $\Ncontext$ grid.
+
+\begin{decisionrule}[Content artefact]
+If the $\Ncontext{=}128$ dip appears only on creative-writing, it is a content artefact and is excluded from the headline; otherwise it is promoted to a real finding. The cleanest monotone cell becomes the canonical bloat for Exp.~8.
+\end{decisionrule}
+
+\todo{insert content$\times \Ncontext$ matrix.}
+
+% ============================================================
+\section{Mitigation: LoRA SFT + DPO}
+\label{sec:mitigation}
+
+\todo{Long-context refusal training data (harmful instruction wrapped in benign $\Ncontext$-token prefix, paired with refusal). Stage 1: LoRA SFT. Stage 2: DPO with non-refusal completions as negatives. Eval on held-out long-$\Ncontext$ AdvBench split + capability set.}
+
+\begin{decisionrule}[Mitigation]
+Long-$\Ncontext$ refusal reaches the intact-baseline $\Ncontext{=}0$ floor; capability drop $\leq$ \todo{X} percentage points on MMLU/GSM8K.
+\end{decisionrule}
+
+% ============================================================
+\section{Capability Cost}
+\label{sec:capability}
+
+We extend the standard intact-vs-ablated capability check by adding $\Ncontext$ as a row factor.
+
+\paragraph{Benchmarks.} MMLU (200 items, held out) and GSM8K (50 items).
+\todo{insert per-arm per-$\Ncontext$ accuracy table.}
+
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+\todo{Two paragraphs. (a) What dilution implies for safety training: refusal is a localized signal at a small head set, and that signal can be drowned by attention mass spreading over benign tokens. (b) Why mitigation works: training data forces guardrail heads to keep attention on the harmful span even when the prefix is long.}
+
+% ============================================================
+\section{Limitations}
+\label{sec:limitations}
+\begin{itemize}[leftmargin=*]
+  \item Single model family (\model{}); no cross-model replication.
+  \item Refusal detector is a substring matcher; does not catch refusals expressed via tone or hedging without canonical tokens.
+  \item Three known overlap warnings in \texttt{splits.json}; the Exp.~6 harmless-mundane cell shares prompts with the $\dhat$ training pool (flagged, not corrected).
+  \item Attention-mass measurement is OOM-bounded at $\Ncontext = 4096$; longer-context rows are inferred indirectly via projection.
+  \item Mitigation evaluated on held-out long-$\Ncontext$ AdvBench only; no red-team evaluation.
+\end{itemize}
+
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+\todo{One paragraph. Refusal in \model{} is mediated by a single direction at layer~18, decisively harm-specific by four validity tests, and dilutes monotonically with benign context length via attention mass shifting off harmful tokens at a small set of guardrail heads. The failure mode is correctable by either inference-time steering or LoRA+DPO finetuning.}
+
+% ============================================================
+\section*{Author Contributions}
+\todo{Brief split: Ayush led $\dhat$ extraction at 14B, validity battery (Exp.~4--7), binary and continuous sweeps (Exp.~8/9). Suraj led guardrail-head identification (Exp.~3), attention-mass analysis (Exp.~10), steering rescue (Exp.~11), capability evaluation (Exp.~14). Both contributed to content-type ablation (Exp.~12) and mitigation (Exp.~13).}
+
+\section*{Acknowledgements}
+\todo{Course staff; Greg (advisor) for content-type and mitigation extensions; NYU HPC.}
+
+% ============================================================
+\bibliography{refs}
+
+% ============================================================
+\appendix
+
+\section{Refusal Detector}
+\label{app:refusal-detector}
+\todo{18-marker substring list; case handling; first-200-char window; \texttt{strip\_think\_block} contract.}
+
+\section{Splits and Disjointness}
+\label{app:splits}
+\todo{Reproduce table from \texttt{splits.json}: per-experiment AdvBench and Alpaca row indices, three known overlap warnings.}
+
+\section{Hyperparameters}
+\label{app:hparams}
+\todo{Decoding (greedy, max\_new\_tokens), batch sizes per $\Ncontext$, LoRA rank/alpha/dropout, DPO $\beta$, optimizer, learning rate.}
+
+\section{Additional Figures}
+\label{app:figures}
+\todo{Per-layer $\cos(\dhat, \dhatstar)$ curve; per-arm refusal-vs-$\Ncontext$ on all content types; head DLA heatmap.}
+
+\end{document}

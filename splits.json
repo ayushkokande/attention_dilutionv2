@@ -14,7 +14,12 @@
       "alpaca": [0, 100],
       "constant": "SWEEP_HARMFUL_N=100"
     },
-    "experiment_3_projection_sweep": {
+    "experiment_3_guardrail_heads": {
+      "purpose": "DLA per-head onto d_hat at canonical L_read; reuses Exp.2 causal-sweep held-out pool so heads are scored on the same prompts that defined L_read",
+      "advbench": [480, 504],
+      "alpaca": "n/a"
+    },
+    "experiment_9_projection_sweep": {
       "purpose": "continuous projection vs N",
       "advbench": [0, 100],
       "alpaca": "n/a"

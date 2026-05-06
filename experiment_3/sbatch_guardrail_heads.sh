@@ -1,23 +1,20 @@
 #!/bin/bash
-#SBATCH --job-name=qwen3_14b_proj
+#SBATCH --job-name=qwen3_14b_guard
 #SBATCH --account=csci_ga_3033_131-2026sp
 #SBATCH --partition=c24m170-a100-2
 #SBATCH --gres=gpu:2
-#SBATCH --time=04:00:00
-#SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_proj_%j.out
-#SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_proj_%j.err
+#SBATCH --time=02:00:00
+#SBATCH --output=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_guard_%j.out
+#SBATCH --error=/scratch/ak13124/attention_dilutionv2/logs/qwen3_14b_guard_%j.err
 
-# Experiment 3 / step 1: activation-projection sweep.
-# Forward-only (no generate) — captures the residual at the harmful-instruction's
-# last token at chosen layers and projects onto d_hat[layer]. Measures the
-# *continuous* refusal signal that context_sweep.py's binary refusal rate is a
-# thresholded function of.
+# Experiment 3: Guardrail Heads via Direct Logit Attribution onto d_hat at
+# the canonical read-out layer (L18 for Qwen3-14B per Exp.2 causal sweep).
 #
 # Prereq: experiment_2/sbatch_refusal_direction.sh must have produced
-#   results/qwen3-14b/refusal_direction/d_hat_all_layers.pt
+#   results/qwen3-14b/refusal_direction/{d_hat_all_layers.pt, meta.json}
 #
 # Submit:
-#   sbatch experiment_3/sbatch_projection_sweep.sh
+#   sbatch experiment_3/sbatch_guardrail_heads.sh
 
 set -euo pipefail
 
@@ -27,14 +24,12 @@ OVERLAY="${SCRATCH}/overlay-25GB-500K.ext3:ro"
 REPO="${SCRATCH}/attention_dilutionv2"
 
 MODEL="Qwen/Qwen3-14B"
-# Same L grid as context_sweep so the two metrics are directly comparable cell
-# by cell. Stay <=32K to avoid the YaRN extrapolation confound.
-LENGTHS="0 512 2048 8192 16384 32768"
-# Layer 18 is meta.json:default_layer (causal-ablation canonical, step 2);
-# 24/28 are suggested_layers_to_try.
-LAYERS="18 24 28"
-HARMFUL_N=100
-SEED=0
+# Reuse the held-out pool that defined L_read in Exp.2 causal sweep
+# (AdvBench[480:504], n=24). Disjoint from d_hat training and from exp_8 sweep eval.
+N_PROMPTS=24
+START_IDX=480
+TOP_K=12
+BATCH_SIZE=4
 
 mkdir -p "${REPO}/logs"
 
@@ -69,8 +64,7 @@ echo \"=== preflight | REPO=\$(pwd) ===\"
 ls -la
 
 missing=0
-for f in requirements.txt experiment_1/utils.py experiment_8/context_sweep.py \
-         experiment_3/projection_sweep.py \
+for f in requirements.txt experiment_1/utils.py experiment_3/guardrail_heads.py \
          results/qwen3-14b/refusal_direction/d_hat_all_layers.pt \
          results/qwen3-14b/refusal_direction/meta.json; do
   if [ ! -e \"\$f\" ]; then
@@ -91,22 +85,22 @@ fi
 source .venv/bin/activate
 uv pip install --python .venv/bin/python -r requirements.txt
 
-echo \"=== qwen3_14b_projection_sweep | job \${SLURM_JOB_ID:-local} ===\"
+echo \"=== qwen3_14b_guardrail_heads | job \${SLURM_JOB_ID:-local} ===\"
 echo \"Repo : \$(pwd)\"
 echo \"CUDA : \${CUDA_VISIBLE_DEVICES:-unset}\"
 nvidia-smi --query-gpu=index,name,memory.total,driver_version --format=csv || true
 python -c 'import torch; print(\"torch\", torch.__version__, \"cuda\", torch.cuda.is_available(), \"ngpu\", torch.cuda.device_count())'
 
-time python experiment_3/projection_sweep.py \
+time python experiment_3/guardrail_heads.py \
     --model \"${MODEL}\" \
     --dtype bfloat16 \
     --refusal-dir results/qwen3-14b/refusal_direction \
-    --lengths ${LENGTHS} \
-    --layers ${LAYERS} \
-    --harmful-n ${HARMFUL_N} \
-    --seed ${SEED}
+    --n-prompts ${N_PROMPTS} \
+    --start-idx ${START_IDX} \
+    --top-k ${TOP_K} \
+    --batch-size ${BATCH_SIZE}
 
 echo
 echo \"=== done ===\"
-ls -la results/qwen3-14b/projection_sweep.* || true
+ls -la results/qwen3-14b/guardrail_heads || true
 "
