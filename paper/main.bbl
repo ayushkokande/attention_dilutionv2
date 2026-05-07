@@ -1,0 +1,94 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anil et~al.(2024)Anil, Durmus, Sharma, Benton, Kundu, Batson, Rimsky,
+  Tong, Mu, Ford, et~al.]{anil2024manyshot}
+Cem Anil, Esin Durmus, Mrinank Sharma, Joe Benton, Sandipan Kundu, Joshua
+  Batson, Nina Rimsky, Meg Tong, Jesse Mu, Daniel Ford, et~al.
+\newblock Many-shot jailbreaking.
+\newblock In \emph{NeurIPS}, 2024.
+
+\bibitem[Arditi et~al.(2024)Arditi, Obeso, Syed, Paleka, Panickssery, Gurnee,
+  and Nanda]{arditi2024refusal}
+Andy Arditi, Oscar Obeso, Aaquib Syed, Daniel Paleka, Nina Panickssery, Wes
+  Gurnee, and Neel Nanda.
+\newblock Refusal in language models is mediated by a single direction.
+\newblock \emph{arXiv preprint arXiv:2406.11717}, 2024.
+
+\bibitem[Goldowsky-Dill et~al.(2023)Goldowsky-Dill, MacLeod, Sato, and
+  Arora]{goldowskydill2023patching}
+Nicholas Goldowsky-Dill, Chris MacLeod, Lucas Sato, and Aryaman Arora.
+\newblock Localizing model behavior with path patching.
+\newblock \emph{arXiv preprint arXiv:2304.05969}, 2023.
+
+\bibitem[Jin et~al.(2024)]{jin2024jailbreaklens}
+Zhe Jin et~al.
+\newblock Jailbreaklens: Interpreting jailbreak mechanism in the lens of
+  representation and circuit.
+\newblock \emph{arXiv preprint}, 2024.
+
+\bibitem[Liu et~al.(2024)Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni, and
+  Liang]{liu2024lostmiddle}
+Nelson~F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua,
+  Fabio Petroni, and Percy Liang.
+\newblock Lost in the middle: How language models use long contexts.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  2024.
+
+\bibitem[Nanda and Bloom(2022)]{nanda2022transformerlens}
+Neel Nanda and Joseph Bloom.
+\newblock Transformerlens.
+\newblock \url{https://github.com/neelnanda-io/TransformerLens}, 2022.
+
+\bibitem[Panickssery et~al.(2024)Panickssery, Gabrieli, Schulz, Tong, Hubinger,
+  and Turner]{panickssery2024steering}
+Nina Panickssery, Nick Gabrieli, Julian Schulz, Meg Tong, Evan Hubinger, and
+  Alexander~Matt Turner.
+\newblock Steering llama 2 via contrastive activation addition.
+\newblock \emph{arXiv preprint arXiv:2312.06681}, 2024.
+
+\bibitem[Taori et~al.(2023)Taori, Gulrajani, Zhang, Dubois, Li, Guestrin,
+  Liang, and Hashimoto]{taori2023alpaca}
+Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos
+  Guestrin, Percy Liang, and Tatsunori~B. Hashimoto.
+\newblock Stanford alpaca: An instruction-following llama model.
+\newblock \url{https://github.com/tatsu-lab/stanford_alpaca}, 2023.
+
+\bibitem[Turner et~al.(2023)Turner, Thiergart, Leech, Udell, Vazquez, Mini, and
+  MacDiarmid]{turner2023activation}
+Alexander~Matt Turner, Lisa Thiergart, Gavin Leech, David Udell, Juan~J.
+  Vazquez, Ulisse Mini, and Monte MacDiarmid.
+\newblock Activation addition: Steering language models without optimization.
+\newblock \emph{arXiv preprint arXiv:2308.10248}, 2023.
+
+\bibitem[Wollschl{\"a}ger et~al.(2025)]{wollschlaeger2025geometry}
+Tom Wollschl{\"a}ger et~al.
+\newblock The geometry of refusal in large language models.
+\newblock \emph{arXiv preprint arXiv:2502.17420}, 2025.
+
+\bibitem[Xie et~al.(2024)Xie, Qi, Zeng, Huang, Sehwag, Huang, He, Wei, Li,
+  Sheng, et~al.]{xie2024sorrybench}
+Tinghao Xie, Xiangyu Qi, Yi~Zeng, Yangsibo Huang, Udari~Madhushani Sehwag,
+  Kaixuan Huang, Luxi He, Boyi Wei, Dacheng Li, Ying Sheng, et~al.
+\newblock Sorry-bench: Systematically evaluating large language model safety
+  refusal behaviors.
+\newblock \emph{arXiv preprint arXiv:2406.14598}, 2024.
+
+\bibitem[Zhao et~al.(2025)]{zhao2025separately}
+Jiachen Zhao et~al.
+\newblock Llms encode harmfulness and refusal separately.
+\newblock \emph{arXiv preprint arXiv:2507.11878}, 2025.
+
+\bibitem[Zou et~al.(2023)Zou, Wang, Carlini, Nasr, Kolter, and
+  Fredrikson]{zou2023advbench}
+Andy Zou, Zifan Wang, Nicholas Carlini, Milad Nasr, J.~Zico Kolter, and Matt
+  Fredrikson.
+\newblock Universal and transferable adversarial attacks on aligned language
+  models.
+\newblock \emph{arXiv preprint arXiv:2307.15043}, 2023.
+
+\end{thebibliography}
