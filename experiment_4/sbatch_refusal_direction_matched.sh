@@ -124,6 +124,12 @@ python experiment_4/curate_matched_pools.py
 
 echo
 echo "=== step 2: refusal-direction forward pass on matched pools ==="
+# Causal-ablation-n: reuse exp_2's held-out pool (AdvBench[480:504],
+# n=24, default). Earlier runs passed --causal-ablation-n 0 which left
+# meta.json:causal_sweep_records=[] and forced compare_directions.py to
+# inherit canonical_layer=18 from the orig d_hat. Run the sweep on
+# matched d_hat* as well so canonical_layer is independently validated
+# against the same held-out causal pool used for orig.
 time python experiment_2/refusal_direction.py \
     --model "${MODEL}" \
     --dtype bfloat16 \
@@ -131,7 +137,7 @@ time python experiment_2/refusal_direction.py \
     --harmful-file experiment_4/data/matched_harmful.jsonl \
     --harmless-file experiment_4/data/matched_harmless.jsonl \
     --output-dir ${MATCHED_OUT} \
-    --causal-ablation-n 0
+    --causal-ablation-n 24
 
 echo
 echo "=== step 3: cosine similarity d_hat vs d_hat* per layer (canonical L${CANONICAL_LAYER}) ==="

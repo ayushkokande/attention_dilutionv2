@@ -328,12 +328,44 @@ $\Lread{=}36$ as canonical.}
 \subsection{Identifying Guardrail Heads via direct logit attribution}
 \label{sec:guardrail-heads}
 
+\paragraph{Read-layer choice.}
+The mechanistic analyses in this section and in
+\cref{sec:mechanism,sec:pathpatching} read off the refusal direction
+at $\Lread{=}36$ rather than at the causal-canonical layer
+$\layerL{=}18$. The two layers serve different purposes: $\layerL{=}18$
+is the layer at which projecting out $\dhat$ collapses refusal-rate to
+zero on the held-out pool (causal-best, \cref{sec:method-dhat}), so it
+is the right site to \emph{intervene}; $\Lread{=}36$ is the last block
+before the unembed where the $\dhat$ projection magnitude is largest
+and the corresponding refusal-vs-compliance logit gap is most
+resolvable, so it is the right site to \emph{read out}. The per-layer
+diff-of-means $\dhat_\layerL$ bank is monotonically growing in norm
+(\cref{fig:phase1-norms}) and aligned across the bulk of the network,
+so $\dhat_{18}$ and $\dhat_{36}$ point in the same direction up to
+scale; they differ in magnitude, not in what they encode.
+
+\paragraph{DLA at $\Lread{=}36$.}
 With $\Lread{=}36$ fixed, for each $(\layerL, h)$ with
 $\layerL \leq 36$ we project the head's per-token contribution at the
 final instruction position onto $\dhat_{36}$ and average over $24$
 harmful prompts. Top-12 heads form the Guardrail Set
 (\cref{tab:guardrail}); a single head, \textbf{L36H31}, dominates
 ($+15.4$, $2.3\times$ the next head).
+
+\paragraph{DLA at $\Lread{=}18$ (complementary view).}
+Repeating the same analysis at $\Lread{=}18$ (the causal-canonical
+layer; only $\layerL \leq 18$ heads can score) puts a different head
+at the top: \textbf{L15H4} (DLA $1.52$, $2.7\times$ the next).
+The two read-layers thus surface complementary parts of the
+refusal circuit. The L36-readoff DLA is dominated by late-layer
+write-ins to the readoff residual (L33--L36 family); the L18-readoff
+DLA surfaces early-to-mid heads (L13--L17) that build the refusal
+direction in the first place. The mechanistic story
+(\cref{sec:mechanism,sec:pathpatching}) follows the L36 chain because
+that is where the attentional collapse is visible and patchable; the
+L18-readoff result is a sanity check that the canonical-layer
+direction is constructed by a non-trivial set of upstream heads, not
+imported wholesale from a single early head.
 
 \begin{table}[t]
 \centering\small
