@@ -1,6 +1,6 @@
 {
   "decision_constants": {
-    "layer": 18,
+    "layer": 20,
     "intent_eta2_hi": 0.5,
     "topic_eta2_lo": 0.1
   },
@@ -38,6 +38,35 @@
           "auc_intent": 1.0,
           "auc_topic": 0.6307
         },
+        "20": {
+          "terms": {
+            "C(intent)": {
+              "sum_sq": 121237.6747910227,
+              "df": 1.0,
+              "F": 1647.8584484765076,
+              "p": 2.394384032918201e-97,
+              "partial_eta2": 0.8937011676997519
+            },
+            "C(topic)": {
+              "sum_sq": 1434.2310427908099,
+              "df": 1.0,
+              "F": 19.49402069120771,
+              "p": 1.6659829082213352e-05,
+              "partial_eta2": 0.0904620027445758
+            },
+            "C(intent):C(topic)": {
+              "sum_sq": 48.37017350985004,
+              "df": 1.0,
+              "F": 0.6574457915814718,
+              "p": 0.41844658948890195,
+              "partial_eta2": 0.003343101446960905
+            }
+          },
+          "residual_df": 196.0,
+          "r_squared": 0.8948503447181072,
+          "auc_intent": 1.0,
+          "auc_topic": 0.6102
+        },
         "28": {
           "terms": {
             "C(intent)": {
@@ -68,7 +97,7 @@
           "auc_topic": 0.5604
         }
       },
-      "verdict_layer18": "MIXED \u2014 intent dominates but topic non-trivial; orthogonalise as robustness check."
+      "verdict_decision_layer": "CLEAN \u2014 d_hat tracks harmful intent; topic effect negligible."
     },
     {
       "name": "refusal_direction_matched",
@@ -103,6 +132,35 @@
           "auc_intent": 0.9999,
           "auc_topic": 0.6224
         },
+        "20": {
+          "terms": {
+            "C(intent)": {
+              "sum_sq": 112809.317719133,
+              "df": 1.0,
+              "F": 1350.326374122723,
+              "p": 7.480876436633444e-90,
+              "partial_eta2": 0.8732479745026682
+            },
+            "C(topic)": {
+              "sum_sq": 1166.0251265615998,
+              "df": 1.0,
+              "F": 13.957308785485804,
+              "p": 0.0002451890825206377,
+              "partial_eta2": 0.06647688935537861
+            },
+            "C(intent):C(topic)": {
+              "sum_sq": 5.943426148276202,
+              "df": 1.0,
+              "F": 0.07114274993356165,
+              "p": 0.7899605574958347,
+              "partial_eta2": 0.00036284151219690775
+            }
+          },
+          "residual_df": 196.0,
+          "r_squared": 0.8743875452063735,
+          "auc_intent": 0.9998,
+          "auc_topic": 0.5866
+        },
         "28": {
           "terms": {
             "C(intent)": {
@@ -133,7 +191,7 @@
           "auc_topic": 0.558
         }
       },
-      "verdict_layer18": "MIXED \u2014 intent dominates but topic non-trivial; orthogonalise as robustness check."
+      "verdict_decision_layer": "CLEAN \u2014 d_hat tracks harmful intent; topic effect negligible."
     }
   ]
 }
