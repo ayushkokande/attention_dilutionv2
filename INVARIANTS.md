@@ -34,13 +34,16 @@ Two remaining overlap warnings live in `splits.json:overlap_warnings`: exp_6 and
 
 ## Refusal direction
 
-**Canonical: layer 18** (Qwen3-14B, causal-ablation criterion, step 2 rerun).
+**Canonical: layer 36** (Qwen3-14B, causal-ablation criterion under Suraj-style
+24-token / 26-phrase judge, exp_2 reconcile rerun 2026-05-07).
 
-- Step 2 result: `results/qwen3-14b/refusal_direction/meta.json` — causal_best_layer=18 (ablated_harmful=0.00, ablated_harmless=0.00 on 24-prompt held-out pool), norm_best_layer=39.
-- Prior values for the record: Ayush exp_2 norm-criterion was layer 20; Suraj 14B archive causal was layer 24; old 1.7B mid-sem causal was layer 22.
+- Step 2 result: `results/qwen3-14b/refusal_direction/meta.json` — causal_best_layer=36, canonical_layer=36, norm_best_layer=39. Six layers tied at ablated_harmful=0.0 on the 24-prompt held-out pool ({18, 26, 28, 30, 32, 36}); tiebreak (`abs(layer - norm_best_layer)`, see `experiment_2/refusal_direction.py:338-345`) picks L36 (closest to peak-norm L39).
+- Selection-judge config: `causal_judge_config.judge = "suraj_substring_match"`, `max_new_tokens = 24`, `n_phrases = 26`. Stricter than the project-default behavioral judge (`experiment_1/utils.py:looks_like_refusal`, 17 phrases, 128-token window) which over-counts tail-refusal at causally-effective layers and biases the canonical pick toward early layers. The reconciliation rationale and the L36-vs-L18 numbers are recorded in commit history (`a90d2c6` / `381d05e`).
+- Prior canonical values for the record: 128-token-judge causal pick was layer 18 (uniquely zero post-ablate under that judge, no tiebreak fired); norm-criterion is layer 39; old Suraj 14B-archive causal was layer 36 (matches current); old 1.7B mid-sem causal was layer 22.
 - d_hat artifact: `results/qwen3-14b/refusal_direction/d_hat_best_layer.pt` (`{V_refusal, layer}`); per-layer bank: `d_hat_all_layers.pt`.
+- L22 anomaly: independent of judge or pool, `d_hat[22]` fails causally (~0.7 post-ablate harmful refusal) while neighbors L20 / L24 succeed. Real layer-22 brittleness in Qwen3-14B's diff-of-means geometry; both Ayush and Suraj sweeps reproduce.
 
-Cascade impact: layer changed 20 → 18, so downstream consumers must rerun against the new d_hat: experiments 3 (head identification), 4 (matched d_hat*), 5/6/7 (validity battery), 8 (binary sweep), 9 (continuous projection), 10 (attention mass), 11 (steering), 13 (mitigation training data), 14 (capability cost ablation arm).
+Cascade impact: layer changed 18 → 36 (reconcile rerun), so downstream consumers re-run against the new d_hat: experiments 3 (head identification, done — top heads L36H31 / L35H38 / L33H35 reproduce Suraj's circuit), 4 (matched d_hat*), 5/6/7 (validity battery; preregistered DECISION_LAYER constants in `experiment_6/eval_topic_decouple.py`, `experiment_6/orthogonalise_topic.py`, `experiment_7/eval_policy_vs_harm.py` were updated 18 → 36 — frame any paper writeup as "primary analysis at reconciled canonical L36"), 8 (binary sweep, ABLATION_LAYER), 9 (continuous projection), 10 (attention mass), 11 (steering), 13 (mitigation training data), 14 (capability cost ablation arm).
 
 ## Bloat content (context-scaling experiments only)
 

@@ -10,7 +10,8 @@ and computes:
       AUC(policy vs harmless) does d_hat fire on policy refusals at all?
       AUC(harm vs policy)     KEY: does d_hat distinguish harm from policy?
 
-Decision rule (preregistered, applied to first refusal-dir at layer 18):
+Decision rule (preregistered, applied to first refusal-dir at canonical layer
+— L36 post Suraj-judge reconcile, was L18 under long-window judge):
   AUC(harm vs policy) >= 0.85          -> HARM_SPECIFIC (paper headline holds)
   AUC(harm vs policy) in [0.65, 0.85)  -> MIXED (caveat required)
   AUC(harm vs policy) < 0.65           -> REFUSAL_GENERIC (reframe paper)
@@ -44,8 +45,8 @@ from refusal_direction import slug_from_model  # type: ignore
 
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
-DEFAULT_LAYERS = [18, 28]
-DECISION_LAYER = 18
+DEFAULT_LAYERS = [36, 28]
+DECISION_LAYER = 36
 DECISION_AUC_HARM_SPECIFIC = 0.85
 DECISION_AUC_MIXED_LO = 0.65
 

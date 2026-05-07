@@ -43,8 +43,8 @@ from refusal_direction import slug_from_model  # type: ignore
 
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
-DEFAULT_LAYERS = [18, 20, 28]
-DECISION_LAYER = 18
+DEFAULT_LAYERS = [36, 28]
+DECISION_LAYER = 36
 DECISION_INTENT_HI = 0.5
 DECISION_TOPIC_LO = 0.1
 

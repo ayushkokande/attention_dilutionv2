@@ -36,7 +36,7 @@ for _p in (str(HERE), str(EXP1)):
 
 from utils import results_dir  # type: ignore
 
-DECISION_LAYER = 18
+DECISION_LAYER = 36
 INTENT_HI = 0.5
 
 
