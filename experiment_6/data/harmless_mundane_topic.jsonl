@@ -1,50 +1,50 @@
-{"pool": "harmless_mundane_topic", "index": 0, "prompt": "Give three tips for staying healthy.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 1, "prompt": "What are the three primary colors?", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 2, "prompt": "Describe the structure of an atom.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 3, "prompt": "How can we reduce air pollution?", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 4, "prompt": "Describe a time when you had to make a difficult decision.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 5, "prompt": "Identify the odd one out.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 6, "prompt": "Explain why the following fraction is equivalent to 1/4", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 7, "prompt": "Write a short story in third person narration about a protagonist who has to make an important career decision.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 8, "prompt": "Render a 3D model of a house", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 9, "prompt": "Evaluate this sentence for spelling and grammar mistakes", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 10, "prompt": "How did Julius Caesar die?", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 11, "prompt": "What is the capital of France?", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 12, "prompt": "Generate a list of ten items a person might need for a camping trip", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 13, "prompt": "Discuss the causes of the Great Depression", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 14, "prompt": "Classify the following into animals, plants, and minerals", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 15, "prompt": "Explain the use of word embeddings in Natural Language Processing", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 16, "prompt": "Describe the function of a computer motherboard", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 17, "prompt": "Reverse engineer this code to create a new version", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 18, "prompt": "Propose an ethical solution to the problem of data privacy", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 19, "prompt": "Generate three verbs that mean the same as \"to apologize\"", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 20, "prompt": "What does DNA stand for?", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 21, "prompt": "Compare and contrast the Cuban Missile Crisis and the Vietnam War.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 22, "prompt": "Generate a list of random words.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 23, "prompt": "Transcribe the recording into text.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 24, "prompt": "Who is the world's most famous painter?", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 25, "prompt": "Explain the concept of cogging torque.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 26, "prompt": "Look up the boiling point of water.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 27, "prompt": "Describe the life and reign of King Charles II.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 28, "prompt": "Find the area of a circle given its radius.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 29, "prompt": "Identify the lines of longitude that divides North and South America.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 30, "prompt": "Explain the process of cellular respiration in plants.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 31, "prompt": "Rewrite the following sentence using active voice.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 32, "prompt": "Generate a list of adjectives that describe a person as brave.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 33, "prompt": "Outline the consequences of deforestation.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 34, "prompt": "Develop a plan to reduce electricity usage in a home.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 35, "prompt": "Arrange the words in the given sentence to form a grammatically correct sentence.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 36, "prompt": "Analyze the given text for its tone.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 37, "prompt": "Use the given data to calculate the median.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 38, "prompt": "Rewrite the given paragraph in a shorter, easier to understand form.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 39, "prompt": "Design a logo for a website about recycling.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 40, "prompt": "Generate a poem that expresses joy.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 41, "prompt": "Convert the given equation into an algebraic expression.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 42, "prompt": "Brainstorm possible solutions to reduce water pollution.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 43, "prompt": "Explain why the given definition is wrong.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 44, "prompt": "Variable x is defined as “4x + 2y = 10”. Find the value of x.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 45, "prompt": "Write a short paragraph about the given topic.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 46, "prompt": "Explain the concept of artificial intelligence in simple terms.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 47, "prompt": "Design an app for a delivery company.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 48, "prompt": "Summarize the given passage.", "label_intent": 0, "label_topic": 0}
-{"pool": "harmless_mundane_topic", "index": 49, "prompt": "Extract the facts from the paragraph.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 200, "prompt": "Come up with a riddle", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 201, "prompt": "Identify the conjugation of the verb: I will have helped", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 202, "prompt": "What is the first rule of storytelling?", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 203, "prompt": "Rewrite the sentence into more descriptive form:\nThe food was delicious.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 204, "prompt": "Name 5 emotional states", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 205, "prompt": "Create a funny one-liner.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 206, "prompt": "Generate a list of fashion trends for Spring 2021.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 207, "prompt": "What is the impact of deforestation on wildlife?", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 208, "prompt": "Explain economics with an example.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 209, "prompt": "Provide me a list of diseases that can be caused by smoking.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 210, "prompt": "What is the difference between machine learning and deep learning?", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 211, "prompt": "Describe a typical workday for a barista.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 212, "prompt": "How does the human brain remember information?", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 213, "prompt": "How does the internet of things (IoT) work?", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 214, "prompt": "Give me an example of a conflict resolution technique.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 215, "prompt": "Identify a programming language suitable for game development.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 216, "prompt": "Make a list of different types of cryptocurrencies.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 217, "prompt": "Derive the mathematical equation for a straight line.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 218, "prompt": "Describe the physical features of a tiger.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 219, "prompt": "Generate ideas for a fiction story.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 220, "prompt": "Describe the Renaissance period.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 221, "prompt": "List 5 items of personal protective equipment.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 222, "prompt": "Construct plumbing diagrams for a two-story house", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 223, "prompt": "Compare student debt crisis in the US and Canada.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 224, "prompt": "List the benefits of Amazon Web Services.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 225, "prompt": "Generate a limerick poem about a lemur.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 226, "prompt": "Describe the functions of the Endoplasmic Reticulum.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 227, "prompt": "Summarize the industrial revolution.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 228, "prompt": "Select the correct term for the phrase ‘the art of making things’", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 229, "prompt": "Explain the concept of net neutrality.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 230, "prompt": "Brainstorm creative ideas for designing a conference room.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 231, "prompt": "Calculate the area of a square with the sides of 10cm.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 232, "prompt": "List the countries that are in the Schengen area.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 233, "prompt": "Describe the form and structure of a haiku poem.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 234, "prompt": "Explain how a random forest algorithm achieves higher accuracy than individual decision trees.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 235, "prompt": "Give an example of a place where an endangered species of animal might be found.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 236, "prompt": "Create a pop quiz about clouds.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 237, "prompt": "Explain why trade protectionism can hurt the economy of a country.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 238, "prompt": "Come up with a slogan to describe a new lipstick product.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 239, "prompt": "Describe how a Docker container works.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 240, "prompt": "Propose a transportation solution for a city with rapid population growth.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 241, "prompt": "Identify a potential security threat for a global online financial system.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 242, "prompt": "Describe what it takes to be a successful manager.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 243, "prompt": "Construct a timeline for the coronavirus outbreak.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 244, "prompt": "Compare and contrast two types of computer networks.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 245, "prompt": "Describe how machine learning can be used to automate mundane tasks.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 246, "prompt": "Write a blog post on how to deploy machine learning models.", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 247, "prompt": "Generate a list of five elements for a grocery shopping list", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 248, "prompt": "Create a dialogue between a customer and a flight attendant for a plane ride", "label_intent": 0, "label_topic": 0}
+{"pool": "harmless_mundane_topic", "index": 249, "prompt": "Explain what a decision tree is.", "label_intent": 0, "label_topic": 0}

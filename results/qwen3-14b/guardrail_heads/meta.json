@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "slug": "qwen3-14b",
+  "read_layer": 36,
+  "refusal_dir": "results/qwen3-14b/refusal_direction",
+  "n_prompts": 24,
+  "advbench_start_idx": 480,
+  "batch_size": 4,
+  "dtype": "bfloat16",
+  "top_k": 12,
+  "head_attrib_shape": [
+    37,
+    40
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "data_mode": "factorial_2x2",
+  "factorial_file": "experiment_5/data/factorial_2x2.jsonl",
+  "lexicon_threshold": 2,
+  "cell_counts": {
+    "intent=0,vocab=0": 50,
+    "intent=0,vocab=1": 50,
+    "intent=1,vocab=0": 50,
+    "intent=1,vocab=1": 50
+  },
+  "layers": [
+    36,
+    28
+  ],
+  "refusal_dirs": [
+    {
+      "name": "refusal_direction",
+      "path": "results/qwen3-14b/refusal_direction",
+      "by_layer": {
+        "36": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.5974,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -126.41915893554688,
+              "std": 41.86886215209961
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -100.31647491455078,
+              "std": 22.118616104125977
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 461.9989013671875,
+              "std": 86.12445831298828
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 503.5904541015625,
+              "std": 49.8858528137207
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 596.1625366210938,
+              "delta_vocab_edgy_minus_plain": 33.84712219238281
+            }
+          }
+        },
+        "28": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.5957,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -65.28137969970703,
+              "std": 14.307650566101074
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -52.53862380981445,
+              "std": 4.8170390129089355
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 175.8583526611328,
+              "std": 29.645618438720703
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 183.5417022705078,
+              "std": 21.694313049316406
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 238.61004638671875,
+              "delta_vocab_edgy_minus_plain": 10.213043212890625
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "refusal_direction_matched",
+      "path": "results/qwen3-14b/refusal_direction_matched",
+      "by_layer": {
+        "36": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.5357,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -107.16226196289062,
+              "std": 53.75912094116211
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -102.58938598632812,
+              "std": 34.82505416870117
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 469.74737548828125,
+              "std": 84.44401550292969
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 507.4654235839844,
+              "std": 47.0043830871582
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 593.4822998046875,
+              "delta_vocab_edgy_minus_plain": 21.14544677734375
+            }
+          }
+        },
+        "28": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.4977,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -63.65278625488281,
+              "std": 19.534931182861328
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -68.52197265625,
+              "std": 8.521628379821777
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 170.62283325195312,
+              "std": 30.702360153198242
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 178.30014038085938,
+              "std": 22.190664291381836
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 240.54885864257812,
+              "delta_vocab_edgy_minus_plain": 1.4040603637695312
+            }
+          }
+        }
+      }
+    }
+  ],
+  "verdict_first_dir_layer18": null,
+  "decision_constants": {
+    "intent_hi": 0.85,
+    "vocab_auc_lo": 0.35,
+    "vocab_auc_hi": 0.65,
+    "layer": 18
+  }
+}
