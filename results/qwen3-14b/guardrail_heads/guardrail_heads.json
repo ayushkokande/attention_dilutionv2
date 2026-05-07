@@ -1,0 +1,98 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "read_layer": 18,
+  "n_layers_scored": 19,
+  "n_heads": 40,
+  "n_prompts": 24,
+  "advbench_pool_range": [
+    480,
+    504
+  ],
+  "top_k": 12,
+  "guardrail_heads": [
+    {
+      "layer": 15,
+      "head": 4,
+      "dla_score": 1.516250491142273,
+      "rank": 0,
+      "cum_pos_mass_frac": 0.12320384978146627
+    },
+    {
+      "layer": 17,
+      "head": 30,
+      "dla_score": 0.5647647976875305,
+      "rank": 1,
+      "cum_pos_mass_frac": 0.1690941546503771
+    },
+    {
+      "layer": 17,
+      "head": 31,
+      "dla_score": 0.546443521976471,
+      "rank": 2,
+      "cum_pos_mass_frac": 0.21349575319160874
+    },
+    {
+      "layer": 15,
+      "head": 1,
+      "dla_score": 0.4103586971759796,
+      "rank": 3,
+      "cum_pos_mass_frac": 0.24683969707076273
+    },
+    {
+      "layer": 13,
+      "head": 13,
+      "dla_score": 0.3650303781032562,
+      "rank": 4,
+      "cum_pos_mass_frac": 0.2765004609961381
+    },
+    {
+      "layer": 13,
+      "head": 16,
+      "dla_score": 0.352694034576416,
+      "rank": 5,
+      "cum_pos_mass_frac": 0.3051588278745794
+    },
+    {
+      "layer": 14,
+      "head": 30,
+      "dla_score": 0.2795187532901764,
+      "rank": 6,
+      "cum_pos_mass_frac": 0.32787129305935353
+    },
+    {
+      "layer": 12,
+      "head": 35,
+      "dla_score": 0.23460370302200317,
+      "rank": 7,
+      "cum_pos_mass_frac": 0.34693415869676125
+    },
+    {
+      "layer": 17,
+      "head": 34,
+      "dla_score": 0.20555084943771362,
+      "rank": 8,
+      "cum_pos_mass_frac": 0.3636363171623446
+    },
+    {
+      "layer": 13,
+      "head": 14,
+      "dla_score": 0.18546755611896515,
+      "rank": 9,
+      "cum_pos_mass_frac": 0.37870659549491903
+    },
+    {
+      "layer": 15,
+      "head": 3,
+      "dla_score": 0.17546039819717407,
+      "rank": 10,
+      "cum_pos_mass_frac": 0.39296373616419944
+    },
+    {
+      "layer": 18,
+      "head": 19,
+      "dla_score": 0.1707085371017456,
+      "rank": 11,
+      "cum_pos_mass_frac": 0.40683476148908015
+    }
+  ]
+}
