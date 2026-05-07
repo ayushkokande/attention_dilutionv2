@@ -30,7 +30,7 @@ The Suraj archive uses a different list (24 substrings, case-sensitive, `Suraj/_
 
 See `splits.json` for per-experiment row indices. AdvBench source is the LLM-attacks `harmful_behaviors.csv`; Alpaca is `tatsu-lab/alpaca[train]` filtered through `experiment_1/utils._harmless_instruction_is_clean` for empty-input rows only.
 
-Three known overlap warnings live in `splits.json:overlap_warnings`. The exp_6 / exp_2 Alpaca overlap is a real eval leak for the harmless_mundane 2x2 cell.
+Two remaining overlap warnings live in `splits.json:overlap_warnings`: exp_6 and exp_7 each share AdvBench eval space with the exp_8 binary sweep (not d_hat training leaks, just shared eval). The earlier exp_6 / exp_2 Alpaca overlap was a real eval leak for the harmless_mundane 2x2 cell; closed on 2026-05-06 by migrating that cell to Alpaca[200:250) post `_harmless_instruction_is_clean` filter (commits `2c4d65f` + `9d5e0c4` + `abf87b4`).
 
 ## Refusal direction
 
