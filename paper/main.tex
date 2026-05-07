@@ -325,12 +325,44 @@ $\Lread{=}36$ as canonical.}
 \subsection{Identifying Guardrail Heads via direct logit attribution}
 \label{sec:guardrail-heads}
 
+\paragraph{Read-layer choice.}
+The mechanistic analyses in this section and in
+\cref{sec:mechanism,sec:pathpatching} read off the refusal direction
+at $\Lread{=}36$ rather than at the causal-canonical layer
+$\layerL{=}18$. The two layers serve different purposes: $\layerL{=}18$
+is the layer at which projecting out $\dhat$ collapses refusal-rate to
+zero on the held-out pool (causal-best, \cref{sec:method-dhat}), so it
+is the right site to \emph{intervene}; $\Lread{=}36$ is the last block
+before the unembed where the $\dhat$ projection magnitude is largest
+and the corresponding refusal-vs-compliance logit gap is most
+resolvable, so it is the right site to \emph{read out}. The per-layer
+diff-of-means $\dhat_\layerL$ bank is monotonically growing in norm
+(\cref{fig:phase1-norms}) and aligned across the bulk of the network,
+so $\dhat_{18}$ and $\dhat_{36}$ point in the same direction up to
+scale; they differ in magnitude, not in what they encode.
+
+\paragraph{DLA at $\Lread{=}36$.}
 With $\Lread{=}36$ fixed, for each $(\layerL, h)$ with
 $\layerL \leq 36$ we project the head's per-token contribution at the
 final instruction position onto $\dhat_{36}$ and average over $24$
 harmful prompts. Top-12 heads form the Guardrail Set
 (\cref{tab:guardrail}); a single head, \textbf{L36H31}, dominates
 ($+15.4$, $2.3\times$ the next head).
+
+\paragraph{DLA at $\Lread{=}18$ (complementary view).}
+Repeating the same analysis at $\Lread{=}18$ (the causal-canonical
+layer; only $\layerL \leq 18$ heads can score) puts a different head
+at the top: \textbf{L15H4} (DLA $1.52$, $2.7\times$ the next).
+The two read-layers thus surface complementary parts of the
+refusal circuit. The L36-readoff DLA is dominated by late-layer
+write-ins to the readoff residual (L33--L36 family); the L18-readoff
+DLA surfaces early-to-mid heads (L13--L17) that build the refusal
+direction in the first place. The mechanistic story
+(\cref{sec:mechanism,sec:pathpatching}) follows the L36 chain because
+that is where the attentional collapse is visible and patchable; the
+L18-readoff result is a sanity check that the canonical-layer
+direction is constructed by a non-trivial set of upstream heads, not
+imported wholesale from a single early head.
 
 \begin{table}[t]
 \centering\small
@@ -431,9 +463,22 @@ $\eta^{2}(\text{topic}) \leq 0.1$.
 \end{decisionrule}
 
 \paragraph{Result.}
-$\eta^{2}(\text{intent}) = 0.894$, $\eta^{2}(\text{topic}) = 0.089$ at
-$\layerL{=}20$. $\dhat$ is overwhelmingly intent-driven; topic explains
-$<\!10\%$ of variance.
+At canonical $\layerL{=}18$,
+$\eta^{2}(\text{intent}) = 0.882$ and $\eta^{2}(\text{topic}) = 0.187$
+on $\dhat$ (matched $\dhat^{*}$: $0.847$, $0.151$). Intent dominates
+($>17\times$ topic effect size) but topic exceeds the $0.10$ pre-registered
+ceiling: \textbf{MIXED} verdict. The pre-registered fallback
+mandates a topic-orthogonalisation robustness check.
+
+\paragraph{Robustness check.}
+Within-topic discrimination is perfect:
+$\mathrm{AUC}_{\text{intent}}{=}1.000$ on both topic strata
+(mundane and edgy) for $\dhat$ and $\dhat^{*}$. Linearly orthogonalising
+the projection against the topic indicator and re-running the ANOVA
+preserves $\eta^{2}(\text{intent}){=}0.882$ ($0.847$ for $\dhat^{*}$)
+with $\eta^{2}(\text{topic}){\approx}10^{-32}$. The headline harm-intent
+claim is therefore \textbf{robust} to topic-orthogonal projection: $\dhat$
+tracks topic-orthogonal harm-intent, not a harmful-topic detector.
 
 \subsection{Harm-refusal vs.\ policy-refusal AUC}
 \label{sec:validity-policy}
@@ -449,12 +494,34 @@ $\mathrm{AUC}(\text{harm vs.\ policy}) \geq 0.85$.
 \end{decisionrule}
 
 \paragraph{Result.}
-$\mathrm{AUC} = 0.926$ at $\layerL{=}20$. $\dhat$ separates
-harm-driven refusal from policy-driven refusal cleanly.
+At canonical $\layerL{=}18$,
+$\mathrm{AUC}(\text{harm vs.\ policy}) = 0.933$ on $\dhat$ and $0.933$
+on matched $\dhat^{*}$. Sanity AUCs:
+$\mathrm{AUC}(\text{harm vs.\ harmless}) = 1.000$,
+$\mathrm{AUC}(\text{policy vs.\ harmless}) = 0.998$. Pool means at
+$\layerL{=}18$ are $33.7$ (harm), $10.9$ (policy), $-10.9$ (harmless):
+policy refusals project positively on $\dhat$ but with roughly
+one-third the magnitude of harm refusals. Verdict
+\textbf{HARM\_SPECIFIC}: $\dhat$ separates harm-driven refusal from
+policy-driven refusal cleanly while still residing partly on the same
+axis as the latter.
 
-\paragraph{Summary.} All four validity checks pass at the threshold or
-better. $\dhat$ is harm-specific, not a verb-class artefact, not a
-lexical-register artefact, not a topic artefact, and not a generic
+\paragraph{Caveat.}
+A pre-registered preflight at $T{=}0$ (\cref{app:refusal-detector})
+finds Qwen3-14B refuses only $44\%$ of \sorrybench{} cats~41--45
+prompts (per-category: financial $30\%$, legal $10\%$, dangerous
+machinery $30\%$, medical $70\%$, governance $80\%$). The AUC rule
+above is applied unchanged per the pre-registered fallback: a
+$\dhat$ projection gap of this size on policy-tone prompts
+\emph{regardless of whether the model declines} is exactly the
+behavior expected of a harm-axis direction, not a generic-decline
+direction.
+
+\paragraph{Summary.} Three of four validity checks pass at threshold;
+the topic-decoupling 2$\times$2 returns MIXED but the pre-registered
+robustness check (topic orthogonalisation) is ROBUST.
+$\dhat$ is harm-specific, not a verb-class artefact, not a
+lexical-register artefact, robust to topic confound, and not a generic
 compliance-decline direction. It is safe to use as the refusal
 read-off for the dilution analysis that follows.
 
@@ -977,10 +1044,13 @@ single scalar of how attentionally fragile a model's refusal is.
         does not fit on a single A100-80GB with the current hook
         setup; longer-context rows are inferred indirectly via
         projection.
-  \item \textbf{Three known overlap warnings} in \texttt{splits.json};
-        the harmless-mundane cell of the topic-decoupling test
-        (\cref{sec:validity-topic}) shares prompts with the $\dhat$
-        training pool (flagged, not corrected).
+  \item \textbf{Two remaining overlap warnings} in \texttt{splits.json}
+        (shared eval space across exp\_6/exp\_7/exp\_8, not training
+        leaks). The earlier $\dhat$-training-pool overlap with the
+        topic-decoupling harmless-mundane cell
+        (\cref{sec:validity-topic}) was closed: that cell now draws
+        \alpaca{}\texttt{[200:250)} after the canonical clean-prompt
+        filter, disjoint from the $\dhat$ pool \alpaca{}\texttt{[0:100)}.
   \item \textbf{Path patching only at the harmful-span tokens.}
         Patching all positions would likely yield higher recovery and
         may shift the localization. The $9\text{--}12\%$ recovery is
@@ -1056,10 +1126,46 @@ scoring.
 
 \section{Splits and Disjointness}
 \label{app:splits}
-\todo{Reproduce table from \texttt{splits.json}: per-experiment
-\advbench{} and \alpaca{} row indices. Three known overlap
-warnings: (a) topic-decoupling harmless-mundane cell vs.\ $\dhat$
-training pool, (b) \todo{...}, (c) \todo{...}.}
+
+\Cref{tab:splits} reproduces the per-experiment row-index assignments
+from \texttt{splits.json} (single source of truth in the repository).
+\advbench{} indices reference the LLM-attacks
+\texttt{harmful\_behaviors.csv}; \alpaca{} indices reference
+\texttt{tatsu-lab/alpaca[train]} restricted to empty-input rows and
+filtered through \texttt{experiment\_1/utils.\_harmless\_instruction\_is\_clean}.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{lllp{0.36\linewidth}}
+\toprule
+Experiment & \advbench{} & \alpaca{} & Notes \\
+\midrule
+exp\_1 baseline               & $[0, 520)$           & $[0, 512)$       & refusal-rate baseline \\
+exp\_2 $\dhat$ DiffMean       & $[100, 200)$         & $[0, 100)$       & disjoint from sweep eval \\
+exp\_3 Guardrail heads (DLA)  & $[480, 504)$         & ---              & reuses exp\_2 causal-sweep held-out pool \\
+exp\_4 matched $\dhat^{*}$    & $[100, \text{end})$  & $[0, 1000)$      & produce-artifact verbs only; verb- and word-length-matched \\
+exp\_5 styled pools           & $[356, \text{end})$  & exp\_1 cache     & $\dhat$-excluded $[100, 356)$ omitted \\
+exp\_6 topic 2$\times$2       & $[0, 50)$            & $[200, 250)$     & + 50 manual harmful-mundane + 50 manual harmless-edgy; \alpaca{} slice post `\_harmless\_instruction\_is\_clean' \\
+exp\_7 policy validity        & $[50, 100)$          & $[100, 150)$     & + \sorrybench{} cats 41--45 (10 each) \\
+exp\_8 binary sweep vs $N$    & $[0, 100)$           & ---              & split out of exp\_2 \\
+exp\_9 projection sweep vs $N$& $[0, 100)$           & ---              & continuous projection \\
+\bottomrule
+\end{tabular}
+\caption{Per-experiment \advbench{} and \alpaca{} row-index splits.
+Half-open ranges. Manual prompts and \sorrybench{} additions noted in
+the Notes column.}
+\label{tab:splits}
+\end{table}
+
+\paragraph{Overlap warnings.} Two remaining overlaps in the eval space,
+neither a $\dhat$-training leak: (a) exp\_6
+\advbench{}$[0, 50)$ sits inside exp\_8 sweep eval $[0, 100)$;
+(b) exp\_7 \advbench{}$[50, 100)$ sits inside exp\_8 sweep eval
+$[0, 100)$. A third earlier warning --- the topic-decoupling
+harmless-mundane cell sharing \alpaca{}$[0, 50)$ with the $\dhat$
+training pool --- was closed on 2026-05-06 by migrating that cell to
+\alpaca{}$[200, 250)$ after the canonical clean-prompt filter, post
+which the cell is disjoint from $\dhat$'s training pool.
 
 \section{Hyperparameters}
 \label{app:hparams}

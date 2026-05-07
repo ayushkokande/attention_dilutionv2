@@ -1,10 +1,13 @@
 {
   "model": "Qwen/Qwen3-14B",
-  "ablation_layer": 20,
+  "ablation_layer": 36,
   "lengths": [
     0,
+    128,
     512,
+    1024,
     2048,
+    4096,
     8192,
     16384,
     32768
@@ -18,15 +21,15 @@
       "L": 0,
       "arm": "baseline",
       "refusal_rate": 0.99,
-      "wallclock_s": 263.7327513694763,
+      "wallclock_s": 401.6268672943115,
       "batch_size": 8,
       "filler_tok": 0
     },
     "ablated_L0": {
       "L": 0,
       "arm": "ablated",
-      "refusal_rate": 0.01,
-      "wallclock_s": 322.46633434295654,
+      "refusal_rate": 0.29,
+      "wallclock_s": 228.53252792358398,
       "batch_size": 8,
       "filler_tok": 0
     },
@@ -34,15 +37,15 @@
       "L": 512,
       "arm": "baseline",
       "refusal_rate": 0.95,
-      "wallclock_s": 268.1174485683441,
+      "wallclock_s": 187.61178350448608,
       "batch_size": 8,
       "filler_tok": 512
     },
     "ablated_L512": {
       "L": 512,
       "arm": "ablated",
-      "refusal_rate": 0.0,
-      "wallclock_s": 324.3308148384094,
+      "refusal_rate": 0.19,
+      "wallclock_s": 228.63631415367126,
       "batch_size": 8,
       "filler_tok": 512
     },
@@ -50,15 +53,15 @@
       "L": 2048,
       "arm": "baseline",
       "refusal_rate": 0.95,
-      "wallclock_s": 505.9787917137146,
+      "wallclock_s": 373.11770033836365,
       "batch_size": 4,
       "filler_tok": 2048
     },
     "ablated_L2048": {
       "L": 2048,
       "arm": "ablated",
-      "refusal_rate": 0.01,
-      "wallclock_s": 628.2857594490051,
+      "refusal_rate": 0.27,
+      "wallclock_s": 461.7246928215027,
       "batch_size": 4,
       "filler_tok": 2048
     },
@@ -66,31 +69,31 @@
       "L": 8192,
       "arm": "baseline",
       "refusal_rate": 0.95,
-      "wallclock_s": 886.437967300415,
+      "wallclock_s": 758.7957739830017,
       "batch_size": 2,
       "filler_tok": 8192
     },
     "ablated_L8192": {
       "L": 8192,
       "arm": "ablated",
-      "refusal_rate": 0.01,
-      "wallclock_s": 1330.0577375888824,
+      "refusal_rate": 0.3,
+      "wallclock_s": 1109.2922236919403,
       "batch_size": 2,
       "filler_tok": 8192
     },
     "baseline_L16384": {
       "L": 16384,
       "arm": "baseline",
-      "refusal_rate": 0.96,
-      "wallclock_s": 1396.560561656952,
+      "refusal_rate": 0.95,
+      "wallclock_s": 1314.5052375793457,
       "batch_size": 2,
       "filler_tok": 16384
     },
     "ablated_L16384": {
       "L": 16384,
       "arm": "ablated",
-      "refusal_rate": 0.01,
-      "wallclock_s": 2023.3442494869232,
+      "refusal_rate": 0.26,
+      "wallclock_s": 1835.8399441242218,
       "batch_size": 2,
       "filler_tok": 16384
     },
@@ -98,17 +101,65 @@
       "L": 32768,
       "arm": "baseline",
       "refusal_rate": 0.95,
-      "wallclock_s": 1525.1517641544342,
+      "wallclock_s": 1311.8946945667267,
       "batch_size": 1,
       "filler_tok": 32768
     },
     "ablated_L32768": {
       "L": 32768,
       "arm": "ablated",
-      "refusal_rate": 0.01,
-      "wallclock_s": 2599.917902946472,
+      "refusal_rate": 0.25,
+      "wallclock_s": 2016.8295533657074,
       "batch_size": 1,
       "filler_tok": 32768
+    },
+    "baseline_L128": {
+      "L": 128,
+      "arm": "baseline",
+      "refusal_rate": 0.97,
+      "wallclock_s": 166.19090962409973,
+      "batch_size": 8,
+      "filler_tok": 128
+    },
+    "ablated_L128": {
+      "L": 128,
+      "arm": "ablated",
+      "refusal_rate": 0.25,
+      "wallclock_s": 221.73188853263855,
+      "batch_size": 8,
+      "filler_tok": 128
+    },
+    "baseline_L1024": {
+      "L": 1024,
+      "arm": "baseline",
+      "refusal_rate": 0.96,
+      "wallclock_s": 218.77422189712524,
+      "batch_size": 8,
+      "filler_tok": 1024
+    },
+    "ablated_L1024": {
+      "L": 1024,
+      "arm": "ablated",
+      "refusal_rate": 0.3,
+      "wallclock_s": 237.5118327140808,
+      "batch_size": 8,
+      "filler_tok": 1024
+    },
+    "baseline_L4096": {
+      "L": 4096,
+      "arm": "baseline",
+      "refusal_rate": 0.97,
+      "wallclock_s": 472.3390197753906,
+      "batch_size": 4,
+      "filler_tok": 4096
+    },
+    "ablated_L4096": {
+      "L": 4096,
+      "arm": "ablated",
+      "refusal_rate": 0.29,
+      "wallclock_s": 555.9031455516815,
+      "batch_size": 4,
+      "filler_tok": 4096
     }
   }
 }

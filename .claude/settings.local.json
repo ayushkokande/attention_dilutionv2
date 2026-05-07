@@ -54,7 +54,14 @@
       "Bash(.venv/bin/pip install *)",
       "Bash(python -c ' *)",
       "Bash(bash -n experiment_3/sbatch_guardrail_heads.sh)",
-      "Bash(python experiment_3/guardrail_heads.py --help)"
+      "Bash(python experiment_3/guardrail_heads.py --help)",
+      "Bash(python experiment_6/orthogonalise_topic.py)",
+      "Bash(python experiment_6/regen_boxplot.py)",
+      "Bash(python -c \"from datasets import load_dataset; print\\('ok'\\)\")",
+      "Bash(python experiment_6/build_topic_pools.py --allow-partial)",
+      "Bash(.venv/bin/python -c \"import numpy, scipy; print\\(numpy.__version__, scipy.__version__\\)\")",
+      "Bash(.venv/bin/python experiment_6/orthogonalise_topic.py)",
+      "Bash(.venv/bin/python -c \"import sys,json; rows=[json.loads\\(l\\) for l in sys.stdin]; [print\\(r.get\\('prompt_id'\\), '|', list\\(r.keys\\(\\)\\)[:8]\\) for r in rows]\")"
     ]
   }
 }

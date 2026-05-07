@@ -4,7 +4,13 @@ Pools (50 prompts/cell, 200 total):
   harmful_edgy_topic.jsonl     intent=1 topic=1   AdvBench[0:50] raw
   harmful_mundane_topic.jsonl  intent=1 topic=0   manual_harmful_mundane.json
   harmless_edgy_topic.jsonl    intent=0 topic=1   manual_harmless_edgy.json
-  harmless_mundane_topic.jsonl intent=0 topic=0   Alpaca[0:50] raw
+  harmless_mundane_topic.jsonl intent=0 topic=0   Alpaca[200:250] post-filter
+
+Alpaca slice [200:250] is disjoint from exp_2 d_hat training pool [0:100]
+and from exp_7 harmless pool [100:150] (kills the eval leak flagged in
+splits.json:overlap_warnings). Filter matches exp_2's canonical
+experiment_1.utils.load_harmless_prompts: empty-input rows only,
+filtered through _harmless_instruction_is_clean.
 
 Both manual files are JSON lists of {index, prompt}. Empty `prompt` fields
 must be filled in before this script will succeed (use --allow-partial to
@@ -21,6 +27,12 @@ import urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+EXP1 = ROOT / "experiment_1"
+for _p in (str(EXP1),):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 DATA = HERE / "data"
 
 MANUAL_HARMFUL_MUNDANE = DATA / "manual_harmful_mundane.json"
@@ -53,14 +65,31 @@ def fetch_advbench_rows(start: int, n: int) -> list[tuple[int, str]]:
     return rows
 
 
-def fetch_alpaca_rows(n: int) -> list[str]:
+def fetch_alpaca_rows(n: int, start: int = 0) -> list[str]:
+    """Fetch n harmless Alpaca instructions starting at post-filter offset.
+
+    Filter mirrors experiment_1.utils.load_harmless_prompts: empty-input rows
+    only, filtered through _harmless_instruction_is_clean. Same canonical
+    filter exp_2 uses for d_hat training pool, so a `start` offset properly
+    excludes prior cells.
+    """
     from datasets import load_dataset
+    from utils import _harmless_instruction_is_clean  # type: ignore
 
     ds = load_dataset("tatsu-lab/alpaca", split="train")
     out: list[str] = []
+    skipped = 0
     for row in ds:
-        instr = (row.get("instruction") or "").strip()
+        inp = row.get("input", None)
+        if inp not in ("", None):
+            continue
+        instr = str(row["instruction"]).strip()
         if not instr:
+            continue
+        if not _harmless_instruction_is_clean(instr):
+            continue
+        if skipped < start:
+            skipped += 1
             continue
         out.append(instr)
         if len(out) >= n:
@@ -95,6 +124,14 @@ def parse_args() -> argparse.Namespace:
         help="Skip empty manual rows instead of failing (dry-run mode).",
     )
     p.add_argument("--advbench-start", type=int, default=0)
+    p.add_argument(
+        "--alpaca-start",
+        type=int,
+        default=200,
+        help="Post-filter Alpaca offset for harmless_mundane cell. "
+             "Default 200 = disjoint from exp_2 d_hat training [0:100] and "
+             "exp_7 harmless [100:150]. Was 0 pre-cascade (eval leak).",
+    )
     return p.parse_args()
 
 
@@ -158,12 +195,12 @@ def main() -> None:
     write_jsonl(OUT_HARMFUL_EDGY, harmful_edgy)
     print(f"Wrote {OUT_HARMFUL_EDGY} ({len(harmful_edgy)} rows)")
 
-    print(f"Fetching Alpaca[0:{CELL_SIZE}]...")
-    alp = fetch_alpaca_rows(CELL_SIZE)
+    print(f"Fetching Alpaca[{args.alpaca_start}:{args.alpaca_start + CELL_SIZE}] post-filter...")
+    alp = fetch_alpaca_rows(CELL_SIZE, start=args.alpaca_start)
     harmless_mundane = [
         {
             "pool": "harmless_mundane_topic",
-            "index": i,
+            "index": args.alpaca_start + i,
             "prompt": text,
             "label_intent": 0,
             "label_topic": 0,
