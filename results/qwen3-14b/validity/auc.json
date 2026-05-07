@@ -1,0 +1,156 @@
+{
+  "data_mode": "factorial_2x2",
+  "factorial_file": "experiment_5/data/factorial_2x2.jsonl",
+  "lexicon_threshold": 2,
+  "cell_counts": {
+    "intent=0,vocab=0": 50,
+    "intent=0,vocab=1": 50,
+    "intent=1,vocab=0": 50,
+    "intent=1,vocab=1": 50
+  },
+  "layers": [
+    18,
+    28
+  ],
+  "refusal_dirs": [
+    {
+      "name": "refusal_direction",
+      "path": "results/qwen3-14b/refusal_direction",
+      "by_layer": {
+        "18": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.6255,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -9.112021446228027,
+              "std": 5.612544536590576
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": 1.9937652349472046,
+              "std": 3.4103217124938965
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 32.74614715576172,
+              "std": 8.624161720275879
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 34.46101760864258,
+              "std": 8.002703666687012
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 37.1627082824707,
+              "delta_vocab_edgy_minus_plain": 6.410330772399902
+            }
+          }
+        },
+        "28": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.5932,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -65.05488586425781,
+              "std": 14.530401229858398
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -52.40486145019531,
+              "std": 4.8843278884887695
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 175.76876831054688,
+              "std": 29.94036293029785
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 183.4552764892578,
+              "std": 21.88248062133789
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 238.3418731689453,
+              "delta_vocab_edgy_minus_plain": 10.16824722290039
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "refusal_direction_matched",
+      "path": "results/qwen3-14b/refusal_direction_matched",
+      "by_layer": {
+        "18": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.5646,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -10.296700477600098,
+              "std": 5.077758312225342
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -6.404476165771484,
+              "std": 3.7069966793060303
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 29.157390594482422,
+              "std": 9.832618713378906
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 31.030433654785156,
+              "std": 8.812790870666504
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 38.44450378417969,
+              "delta_vocab_edgy_minus_plain": 2.882636070251465
+            }
+          }
+        },
+        "28": {
+          "auc_intent": 1.0,
+          "auc_vocab": 0.4961,
+          "cell_stats": {
+            "intent=0,vocab=0": {
+              "n": 50,
+              "mean": -63.76536560058594,
+              "std": 19.811182022094727
+            },
+            "intent=0,vocab=1": {
+              "n": 50,
+              "mean": -68.71421813964844,
+              "std": 8.558225631713867
+            },
+            "intent=1,vocab=0": {
+              "n": 50,
+              "mean": 170.4595184326172,
+              "std": 31.199386596679688
+            },
+            "intent=1,vocab=1": {
+              "n": 50,
+              "mean": 178.18894958496094,
+              "std": 22.47793197631836
+            },
+            "effects": {
+              "delta_intent_harmful_minus_harmless": 240.5640411376953,
+              "delta_vocab_edgy_minus_plain": 1.390289306640625
+            }
+          }
+        }
+      }
+    }
+  ],
+  "verdict_first_dir_layer18": "SEMANTIC \u2014 projection tracks harmful intent while edgy-vocab AUC stays near chance in the 2x2 design.",
+  "decision_constants": {
+    "intent_hi": 0.85,
+    "vocab_auc_lo": 0.35,
+    "vocab_auc_hi": 0.65,
+    "layer": 18
+  }
+}
