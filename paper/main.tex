@@ -1097,15 +1097,46 @@ scoring.
 
 \section{Splits and Disjointness}
 \label{app:splits}
-\todo{Reproduce table from \texttt{splits.json}: per-experiment
-\advbench{} and \alpaca{} row indices. Two remaining overlap
-warnings (shared eval space, not $\dhat$-training leaks):
-(a) exp\_6 \advbench{}\texttt{[0:50)} sits inside exp\_8 sweep eval
-\texttt{[0:100)}; (b) exp\_7 \advbench{}\texttt{[50:100)} sits inside
-exp\_8 sweep eval \texttt{[0:100)}. The previous third warning
-(topic-decoupling harmless-mundane cell vs.\ $\dhat$ training pool) was
-closed on 2026-05-06 by migrating the cell to
-\alpaca{}\texttt{[200:250)}.}
+
+\Cref{tab:splits} reproduces the per-experiment row-index assignments
+from \texttt{splits.json} (single source of truth in the repository).
+\advbench{} indices reference the LLM-attacks
+\texttt{harmful\_behaviors.csv}; \alpaca{} indices reference
+\texttt{tatsu-lab/alpaca[train]} restricted to empty-input rows and
+filtered through \texttt{experiment\_1/utils.\_harmless\_instruction\_is\_clean}.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{lllp{0.36\linewidth}}
+\toprule
+Experiment & \advbench{} & \alpaca{} & Notes \\
+\midrule
+exp\_1 baseline               & $[0, 520)$           & $[0, 512)$       & refusal-rate baseline \\
+exp\_2 $\dhat$ DiffMean       & $[100, 200)$         & $[0, 100)$       & disjoint from sweep eval \\
+exp\_3 Guardrail heads (DLA)  & $[480, 504)$         & ---              & reuses exp\_2 causal-sweep held-out pool \\
+exp\_4 matched $\dhat^{*}$    & $[100, \text{end})$  & $[0, 1000)$      & produce-artifact verbs only; verb- and word-length-matched \\
+exp\_5 styled pools           & $[356, \text{end})$  & exp\_1 cache     & $\dhat$-excluded $[100, 356)$ omitted \\
+exp\_6 topic 2$\times$2       & $[0, 50)$            & $[200, 250)$     & + 50 manual harmful-mundane + 50 manual harmless-edgy; \alpaca{} slice post `\_harmless\_instruction\_is\_clean' \\
+exp\_7 policy validity        & $[50, 100)$          & $[100, 150)$     & + \sorrybench{} cats 41--45 (10 each) \\
+exp\_8 binary sweep vs $N$    & $[0, 100)$           & ---              & split out of exp\_2 \\
+exp\_9 projection sweep vs $N$& $[0, 100)$           & ---              & continuous projection \\
+\bottomrule
+\end{tabular}
+\caption{Per-experiment \advbench{} and \alpaca{} row-index splits.
+Half-open ranges. Manual prompts and \sorrybench{} additions noted in
+the Notes column.}
+\label{tab:splits}
+\end{table}
+
+\paragraph{Overlap warnings.} Two remaining overlaps in the eval space,
+neither a $\dhat$-training leak: (a) exp\_6
+\advbench{}$[0, 50)$ sits inside exp\_8 sweep eval $[0, 100)$;
+(b) exp\_7 \advbench{}$[50, 100)$ sits inside exp\_8 sweep eval
+$[0, 100)$. A third earlier warning --- the topic-decoupling
+harmless-mundane cell sharing \alpaca{}$[0, 50)$ with the $\dhat$
+training pool --- was closed on 2026-05-06 by migrating that cell to
+\alpaca{}$[200, 250)$ after the canonical clean-prompt filter, post
+which the cell is disjoint from $\dhat$'s training pool.
 
 \section{Hyperparameters}
 \label{app:hparams}
