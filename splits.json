@@ -59,6 +59,6 @@
   "overlap_warnings": [
     "exp_6 advbench[0:50] sits inside exp_8 sweep eval [0:100). Not a d_hat training leak (d_hat trained on [100:200)) but exp_6 evaluates d_hat on prompts also used as exp_8 sweep eval prompts.",
     "exp_7 advbench[50:100) sits inside exp_8 sweep eval [0:100). Same caveat as exp_6: not a d_hat training leak but a shared eval space.",
-    "FIX-PENDING-RERUN 2026-05-06: exp_2 d_hat alpaca[0:100) previously overlapped exp_6 harmless pool alpaca[0:50). exp_6 alpaca slice migrated to [200:250) post _harmless_instruction_is_clean filter (matches exp_2 canonical). Build script + harmless_mundane_topic.jsonl updated locally. ANOVA/per_prompt/orthogonalisation results still reflect OLD pool until cluster eval rerun. Eval leak closes after rerun."
+    "FIXED 2026-05-06: exp_2 d_hat alpaca[0:100) previously overlapped exp_6 harmless pool alpaca[0:50). exp_6 alpaca slice migrated to [200:250) post _harmless_instruction_is_clean filter (matches exp_2 canonical). Cluster eval rerun complete; per_prompt.jsonl harmless_mundane_topic row_id range = [200,249]. Eval leak closed."
   ]
 }
