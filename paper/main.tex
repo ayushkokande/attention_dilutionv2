@@ -465,8 +465,28 @@ $\mathrm{AUC}(\text{harm vs.\ policy}) \geq 0.85$.
 \end{decisionrule}
 
 \paragraph{Result.}
-$\mathrm{AUC} = 0.926$ at $\layerL{=}20$. $\dhat$ separates
-harm-driven refusal from policy-driven refusal cleanly.
+At canonical $\layerL{=}18$,
+$\mathrm{AUC}(\text{harm vs.\ policy}) = 0.933$ on $\dhat$ and $0.933$
+on matched $\dhat^{*}$. Sanity AUCs:
+$\mathrm{AUC}(\text{harm vs.\ harmless}) = 1.000$,
+$\mathrm{AUC}(\text{policy vs.\ harmless}) = 0.998$. Pool means at
+$\layerL{=}18$ are $33.7$ (harm), $10.9$ (policy), $-10.9$ (harmless):
+policy refusals project positively on $\dhat$ but with roughly
+one-third the magnitude of harm refusals. Verdict
+\textbf{HARM\_SPECIFIC}: $\dhat$ separates harm-driven refusal from
+policy-driven refusal cleanly while still residing partly on the same
+axis as the latter.
+
+\paragraph{Caveat.}
+A pre-registered preflight at $T{=}0$ (\cref{app:refusal-detector})
+finds Qwen3-14B refuses only $44\%$ of \sorrybench{} cats~41--45
+prompts (per-category: financial $30\%$, legal $10\%$, dangerous
+machinery $30\%$, medical $70\%$, governance $80\%$). The AUC rule
+above is applied unchanged per the pre-registered fallback: a
+$\dhat$ projection gap of this size on policy-tone prompts
+\emph{regardless of whether the model declines} is exactly the
+behavior expected of a harm-axis direction, not a generic-decline
+direction.
 
 \paragraph{Summary.} Three of four validity checks pass at threshold;
 the topic-decoupling 2$\times$2 returns MIXED but the pre-registered
