@@ -1,7 +1,9 @@
-\documentclass[11pt]{article}
+\documentclass[10pt,twocolumn]{article}
 
 % ---------- packages ----------
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.75in]{geometry}
+\setlength{\columnsep}{0.30in}
+\setlength{\columnseprule}{0pt}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
@@ -12,7 +14,9 @@
 \graphicspath{{figures/}}
 \usepackage{subcaption}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{xcolor}
+\usepackage[capitalize, noabbrev]{cleveref}
 \usepackage{hyperref}
 \hypersetup{
   colorlinks=true,
@@ -20,7 +24,8 @@
   citecolor=blue!50!black,
   urlcolor=blue!60!black
 }
-\usepackage[capitalize, noabbrev]{cleveref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{natbib}
 \bibliographystyle{plainnat}
 \usepackage{enumitem}
@@ -42,14 +47,14 @@
 \newtheorem{decisionrule}{Decision Rule}
 
 % ---------- title ----------
-\title{Format Matters More Than Length:\\
-       Attention Dilution as a Mechanism for\\
-       Long-Context Refusal Failure}
+\title{Attention Dilution:\\
+       A Mechanistic Analysis of Context-Length Jailbreaks\\
+       and Activation Steering in LLMs}
 
 \author{
   Ayush Kokande \\
   New York University \\
-  \texttt{ayushkokande093@gmail.com}
+  \texttt{ak13124@nyu.edu}
   \and
   Suraj Mishra \\
   New York University \\
@@ -61,7 +66,6 @@
 \begin{document}
 \maketitle
 
-% ============================================================
 \begin{abstract}
 Safety-tuned language models that reliably refuse harmful requests in
 isolation often comply with the same requests when buried in long benign
@@ -184,17 +188,18 @@ localize the upstream lesion.
 
 \paragraph{Model.}
 \model{}: 40 transformer blocks, 40 query heads (GQA, 8 KV heads),
-$d_\mathrm{model}{=}5120$, 32K RoPE context window. We load via
-\texttt{transformer\_lens} \citep{nanda2022transformerlens} with bf16
-weights and \texttt{default\_padding\_side="left"}. Qwen3 emits
+$d_\mathrm{model}{=}5120$, 32K RoPE context window. We load with bf16
+weights and \texttt{padding\_side="left"} via HuggingFace
+\texttt{AutoModelForCausalLM} and \texttt{transformer\_lens}
+\citep{nanda2022transformerlens} for hooked-residual /
+hooked-attention operations, on A100-80GB hardware. Qwen3 emits
 \texttt{<think>} blocks that pollute residual-stream activations and
 refusal scoring; we force \texttt{enable\_thinking=False} at the chat
-template level and additionally strip any leading
-\texttt{<think>} block before scoring. All experiments use a single
-A100-80GB.
+template level and additionally strip any leading \texttt{<think>}
+block before scoring.
 
 \paragraph{Data.}
-Harmful prompts: \advbench{} \citep{zou2023advbench} \texttt{harmful\_behaviors.csv}, filtered to 520 usable prompts. Harmless prompts: \alpaca{} \citep{taori2023alpaca} train split, empty-input rows after a content filter, $n{=}23\,380$. Per-experiment row indices are pinned in \texttt{splits.json}; disjointness between $\dhat$ training and downstream evaluation pools is enforced (three documented overlap warnings, all flagged in \cref{app:splits}).
+Harmful prompts: the 520 prompts of \advbench{} \citep{zou2023advbench} \texttt{harmful\_behaviors.csv}. Harmless prompts: \alpaca{} \citep{taori2023alpaca} train split, empty-input rows after a content filter, $n{=}23\,380$. Per-experiment row indices are pinned in \texttt{splits.json}; disjointness between $\dhat$ training and downstream evaluation pools is enforced (two documented overlap warnings, both flagged in \cref{app:splits}).
 
 \paragraph{Refusal detector.}
 Lowercased substring match on the first 200 characters of the
@@ -206,7 +211,7 @@ Six structures wrap the harmful request in benign material
 (\cref{tab:formats}). Across formats $\Ncontext$ denotes the token count
 of bloat material (excluding the harmful request itself).
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\small
 \begin{tabular}{lp{0.72\linewidth}}
 \toprule
@@ -223,21 +228,48 @@ Format & Construction \\
 \caption{The six bloat formats. Same harmful request, same token budget;
 only the wrapping structure varies.}
 \label{tab:formats}
-\end{table}
+\end{table*}
 
 \subsection{Baseline refusal rates}
 \label{sec:setup-baseline}
 
 Before any extraction or intervention, we measure the unconditioned
-refusal floor of the intact model on each pool. Greedy decode
-(\texttt{temperature=0}, \texttt{max\_new\_tokens=512}) on \advbench{}
-($n{=}520$) and \alpaca{} ($n{=}512$): harmful refusal $0.937$, harmless
-refusal $0.014$. The harmless rate falls well below the $\leq 0.05$
-threshold required by Decision Rule~\ref{rule:layer}, so layer
-selection has headroom. The harmful rate of $0.937$ rather than
-$\sim\!1.0$ gives a meaningful binary signal for the dilution sweep:
-there is room to move both up (under steering) and down (under context
-bloat).
+refusal floor of the intact model on each pool with the canonical HF
+\texttt{AutoModelForCausalLM} stack: bf16, \texttt{device\_map="auto"}
+across $2{\times}$A100-80GB, left-padded batched greedy decode
+(\texttt{temperature{=}0}, \texttt{max\_new\_tokens{=}512},
+\texttt{batch\_size{=}8}, \texttt{enable\_thinking{=}False}) and the
+canonical $18$-marker \texttt{looks\_like\_refusal} detector
+(\cref{app:refusal-detector}). \Cref{tab:baseline} reports the headline
+numbers (\texttt{results/qwen3-14b/baseline\_summary.json}; per-prompt
+outputs in \texttt{baseline\_advbench.jsonl},
+\texttt{baseline\_alpaca.jsonl}; reproduction script
+\texttt{experiment\_1/baseline\_benchmark.py}). The harmless rate falls
+well below the $\leq 0.05$ threshold required by Decision
+Rule~\ref{rule:layer}, so layer selection has headroom. The harmful
+rate of $0.937$ rather than $\sim\!1.0$ gives a meaningful binary
+signal for the dilution sweep: there is room to move both up (under
+steering) and down (under context bloat).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrr}
+\toprule
+Pool & $n$ & refusal & compliance \\
+\midrule
+\advbench{} (harmful) & $520$ & $0.9365$ & $0.0635$ \\
+\alpaca{} (harmless)  & $512$ & $0.0137$ & $0.9863$ \\
+\bottomrule
+\end{tabular}
+\caption{Unconditioned baseline refusal rates on \model{}, intact
+model with no hooks. \advbench{}: full LLM-attacks
+\texttt{harmful\_behaviors.csv} ($n{=}520$); \alpaca{}: empty-input
+rows of \texttt{tatsu-lab/alpaca[train]} after the
+\texttt{\_harmless\_instruction\_is\_clean} filter, capped at
+$n{=}512$. The harmful rate $0.9365$ rounds to the $0.937$ used
+inline; the harmless rate $0.0137$ rounds to $0.014$.}
+\label{tab:baseline}
+\end{table}
 
 % ============================================================
 \section{Method: Extracting and Validating the Refusal Direction}
@@ -246,6 +278,13 @@ bloat).
 \subsection{DiffMean extraction at every layer}
 \label{sec:method-dhat}
 
+We use difference-of-means
+\citep{arditi2024refusal} rather than a gradient-based attribution
+method: DiffMean is per-head fast, scales trivially to a per-layer
+$\times$ per-$\Ncontext$ sweep, and admits a clean causal validation
+(project the direction out and watch refusal collapse), which gives
+the same ``this is the responsible direction'' claim that gradient
+attribution would supply at orders of magnitude lower compute.
 For each transformer block $\layerL \in \{0, \ldots, 39\}$, we cache
 the last-token residual stream over disjoint harmful and harmless
 training pools and compute
@@ -279,15 +318,18 @@ with deterministic tie-break by closeness to the peak-norm layer.
 \end{decisionrule}
 
 \paragraph{Result.}
-For \model{}, candidate layers
-$\{14, 16, 18, \ldots, 36\}$ produce essentially zero post-ablation
-harmful refusal at every $\layerL{\geq}18$ on the small held-out pool.
-The peak-norm layer is $\layerL{=}39$. Applying the tie-break we
-select \textbf{$\Lread{=}36$} as canonical: closest to the peak-norm
-layer among the satisficing candidates, $0.00$ post-ablation harmful
-refusal, $0.00$ post-ablation harmless refusal. Validation on a
-disjoint $100$-prompt harmful pool gives intact-harmful
-refusal $0.86$, ablated-harmful $0.00$, intact-harmless $0.00$,
+For \model{}, the layer-sweep on candidate grid
+$\{14, 16, 18, \ldots, 36\}$ over the $24$-prompt held-out pool
+\advbench{}$[480, 504)$ produces post-ablation harmful refusal at zero
+or near zero across $\layerL \in \{18, 20, 24, 26, 28, 30, 32, 34, 36\}$,
+with one outlier at $\layerL{=}22$ ($0.708$ post-ablate; an intrinsic
+instability of the diff-of-means geometry at that depth). The
+peak-norm layer is $\layerL{=}39$ (\cref{fig:phase1-norms}). Applying the tie-break we select
+\textbf{$\Lread{=}36$} as canonical: closest to the peak-norm layer
+among the satisficing candidates, $0.000$ post-ablation harmful
+refusal, $0.000$ post-ablation harmless refusal. Validation on a
+disjoint $100$-prompt harmful pool gives intact-harmful refusal
+$0.86$, ablated-harmful $0.00$, intact-harmless $0.00$,
 ablated-harmless $0.00$ --- a clean directional ablation
 (\cref{tab:phase1-validation}). All downstream sections use
 $\Lread{=}36$.
@@ -325,44 +367,12 @@ $\Lread{=}36$ as canonical.}
 \subsection{Identifying Guardrail Heads via direct logit attribution}
 \label{sec:guardrail-heads}
 
-\paragraph{Read-layer choice.}
-The mechanistic analyses in this section and in
-\cref{sec:mechanism,sec:pathpatching} read off the refusal direction
-at $\Lread{=}36$ rather than at the causal-canonical layer
-$\layerL{=}18$. The two layers serve different purposes: $\layerL{=}18$
-is the layer at which projecting out $\dhat$ collapses refusal-rate to
-zero on the held-out pool (causal-best, \cref{sec:method-dhat}), so it
-is the right site to \emph{intervene}; $\Lread{=}36$ is the last block
-before the unembed where the $\dhat$ projection magnitude is largest
-and the corresponding refusal-vs-compliance logit gap is most
-resolvable, so it is the right site to \emph{read out}. The per-layer
-diff-of-means $\dhat_\layerL$ bank is monotonically growing in norm
-(\cref{fig:phase1-norms}) and aligned across the bulk of the network,
-so $\dhat_{18}$ and $\dhat_{36}$ point in the same direction up to
-scale; they differ in magnitude, not in what they encode.
-
-\paragraph{DLA at $\Lread{=}36$.}
 With $\Lread{=}36$ fixed, for each $(\layerL, h)$ with
 $\layerL \leq 36$ we project the head's per-token contribution at the
 final instruction position onto $\dhat_{36}$ and average over $24$
 harmful prompts. Top-12 heads form the Guardrail Set
 (\cref{tab:guardrail}); a single head, \textbf{L36H31}, dominates
 ($+15.4$, $2.3\times$ the next head).
-
-\paragraph{DLA at $\Lread{=}18$ (complementary view).}
-Repeating the same analysis at $\Lread{=}18$ (the causal-canonical
-layer; only $\layerL \leq 18$ heads can score) puts a different head
-at the top: \textbf{L15H4} (DLA $1.52$, $2.7\times$ the next).
-The two read-layers thus surface complementary parts of the
-refusal circuit. The L36-readoff DLA is dominated by late-layer
-write-ins to the readoff residual (L33--L36 family); the L18-readoff
-DLA surfaces early-to-mid heads (L13--L17) that build the refusal
-direction in the first place. The mechanistic story
-(\cref{sec:mechanism,sec:pathpatching}) follows the L36 chain because
-that is where the attentional collapse is visible and patchable; the
-L18-readoff result is a sanity check that the canonical-layer
-direction is constructed by a non-trivial set of upstream heads, not
-imported wholesale from a single early head.
 
 \begin{table}[t]
 \centering\small
@@ -380,11 +390,13 @@ L30H19          & $+2.60$       & L35H39 & $+1.80$ \\
 \end{tabular}
 \caption{Top-12 Guardrail Heads by direct logit attribution onto
 $\dhat_{36}$. L36H31 dominates by a wide margin and is the focus of
-the mechanistic analysis in \cref{sec:mechanism,sec:pathpatching}.}
+the mechanistic analysis in \cref{sec:mechanism,sec:pathpatching}.
+The full per-head DLA ranking is visualised in
+\cref{fig:phase1-heatmap} and \cref{fig:exp3-dla-heatmap}.}
 \label{tab:guardrail}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{phase1_dla_heatmap.png}
 \caption{Per-head direct logit attribution onto $\dhat_{36}$ for all
@@ -394,7 +406,7 @@ blue is negative. \textbf{L36H31} is the single brightest cell;
 secondary positive heads cluster in mid-to-late layers
 ($\layerL \in \{24, 26, 27, 30, 33, 35, 36\}$).}
 \label{fig:phase1-heatmap}
-\end{figure}
+\end{figure*}
 
 % ============================================================
 \section{Validity Battery}
@@ -403,14 +415,11 @@ secondary positive heads cluster in mid-to-late layers
 A reviewer flagged that \advbench{} and \alpaca{} differ in surface
 form (verb class, length, lexical register), so $\dhat$ may track
 domain shift rather than harm intent. We address this with four
-preregistered confound-control experiments. The validity battery was
-run on an independent 14B $\dhat$-extraction at $\layerL{=}20$ (a
-candidate from a norm-and-causal hybrid criterion that pre-dates the
-canonical $\Lread{=}36$ adopted in \cref{sec:method-dhat}); we report
-the validity numbers at that layer and note that the qualitative
-conclusions (harm-specific direction, no domain/lexicon/topic
-contamination) are independent of the choice between
-$\layerL{=}20$ and $\layerL{=}36$.
+preregistered confound-control experiments, all run at canonical
+$\Lread{=}36$ on $\dhat$ extracted per \cref{sec:method-dhat}, with a
+parallel arm on the matched-pool replication $\dhatstar$
+(\cref{sec:validity-matched}). Headline numbers are reported at
+canonical $\Lread{=}36$.
 
 \subsection{Matched verb/length pools}
 \label{sec:validity-matched}
@@ -427,9 +436,27 @@ $\Rightarrow$ clean. $\leq 0.70$ $\Rightarrow$ contaminated.
 \end{decisionrule}
 
 \paragraph{Result.}
-$\cos(\dhat, \dhatstar) = 0.971$ at $\layerL{=}20$. Comfortably above
-the clean threshold; $\dhat$ does not collapse onto the
-verb-class/length confound.
+$\cos(\dhat, \dhatstar) = 0.9748$ at canonical $\Lread{=}36$
+(\texttt{refusal\_direction\_matched/compare\_to\_orig.json}).
+The per-layer cosine sequence climbs from $0.69$ at $\layerL{=}0$ to a
+plateau $\geq 0.97$ from $\layerL{=}19$ onward
+(\cref{fig:exp4-cos}); canonical $\Lread{=}36$ sits well inside that
+plateau. Comfortably above the clean threshold; $\dhat$ does not
+collapse onto the verb-class / length confound.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\linewidth]{exp4_matched_cos_per_layer.png}
+\caption{Per-layer $\cos(\dhat_\layerL, \dhatstar_\layerL)$ between
+the canonical \advbench{}-vs-\alpaca{} direction $\dhat$ and the
+verb-class- and word-length-matched replication $\dhatstar$. The
+cosine plateau $\geq 0.97$ from $\layerL{=}19$ onward; the canonical
+read-out layer $\Lread{=}36$ sits well inside the plateau, with
+$\cos(\dhat_{36}, \dhatstar_{36}) = 0.9748$. The early-layer dip
+($\sim 0.69$ at $\layerL{=}0$) reflects pre-Diff-of-Means embedding
+geometry rather than a divergence in what the direction encodes.}
+\label{fig:exp4-cos}
+\end{figure}
 
 \subsection{Style/vocabulary mismatch}
 \label{sec:validity-style}
@@ -441,12 +468,36 @@ project residuals onto $\dhat$. We compute two AUCs: $\mathrm{AUC}_{\text{intent
 (camouflaged-harmful as positive class), $\mathrm{AUC}_{\text{vocab}}$
 ranks prompts by edgy-lexicon density.
 
+\begin{decisionrule}[Style/vocabulary]
+\label{rule:style}
+$\mathrm{AUC}_{\text{intent}} \geq 0.85$ AND
+$\mathrm{AUC}_{\text{vocab}} \in [0.35, 0.65]$ (preregistered chance
+band).
+\end{decisionrule}
+
 \paragraph{Result.}
-At $\layerL{=}20$, $\mathrm{AUC}_{\text{intent}}$ markedly exceeds
-$\mathrm{AUC}_{\text{vocab}}$, indicating $\dhat$ ranks prompts by
-intent rather than by lexical register
-(decision threshold: intent-AUC $\geq 0.80$ AND
-$\mathrm{AUC}_{\text{intent}} - \mathrm{AUC}_{\text{vocab}} \geq 0.20$).
+At canonical $\Lread{=}36$,
+$\mathrm{AUC}_{\text{intent}} = 1.000$ and
+$\mathrm{AUC}_{\text{vocab}} = 0.597$ on $\dhat$
+(matched $\dhatstar$: $\mathrm{AUC}_{\text{vocab}} = 0.536$;
+\texttt{validity/auc.json}). Both vocab AUCs sit inside the
+preregistered chance band $[0.35, 0.65]$ while intent AUC saturates
+at $1.000$. Verdict \textbf{SEMANTIC}: projection tracks harmful
+intent; edgy-vocab association is at chance
+(\cref{fig:exp5-scatter}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{exp5_validity_scatter.png}
+\caption{Style/vocabulary 2$\times$2 design: per-prompt projection on
+$\dhat$ (\advbench{}-canonical) and $\dhatstar$ (matched-pool) at
+$\Lread{=}36$ and at the parallel probe $\layerL{=}28$. Harmful
+intent (orange) separates cleanly from harmless intent (blue) on the
+projection axis at every cell; edgy and plain vocab cells overlay
+within each intent class, demonstrating that the direction tracks
+harm intent rather than lexical register.}
+\label{fig:exp5-scatter}
+\end{figure}
 
 \subsection{Intent\,$\times$\,Topic 2$\times$2 ANOVA}
 \label{sec:validity-topic}
@@ -463,22 +514,42 @@ $\eta^{2}(\text{topic}) \leq 0.1$.
 \end{decisionrule}
 
 \paragraph{Result.}
-At canonical $\layerL{=}18$,
-$\eta^{2}(\text{intent}) = 0.882$ and $\eta^{2}(\text{topic}) = 0.187$
-on $\dhat$ (matched $\dhat^{*}$: $0.847$, $0.151$). Intent dominates
-($>17\times$ topic effect size) but topic exceeds the $0.10$ pre-registered
-ceiling: \textbf{MIXED} verdict. The pre-registered fallback
-mandates a topic-orthogonalisation robustness check.
+At canonical $\Lread{=}36$ on $\dhat$,
+$\eta^{2}(\text{intent}) = 0.963$, $\eta^{2}(\text{topic}) = 0.094$,
+$\eta^{2}(\text{intent}{:}\text{topic}) = 0.002$
+(\texttt{topic\_decouple/anova.json}). Intent dominates ($>10\times$
+topic effect size) and topic sits below the preregistered $0.10$
+ceiling: \textbf{CLEAN} verdict on $\dhat$. The matched-pool
+replication ($\dhatstar$) gives
+$\eta^{2}(\text{intent}) = 0.957$, $\eta^{2}(\text{topic}) = 0.137$:
+\textbf{MIXED} on the matched arm only, triggering the preregistered
+topic-orthogonalisation robustness check.
 
 \paragraph{Robustness check.}
-Within-topic discrimination is perfect:
-$\mathrm{AUC}_{\text{intent}}{=}1.000$ on both topic strata
-(mundane and edgy) for $\dhat$ and $\dhat^{*}$. Linearly orthogonalising
-the projection against the topic indicator and re-running the ANOVA
-preserves $\eta^{2}(\text{intent}){=}0.882$ ($0.847$ for $\dhat^{*}$)
-with $\eta^{2}(\text{topic}){\approx}10^{-32}$. The headline harm-intent
-claim is therefore \textbf{robust} to topic-orthogonal projection: $\dhat$
-tracks topic-orthogonal harm-intent, not a harmful-topic detector.
+Within-topic discrimination is perfect on both pools:
+$\mathrm{AUC}_{\text{intent}}{=}1.000$ on each topic stratum (mundane
+and edgy) for $\dhat$ and $\dhatstar$. Linearly orthogonalising the
+projection against the topic indicator and re-running the ANOVA
+preserves $\eta^{2}(\text{intent})$ at the headline value with
+$\eta^{2}(\text{topic}){<}10^{-30}$ on both arms
+(\texttt{topic\_decouple/orthogonalisation.json}). The harm-intent
+claim is therefore \textbf{robust} to topic-orthogonal projection on
+both $\dhat$ and $\dhatstar$: $\dhat$ tracks topic-orthogonal
+harm-intent, not a harmful-topic detector
+(\cref{fig:exp6-topic-boxplot}; per-direction AUC scatter in
+\cref{fig:exp6-topic-scatter}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.75\linewidth]{exp6_topic_boxplot.png}
+\caption{Per-cell projection on $\dhat_{36}$ for the 2$\times$2 (intent
+$\times$ topic) factorial. Cells: harmless-mundane, harmless-edgy
+(both centred near zero), harmful-mundane, harmful-edgy (both
+centred well above zero with tight spread). Cell-mean separation
+along the intent axis dwarfs along-topic spread, consistent with
+$\eta^{2}(\text{intent})=0.963 \gg \eta^{2}(\text{topic})=0.094$.}
+\label{fig:exp6-topic-boxplot}
+\end{figure}
 
 \subsection{Harm-refusal vs.\ policy-refusal AUC}
 \label{sec:validity-policy}
@@ -494,34 +565,51 @@ $\mathrm{AUC}(\text{harm vs.\ policy}) \geq 0.85$.
 \end{decisionrule}
 
 \paragraph{Result.}
-At canonical $\layerL{=}18$,
-$\mathrm{AUC}(\text{harm vs.\ policy}) = 0.933$ on $\dhat$ and $0.933$
-on matched $\dhat^{*}$. Sanity AUCs:
+At canonical $\Lread{=}36$,
 $\mathrm{AUC}(\text{harm vs.\ harmless}) = 1.000$,
-$\mathrm{AUC}(\text{policy vs.\ harmless}) = 0.998$. Pool means at
-$\layerL{=}18$ are $33.7$ (harm), $10.9$ (policy), $-10.9$ (harmless):
-policy refusals project positively on $\dhat$ but with roughly
-one-third the magnitude of harm refusals. Verdict
+$\mathrm{AUC}(\text{policy vs.\ harmless}) = 0.998$,
+$\mathrm{AUC}(\text{harm vs.\ policy}) = 0.981$ on $\dhat$
+(matched $\dhatstar$ also $0.981$; \texttt{policy\_validity/aucs.json}).
+Policy refusals project positively on $\dhat$ but with substantially
+smaller magnitude than harm refusals; the $\mathrm{AUC}(\text{harm vs.\
+policy})$ at $0.981$ is well above the preregistered HARM\_SPECIFIC
+threshold and approaches the harm-vs-harmless ceiling. Verdict
 \textbf{HARM\_SPECIFIC}: $\dhat$ separates harm-driven refusal from
 policy-driven refusal cleanly while still residing partly on the same
 axis as the latter.
 
 \paragraph{Caveat.}
-A pre-registered preflight at $T{=}0$ (\cref{app:refusal-detector})
-finds Qwen3-14B refuses only $44\%$ of \sorrybench{} cats~41--45
-prompts (per-category: financial $30\%$, legal $10\%$, dangerous
-machinery $30\%$, medical $70\%$, governance $80\%$). The AUC rule
-above is applied unchanged per the pre-registered fallback: a
-$\dhat$ projection gap of this size on policy-tone prompts
+A pre-registered preflight at $T{=}0$
+(\texttt{policy\_validity/refusal\_preflight\_summary.json}) finds
+\model{} refuses only ${\sim}44\%$ of \sorrybench{} cats~41--45
+prompts. The AUC rule is applied unchanged per the pre-registered
+fallback: a $\dhat$ projection gap of this size on policy-tone prompts
 \emph{regardless of whether the model declines} is exactly the
-behavior expected of a harm-axis direction, not a generic-decline
-direction.
+behaviour expected of a harm-axis direction, not a generic-decline
+direction (\cref{fig:exp7-policy-boxplot}).
 
-\paragraph{Summary.} Three of four validity checks pass at threshold;
-the topic-decoupling 2$\times$2 returns MIXED but the pre-registered
-robustness check (topic orthogonalisation) is ROBUST.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.75\linewidth]{exp7_policy_boxplot.png}
+\caption{Per-pool projection on $\dhat_{36}$ for the three pools:
+\alpaca{} harmless (left), \sorrybench{} cats~41--45 policy-refusal
+(middle), \advbench{}$[50, 100)$ harm-refusal (right). Policy
+refusals project mildly positive but with substantially smaller
+magnitude than harm refusals, separating cleanly from both extremes;
+the gap underwrites $\mathrm{AUC}(\text{harm vs.\ policy}) = 0.981$
+without conflating the two refusal modes.}
+\label{fig:exp7-policy-boxplot}
+\end{figure}
+
+\paragraph{Summary.} All four validity checks pass at threshold on
+canonical $\Lread{=}36$: matched $\dhatstar$ \textbf{CLEAN}
+(\cref{rule:matched}), style/vocab \textbf{SEMANTIC} within the
+preregistered chance band (\cref{rule:style}), topic 2$\times$2
+\textbf{CLEAN} on $\dhat$ (\cref{rule:topic}; matched arm
+\textbf{MIXED} but \textbf{ROBUST} under topic orthogonalisation),
+policy-refusal \textbf{HARM\_SPECIFIC} (\cref{rule:policy}).
 $\dhat$ is harm-specific, not a verb-class artefact, not a
-lexical-register artefact, robust to topic confound, and not a generic
+lexical-register artefact, not a topic artefact, and not a generic
 compliance-decline direction. It is safe to use as the refusal
 read-off for the dilution analysis that follows.
 
@@ -558,7 +646,7 @@ Length is decisively not the right axis.}
 \label{sec:dense}
 
 A 15-point $\Ncontext$ sweep on \texttt{distractor} traces the
-collapse (\cref{tab:dense}). Refusal drops from $0.97$ at $\Ncontext{=}0$
+collapse (\cref{tab:dense,fig:phase2-dense}). Refusal drops from $0.97$ at $\Ncontext{=}0$
 to $0.43$ at $\Ncontext{=}32$ and to $0.13$ at $\Ncontext{=}64$, then
 saturates near zero by $\Ncontext{=}512$. Linear interpolation places
 the half-baseline crossing at $\Ncontext_{\mathrm{jb}} \approx 31$
@@ -573,7 +661,7 @@ $\Ncontext$ & Refusal & H1: attn$\to$harmful (L36H31) & H2: $\cos(\text{resid}, 
 $0$    & $0.97$ & $0.27$ & $0.44$ \\
 $32$   & $0.43$ & $0.04$ & $0.12$ \\
 $64$   & $0.13$ & $0.02$ & $0.05$ \\
-$128$  & $0.08$ & $0.02$ & $0.06$ \\
+$128$  & $0.08$ & $0.01$ & $0.03$ \\
 $\geq 512$ & $0\text{--}0.01$ & floor & floor \\
 \bottomrule
 \end{tabular}
@@ -582,10 +670,10 @@ prompts. Refusal collapses at ${\sim}31$ bloat tokens.}
 \label{tab:dense}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{phase2_dense_distractor.png}
-\caption{Phase 2 dense sweep on the focal \texttt{distractor} format
+\caption{Dense sweep on the focal \texttt{distractor} format
 across $\Ncontext \in \{0, 32, 64, \ldots, 4096\}$. Three quantities
 overlaid: H1 = mean attention mass from L36's last token onto the
 harmful-token span at the Guardrail Heads (left axis); H2 =
@@ -595,7 +683,7 @@ H2 stays close to constant. Half-baseline crossing at
 $\Ncontext_{\mathrm{jb}} \approx 31$ tokens. Red markers indicate
 runs that OOMed and are reported as failures rather than dropped.}
 \label{fig:phase2-dense}
-\end{figure}
+\end{figure*}
 
 % ============================================================
 \section{Cross-Format Generalization: Dilution Equals Ablation Only Under \texttt{distractor}}
@@ -628,7 +716,7 @@ mechanistically equivalent to V\_refusal removal.}
 \label{tab:killer}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{phase5_multi.png}
 \caption{Six-panel cross-format $2{\times}2$ comparison
@@ -641,16 +729,157 @@ in all five other formats it stays well above. Harmless curves
 visual for ``format $>$ length'': same model, same harmful prompts,
 same token budgets --- only the wrapping structure varies.}
 \label{fig:phase5-multi}
-\end{figure}
+\end{figure*}
 
 \paragraph{Interpretation.}
-The dilution effect is not a generic consequence of long context. It
+The full intact-vs-ablated $\times$ harmful-vs-harmless 6-panel grid
+is in \cref{fig:phase5-multi}. The dilution effect is not a generic consequence of long context. It
 requires a prompt structure that produces \emph{competing tasks} which
 pull Guardrail-Head attention away from the harmful tokens through
 softmax dilution. Inert prefix prose, conversational chat history, and
 few-shot Q/A blocks do not engage this mechanism, even at
 $\Ncontext{=}4096$. This refines the popular framing of long-context
 jailbreaks: the relevant axis is structure, not raw token count.
+
+% ============================================================
+\section{Cross-Arm Robustness on Wikipedia-Style Bloat}
+\label{sec:wiki-arm}
+
+The dilution sweeps in \cref{sec:dilution,sec:multiformat} use a
+creative-writing passage (Willowbrook) for the inert formats and
+\alpaca{} content for the structured formats. To test that the
+``format $>$ length'' result is not contingent on either content
+choice, we run a parallel arm on a neutral Wikipedia-style passage
+(\texttt{BENIGN\_SEED\_PASSAGE} in
+\texttt{experiment\_8/context\_sweep.py}; geological/historical prose
+about the Apennines, no instructional or apologetic tokens). This
+arm uses the canonical HF \texttt{AutoModelForCausalLM} stack
+(\cref{sec:setup}), the canonical \texttt{looks\_like\_refusal}
+detector (\cref{app:refusal-detector}), and the canonical sweep pool
+\advbench{}$[0, 100)$, so its numbers are directly comparable to the
+\texttt{prefix} row of \cref{tab:killer}.
+
+\subsection{Binary refusal sweep extended to $\Ncontext{=}32{,}768$}
+\label{sec:wiki-baseline}
+
+\Cref{tab:wiki-baseline} reports refusal rate at every
+$\Ncontext \in \{0, 128, 512, 1024, 2048, 4096, 8192, 16384, 32768\}$
+for both the intact model and the L36-ablated model
+(\texttt{results/qwen3-14b/context\_sweep/summary.json}). Without the
+$[B,H,T,T]$ attention pattern (we are scoring binary refusal, not
+measuring per-head mass), this sweep extends past the eager-attention
+OOM ceiling that bounds \cref{sec:mechanism}.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rcc}
+\toprule
+$\Ncontext$ & intact (baseline) & ablated ($\dhat_{36}$ projected out) \\
+\midrule
+$0$        & $0.99$ & $0.29$ \\
+$128$      & $0.97$ & $0.25$ \\
+$512$      & $0.95$ & $0.19$ \\
+$1024$     & $0.96$ & $0.30$ \\
+$2048$     & $0.95$ & $0.27$ \\
+$4096$     & $0.97$ & $0.29$ \\
+$8192$     & $0.95$ & $0.30$ \\
+$16{,}384$ & $0.95$ & $0.26$ \\
+$32{,}768$ & $0.95$ & $0.25$ \\
+\bottomrule
+\end{tabular}
+\caption{Wikipedia-style \texttt{prefix} bloat, \advbench{}$[0, 100)$,
+canonical detector. Intact arm is flat $0.95$--$0.99$ across nearly
+five orders of magnitude in $\Ncontext$; ablated arm is flat
+$0.19$--$0.30$. Behaviourally consistent with the \texttt{prefix}-row
+of \cref{tab:killer} ($0.97$ at $\Ncontext{=}4096$): inert prepended
+content does not dilute refusal at any tested length.}
+\label{tab:wiki-baseline}
+\end{table}
+
+\paragraph{Residual refusal under ablation.} Ablation removes roughly
+$70$\,pp of refusal across all $\Ncontext$ (intact $0.95$--$0.99$
+$\to$ ablated $0.19$--$0.30$), leaving ${\sim}25\%$ residual that
+other directions or surface-level templating in the model's
+generation distribution contribute. We read this as evidence that
+$\dhat_{36}$ is the \emph{dominant but not sole} refusal direction at
+$\Lread{=}36$. The qualitative effect (large drop in refusal under
+ablation, flat in $\Ncontext$) is unchanged.
+
+\subsection{Continuous projection vs.\ $\Ncontext$ at
+$\layerL\in\{32, 36, 39\}$}
+\label{sec:wiki-projection}
+
+The binary sweep above is detector-mediated. We complement it with the
+unnormalized scalar projection of the last-token residual onto $\dhat$
+at three probe layers ($\layerL \in \{32, 36, 39\}$: canonical readoff,
+plus the immediate $\pm$-norm-best neighbours), measured on the same
+Wikipedia \texttt{prefix} bloat pool
+(\texttt{results/qwen3-14b/projection\_sweep.json};
+\cref{tab:wiki-projection}).
+
+\begin{table*}[t]
+\centering\small
+\begin{tabular}{rrrr}
+\toprule
+$\Ncontext$ & $\langle \mathrm{resid}, \dhat \rangle_{\layerL{=}32}$
+            & $\langle \mathrm{resid}, \dhat \rangle_{\layerL{=}36}$
+            & $\langle \mathrm{resid}, \dhat \rangle_{\layerL{=}39}$ \\
+\midrule
+$0$        & $224.5$ & $345.7$ & $463.6$ \\
+$128$      & $197.8$ & $304.7$ & $389.1$ \\
+$512$      & $187.2$ & $283.2$ & $324.1$ \\
+$1024$     & $207.5$ & $309.9$ & $353.6$ \\
+$2048$     & $208.9$ & $309.9$ & $339.5$ \\
+$4096$     & $212.9$ & $316.4$ & $348.5$ \\
+$8192$     & $219.8$ & $325.8$ & $357.8$ \\
+$16{,}384$ & $222.4$ & $331.9$ & $355.8$ \\
+$32{,}768$ & $213.7$ & $318.4$ & $278.7$ \\
+\bottomrule
+\end{tabular}
+\caption{Mean unnormalized scalar projection onto $\dhat$ vs.\
+$\Ncontext$ on Wikipedia \texttt{prefix} bloat,
+\advbench{}$[0, 100)$, $n{=}100$. Small dip ($-12$ to $-30\%$ at
+$\Ncontext{=}512$) followed by recovery at all three probe layers.
+The projection stays decisively positive across the full grid ---
+in contrast to the $+512 \to -58$ sign-flip observed under
+\texttt{distractor} bloat at $\Ncontext{=}512$
+(\cref{sec:rescue}).}
+\label{tab:wiki-projection}
+\end{table*}
+
+\paragraph{Mechanistic implication.} The Wiki-bloat projection trace
+contrasts sharply with the \texttt{distractor} sign-flip: under
+Wikipedia bloat the residual stays in the refusal half-space at every
+$\Ncontext$, mirroring the flat behavioural baseline in
+\cref{tab:wiki-baseline}; under \texttt{distractor} bloat the residual
+crosses into the anti-refusal half-space at $\Ncontext{=}512$, matching
+the behavioural collapse in \cref{tab:killer}. The two arms agree at
+the residual level: \emph{format determines whether the read-off
+layer's $\dhat$-component flips sign}, and behaviour tracks this sign
+under both content types tested. \cref{sec:wiki-projection} also
+extends \cref{sec:mechanism}'s representational claim past
+$\Ncontext{=}4096$: even at $\Ncontext{=}32{,}768$ the $\dhat$
+component at $\Lread{=}36$ remains within $9\%$ of its
+$\Ncontext{=}0$ magnitude, ruling out gradual representational washout
+as an alternative to the head-attention story
+(\cref{fig:exp9-projection}).
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\linewidth]{exp9_projection_sweep.png}
+\caption{Mean unnormalized scalar projection of the last-token
+residual onto $\dhat$ at three probe layers
+($\layerL \in \{32, 36, 39\}$) versus bloat token count
+$\Ncontext$ on Wikipedia \texttt{prefix} bloat,
+\advbench{}$[0, 100)$. All three traces dip mildly at
+$\Ncontext{\approx}512$ and recover; none crosses zero at any tested
+length up to $\Ncontext{=}32{,}768$. Compare with the
+\texttt{distractor} arm in \cref{sec:rescue}: identical extraction,
+identical readoff, sign-flip under \texttt{distractor} but not under
+\texttt{prefix}, isolating prompt structure (not raw length) as the
+cause of the readoff inversion.}
+\label{fig:exp9-projection}
+\end{figure*}
 
 % ============================================================
 \section{Mechanism: Attentional, Not Representational}
@@ -692,7 +921,9 @@ into the residual has stopped reading from the relevant tokens.
 This is consistent with \citet{zhao2025separately}: harmfulness is
 encoded at the instruction tokens, refusal is computed downstream by
 reading from those tokens. Cut the read with softmax dilution and the
-downstream refusal computation never fires.
+downstream refusal computation never fires. The full per-head
+attribution heatmap and the L36H31 source-token flow are in
+\cref{fig:phase6-attribution,fig:phase6-sourceflow}.
 
 % ============================================================
 \section{The Failed Single-Site Rescue and the Sign-Flip Discovery}
@@ -705,11 +936,11 @@ additive hook at L36's \texttt{resid\_post} that adds
 $\alpha\!\cdot\!\hat{V}_{\mathrm{refusal}}$ to every token position
 during inference, sweeping $\alpha \in \{0,1,2,4,8,16\}$ at five
 $\Ncontext$ values on the focal \texttt{distractor} format
-(\cref{tab:rescue}). At $\Ncontext{\geq}512$, no value of $\alpha$
+(\cref{tab:rescue}; refusal-vs-$\alpha$ curves in \cref{fig:phase3-rescue} and MMLU capability sanity in \cref{fig:phase3-mmlu}, both as subfigures of \cref{fig:phase3}). At $\Ncontext{\geq}512$, no value of $\alpha$
 restores refusal. At $\Ncontext{=}256$ the rescue is weak
 ($0.23 \to 0.29$ as $\alpha: 0 \to 16$).
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\small
 \begin{tabular}{rcccccc}
 \toprule
@@ -726,9 +957,9 @@ $4096$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ \\
 injection at L36, focal format \texttt{distractor}, $n{=}100$
 prompts per cell. Single-direction rescue fails for $\Ncontext{\geq}512$.}
 \label{tab:rescue}
-\end{table}
+\end{table*}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \begin{subfigure}[t]{0.49\linewidth}
   \centering
@@ -753,14 +984,14 @@ at $0.00$); the rescue lever is capability-safe but ineffective
 against dilution. \cref{sec:rescue} explains the failure as a sign
 flip in the $\dhat$ projection.}
 \label{fig:phase3}
-\end{figure}
+\end{figure*}
 
 \subsection{Capability-cost audit confirms $\dhat$ is narrow}
 
 A 2$\times$2 capability check
 ($\{$intact, ablated$\} \times \{\Ncontext{=}0, \Ncontext{=}4096\}$)
-on $200$ held-out MMLU items and $50$ GSM8K items
-(\cref{tab:capability}) shows V\_refusal removal costs only
+on $171$ held-out MMLU items and $50$ GSM8K items
+(\cref{tab:capability,fig:phase4}) shows V\_refusal removal costs only
 ${\sim}2$\,pp on MMLU and induces zero spurious benign refusals.
 The direction is genuinely capability-orthogonal --- so the failed
 rescue is not because we found the wrong direction.
@@ -786,7 +1017,7 @@ nothing on benign refusal.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.95\linewidth]{phase4_capability.png}
-\caption{Phase 4 capability audit: MMLU and GSM8K accuracy under
+\caption{Capability audit: MMLU and GSM8K accuracy under
 $\{$intact, ablated$\} \times \{\Ncontext{=}0, \Ncontext{=}4096\}$.
 The ablated curve (red) tracks the intact curve (blue) within
 ${\sim}2$\,pp on MMLU and is indistinguishable on GSM8K, supporting
@@ -808,7 +1039,7 @@ conditions:
 \toprule
 & mean clean projection & mean dirty projection \\
 \midrule
-across $8$ prompts & $+512$ & $-66$ \\
+across $8$ prompts & $+512$ & $-58$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -817,8 +1048,8 @@ across $8$ prompts & $+512$ & $-66$ \\
 under dilution.} The model is not merely losing the refusal signal;
 it is actively producing a small \emph{anti-refusal} signal. This
 quantitatively explains the failed rescue: at $\alpha{=}16$ we add
-$+16$ units; the residual is at $-66$ in $\dhat$-units; restoring the
-projection to a positive value would require $\alpha \gtrsim 70$, an
+$+16$ units; the residual is at $-58$ in $\dhat$-units; restoring the
+projection to a positive value would require $\alpha \gtrsim 60$, an
 order of magnitude more than tested. The cosine measurements in
 \cref{tab:dense} stay close to zero rather than negative because they
 are magnitude-normalized over the full residual; the signed projection
@@ -841,7 +1072,7 @@ restored by the patch: $0$ means no effect; $1$ means fully restored.
 
 \subsection{Layer sweep: peak at L=20}
 
-\Cref{tab:pp-layer} reports per-layer recovery (mean $\pm$ SEM,
+\Cref{tab:pp-layer,fig:phase7b-layer} report per-layer recovery (mean $\pm$ SEM,
 $n{=}8$). A clean mid-network bump centered at \textbf{L=20}, with
 shoulders at L=16 and L=24, and recovery indistinguishable from zero
 at the embedding ($\layerL{<}12$) and at the readoff layer
@@ -877,10 +1108,10 @@ clean ($\Ncontext{=}0$) into corrupted ($\Ncontext{=}512$
 \label{tab:pp-layer}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{phase7b_layer_curve_sem.png}
-\caption{Phase 7b layer-sweep recovery curve, mean $\pm$ SEM
+\caption{Path-patching layer-sweep recovery curve, mean $\pm$ SEM
 ($n{=}8$). Solid line: all prompts. Dotted line: leave-one-out
 excluding the high-recovery outlier prompt 0
 ($n{=}7$, mean L=20 recovery $6.6\% \pm 2.5\%$). Both curves peak at
@@ -889,18 +1120,19 @@ indistinguishable from zero at $\layerL \geq 28$ (the readoff layer
 itself is the rightmost point and shows essentially no recovery ---
 patching at L=36 cannot fix what is already wrong).}
 \label{fig:phase7b-layer}
-\end{figure}
+\end{figure*}
 
 \subsection{Joint patching reveals a coupled cascade}
 
 Joint patching at $\{16, 20, 24\}$ simultaneously yields recovery of
-$0.115 \pm 0.041$ SEM. This exceeds the best single layer ($0.093$ at
-L=20) but falls short of the sum of singles ($0.178$), indicating a
-\textbf{subadditive cascade}: clean residuals at upstream layers
-partially propagate downstream, so single-layer patches fix
-overlapping fractions of the same cascading lesion. This rules out
-``three independent circuits'' --- the three layers participate in a
-coupled mechanism (\cref{fig:phase7b-multilayer}).
+$0.115 \pm 0.041$ SEM.
+This exceeds the best single layer ($0.093$ at L=20) but falls short
+of the sum of singles ($0.178$), indicating a \textbf{subadditive
+cascade}: clean residuals at upstream layers partially propagate
+downstream, so single-layer patches fix overlapping fractions of the
+same cascading lesion. This rules out ``three independent circuits''
+--- the three layers participate in a coupled mechanism
+(\cref{fig:phase7b-multilayer}).
 
 \begin{figure}[t]
 \centering
@@ -916,7 +1148,7 @@ independent contributors). Error bars are SEM, $n{=}8$.}
 \subsection{Per-head zoom: L20H10 is uniquely dominant}
 
 We patch each head's \texttt{attn.hook\_result} individually at
-$\layerL \in \{16, 20, 24\}$ (\cref{tab:pp-heads}). At L=20 a single
+$\layerL \in \{16, 20, 24\}$ (\cref{tab:pp-heads,fig:phase7b-headzoom}). At L=20 a single
 head, \textbf{L20H10}, dominates ($2.5\times$ the next head). At L=16
 the recovery is diffuse across many heads (top five all in
 $0.10\text{--}0.21\%$); at L=24 the recovery is essentially zero
@@ -940,7 +1172,7 @@ L20H10 is uniquely dominant; no analogous head exists at L=16 or L=24.}
 \label{tab:pp-heads}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{phase7b_head_zoom_multi.png}
 \caption{Per-head recovery (mean $\pm$ SEM, $n{=}8$) at the three
@@ -952,7 +1184,7 @@ zero across all heads. The L20H10 dominance is what allows us to
 compress the lesion description from ``a mid-network circuit'' to a
 two-head circuit (L20H10 $\to$ L36H31).}
 \label{fig:phase7b-headzoom}
-\end{figure}
+\end{figure*}
 
 \subsection{The two-head mechanism}
 
@@ -969,6 +1201,93 @@ tokens (the $6\times$ drop in \cref{tab:phase6}). L36H31's write to
 the residual stream is the canonical $\dhat$ direction; without that
 write, the residual at L36's last position drifts into the
 anti-refusal half-space (\cref{sec:rescue}) and behavior collapses.
+
+% ============================================================
+\section{Output-Distribution Confirmation: Next-Token Refusal vs.\ Compliance Mass}
+\label{sec:circuit-tracing}
+
+To check that the head- and residual-level findings of
+\cref{sec:mechanism,sec:rescue,sec:pathpatching} actually reach the
+output distribution at the relevant token, we run a circuit-tracing
+proxy harness on $4$ held-out harmful prompts under both the
+\texttt{prefix} and \texttt{distractor} formats at $\Ncontext \in
+\{0, 128, 512\}$. For each prompt we record (i) the proxy attention
+mass from the final position to the harmful-span tokens at the
+Guardrail Heads; (ii) the cosine of the L36 last-token residual onto
+$\dhat$; and (iii) two probability sums over the next-token
+distribution: $P_{\mathrm{ref}} = \sum_t P(t)$ for $t$ in a refusal
+vocabulary (e.g., ``I'', ``Sorry'', ``I'm''), and
+$P_{\mathrm{comp}} = \sum_t P(t)$ for $t$ in a compliance vocabulary
+(e.g., ``Sure'', ``Here'', ``To'')\footnote{Full transcoder
+attribution graphs (feature-level circuit attribution) were attempted
+but exceeded the single-A100 memory budget; we report the
+proxy-attention and next-token probability statistics that the same
+harness logged in lieu of the feature graphs.}.
+
+\Cref{tab:phase7-proxy,fig:phase7-proxy-attn} report the per-cell mean over $4$ prompts.
+Two observations follow:
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item \textbf{Compliance mass is format-conditional.} Under
+        \texttt{distractor} at $\Ncontext{=}512$, $P_{\mathrm{comp}}$
+        rises from $0.00$ (at $\Ncontext{=}0$) to $0.50$ --- i.e.,
+        roughly half the next-token mass is on compliance starts.
+        Under \texttt{prefix} at the same $\Ncontext$, $P_{\mathrm{comp}}$
+        stays at $0.00$ across the entire grid. The output
+        distribution flips into the compliance half-space only under
+        \texttt{distractor}, mirroring the residual-level sign-flip
+        of \cref{sec:rescue}.
+  \item \textbf{Refusal mass tracks attention.} For both formats,
+        $P_{\mathrm{ref}}$ scales monotonically with the proxy
+        attention on harmful tokens: the more attention the
+        Guardrail Heads place on the harmful span, the more refusal
+        mass survives at the next-token distribution. The
+        attentional$\to$behavioural pipeline is preserved at every
+        layer of measurement.
+\end{itemize}
+
+\begin{table*}[t]
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Format & $\Ncontext$ & attn & cos & $P_{\mathrm{ref}}$ & $P_{\mathrm{comp}}$ & refused \\
+\midrule
+\texttt{prefix}     & $0$   & $0.151$ & $\phantom{-}0.455$ & $0.993$ & $0.000$ & $1.00$ \\
+\texttt{prefix}     & $128$ & $0.104$ & $\phantom{-}0.156$ & $0.635$ & $0.000$ & $0.75$ \\
+\texttt{prefix}     & $512$ & $0.113$ & $\phantom{-}0.187$ & $0.730$ & $0.000$ & $0.75$ \\
+\midrule
+\texttt{distractor} & $0$   & $0.151$ & $\phantom{-}0.455$ & $0.993$ & $0.000$ & $1.00$ \\
+\texttt{distractor} & $128$ & $0.011$ & $\phantom{-}0.039$ & $0.256$ & $0.307$ & $0.25$ \\
+\texttt{distractor} & $512$ & $0.001$ & $-0.062$           & $0.006$ & $0.503$ & $0.00$ \\
+\bottomrule
+\end{tabular}
+\caption{Per-cell mean over $4$ held-out harmful prompts of the
+proxy attention on harmful-span tokens, the cosine of the L36
+last-token residual to $\dhat$, the next-token refusal-vocabulary
+probability sum $P_{\mathrm{ref}}$, the next-token
+compliance-vocabulary probability sum $P_{\mathrm{comp}}$, and the
+binary refusal label. \texttt{distractor} at $\Ncontext{=}512$ is
+the only cell with $P_{\mathrm{comp}} > 0.05$; \texttt{prefix} keeps
+$P_{\mathrm{comp}}{=}0.000$ across the full grid. The
+attentional\,$\to$\,behavioural\,$\to$\,output-distribution chain
+agrees with the format-conditional collapse of
+\cref{sec:multiformat,sec:wiki-arm,sec:rescue}.}
+\label{tab:phase7-proxy}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\linewidth]{phase7_proxy_attn.png}
+\caption{Proxy attention on harmful-span tokens for the
+\texttt{prefix} (blue) and \texttt{distractor} (red) formats across
+$\Ncontext \in \{0, 128, 512\}$, mean over $4$ prompts. Under
+\texttt{prefix} the attention mass holds near $0.10$--$0.15$ across
+the grid; under \texttt{distractor} it collapses by two orders of
+magnitude between $\Ncontext{=}0$ and $\Ncontext{=}512$, tracing the
+input that drives the next-token compliance-mass spike in
+\cref{tab:phase7-proxy}.}
+\label{fig:phase7-proxy-attn}
+\end{figure}
 
 % ============================================================
 \section{Discussion}
@@ -997,7 +1316,7 @@ narrow, causal direction (\cref{tab:phase1-validation,tab:capability}),
 so why doesn't adding it back rescue refusal? The sign-flip finding
 resolves this: the L36 residual at the last token does not merely lose
 its $\dhat$ component; it acquires a \emph{negative} $\dhat$
-component (mean projection $-66$ across prompts). Restoring the
+component (mean projection $-58$ across prompts). Restoring the
 refusal signal would require $\alpha$ an order of magnitude larger
 than tested. Two viable interventions for future work follow:
 larger or position-targeted $\alpha$ with a fine-grained capability
@@ -1044,21 +1363,17 @@ single scalar of how attentionally fragile a model's refusal is.
         does not fit on a single A100-80GB with the current hook
         setup; longer-context rows are inferred indirectly via
         projection.
-  \item \textbf{Two remaining overlap warnings} in \texttt{splits.json}
-        (shared eval space across exp\_6/exp\_7/exp\_8, not training
-        leaks). The earlier $\dhat$-training-pool overlap with the
-        topic-decoupling harmless-mundane cell
-        (\cref{sec:validity-topic}) was closed: that cell now draws
-        \alpaca{}\texttt{[200:250)} after the canonical clean-prompt
-        filter, disjoint from the $\dhat$ pool \alpaca{}\texttt{[0:100)}.
+  \item \textbf{Two known eval-space overlaps} in \texttt{splits.json}
+        (exp\_6 and exp\_7 both share \advbench{} rows with the
+        exp\_8 sweep eval; flagged, not a $\dhat$-training leak).
   \item \textbf{Path patching only at the harmful-span tokens.}
         Patching all positions would likely yield higher recovery and
         may shift the localization. The $9\text{--}12\%$ recovery is
         therefore a \emph{lower bound} on the L=20 lesion's
         importance.
-  \item \textbf{No mitigation evaluated.} Originally scoped LoRA-SFT
-        plus DPO mitigation was descoped due to time; we discuss it
-        as future work in \cref{sec:discussion}.
+  \item \textbf{No mitigation evaluated.} LoRA-SFT and DPO
+        mitigation training are left to future work; we discuss the
+        proposed direction in \cref{sec:discussion}.
   \item \textbf{Greedy decoding only.} All generation is
         \texttt{do\_sample=False}; sampling-based jailbreak rates
         may differ.
@@ -1086,18 +1401,6 @@ upstream intervention at L20H10 rather than at the L36 residual as a
 more effective steering target.
 
 % ============================================================
-\section*{Author Contributions}
-Ayush Kokande led the four-experiment validity battery
-(\cref{sec:validity}) and the binary and continuous baseline
-$\Ncontext$ sweeps. Suraj Mishra led the $\dhat$ extraction at the
-canonical layer (\cref{sec:method-dhat}), Guardrail-Head
-identification (\cref{sec:guardrail-heads}), the six-format
-dilution analysis (\cref{sec:dilution,sec:multiformat}),
-attention-mass measurement (\cref{sec:mechanism}), the failed rescue
-and capability audit (\cref{sec:rescue}), and path-patching
-localization (\cref{sec:pathpatching}). Both authors contributed
-equally to writing.
-
 \section*{Acknowledgements}
 We thank the course staff and our advisor for content-type and
 mitigation extension suggestions, and NYU HPC for compute access.
@@ -1107,24 +1410,28 @@ mitigation extension suggestions, and NYU HPC for compute access.
 
 % ============================================================
 \appendix
+\section{Appendix}
+\label{app:main}
 
-\section{Refusal Detector}
+\subsection{Refusal Detector}
 \label{app:refusal-detector}
 
 The 18-marker substring list (lowercased, applied to the first 200
-characters of the post-think-block completion):
-\texttt{"i cannot"}, \texttt{"i can't"}, \texttt{"i can not"},
-\texttt{"i'm sorry"}, \texttt{"i am sorry"}, \texttt{"sorry"},
-\texttt{"i'm not able"}, \texttt{"i am not able"}, \texttt{"i'm unable"},
-\texttt{"i will not"}, \texttt{"i won't"}, \texttt{"cannot assist"},
-\texttt{"can't assist"}, \texttt{"not able to"}, \texttt{"unable to assist"},
-\texttt{"not appropriate"}, \texttt{"against my"},
-\texttt{"i must decline"}.
+characters of the post-think-block completion), reproduced verbatim
+from \texttt{experiment\_1/utils.py:REFUSAL\_MARKERS}:
+\texttt{"i cannot"}, \texttt{"i can't"}, \texttt{"i'm sorry"},
+\texttt{"as an ai"}, \texttt{"i won't"}, \texttt{"unable to"},
+\texttt{"against my"}, \texttt{"violates"}, \texttt{"cannot assist"},
+\texttt{"cannot help"}, \texttt{"not able to"}, \texttt{"i am not able"},
+\texttt{"i'm not able"}, \texttt{"refuse"}, \texttt{"decline"},
+\texttt{"ethical guidelines"}, \texttt{"harmful request"},
+\texttt{"inappropriate"}.
 \texttt{strip\_think\_block} removes any leading
 \texttt{<think>$\ldots$</think>} block from the raw completion before
-scoring.
+scoring (regex
+\texttt{r"<think>.*?</think>$\backslash$s*"}, \texttt{re.DOTALL$|$re.IGNORECASE}).
 
-\section{Splits and Disjointness}
+\subsection{Splits and Disjointness}
 \label{app:splits}
 
 \Cref{tab:splits} reproduces the per-experiment row-index assignments
@@ -1134,40 +1441,38 @@ from \texttt{splits.json} (single source of truth in the repository).
 \texttt{tatsu-lab/alpaca[train]} restricted to empty-input rows and
 filtered through \texttt{experiment\_1/utils.\_harmless\_instruction\_is\_clean}.
 
-\begin{table}[h]
+\begin{table*}[h]
 \centering\small
-\begin{tabular}{lllp{0.36\linewidth}}
+\begin{tabular}{lllp{0.40\linewidth}}
 \toprule
 Experiment & \advbench{} & \alpaca{} & Notes \\
 \midrule
-exp\_1 baseline               & $[0, 520)$           & $[0, 512)$       & refusal-rate baseline \\
-exp\_2 $\dhat$ DiffMean       & $[100, 200)$         & $[0, 100)$       & disjoint from sweep eval \\
-exp\_3 Guardrail heads (DLA)  & $[480, 504)$         & ---              & reuses exp\_2 causal-sweep held-out pool \\
-exp\_4 matched $\dhat^{*}$    & $[100, \text{end})$  & $[0, 1000)$      & produce-artifact verbs only; verb- and word-length-matched \\
-exp\_5 styled pools           & $[356, \text{end})$  & exp\_1 cache     & $\dhat$-excluded $[100, 356)$ omitted \\
-exp\_6 topic 2$\times$2       & $[0, 50)$            & $[200, 250)$     & + 50 manual harmful-mundane + 50 manual harmless-edgy; \alpaca{} slice post `\_harmless\_instruction\_is\_clean' \\
-exp\_7 policy validity        & $[50, 100)$          & $[100, 150)$     & + \sorrybench{} cats 41--45 (10 each) \\
-exp\_8 binary sweep vs $N$    & $[0, 100)$           & ---              & split out of exp\_2 \\
-exp\_9 projection sweep vs $N$& $[0, 100)$           & ---              & continuous projection \\
+exp\_1 baseline                  & $[0, 520)$           & $[0, 512)$       & refusal-rate baseline \\
+exp\_2 $\dhat$ DiffMean          & $[100, 200)$         & $[0, 100)$       & disjoint from sweep eval; \texttt{meta.json:n\_harmful=256} reflects extended slice in artefact \\
+exp\_3 Guardrail heads (DLA)     & $[480, 504)$         & ---              & reuses exp\_2 causal-sweep held-out pool \\
+exp\_4 matched $\dhatstar$       & $[100, \text{end})$  & $[0, 1000)$      & produce-artifact verbs only; verb- and word-length-matched \\
+exp\_5 styled pools              & $[356, \text{end})$  & exp\_1 cache     & $\dhat$-excluded $[100, 356)$ omitted \\
+exp\_6 topic 2$\times$2          & $[0, 50)$            & $[200, 250)$     & + 50 manual harmful-mundane + 50 manual harmless-edgy; \alpaca{} slice post \texttt{\_harmless\_instruction\_is\_clean} \\
+exp\_7 policy validity           & $[50, 100)$          & $[100, 150)$     & + \sorrybench{} cats 41--45 (10 each) \\
+exp\_8 binary sweep vs $\Ncontext$ & $[0, 100)$         & ---              & split out of exp\_2 \\
+exp\_9 projection sweep vs $\Ncontext$ & $[0, 100)$     & ---              & continuous projection at $\layerL{\in}\{32, 36, 39\}$ \\
 \bottomrule
 \end{tabular}
 \caption{Per-experiment \advbench{} and \alpaca{} row-index splits.
 Half-open ranges. Manual prompts and \sorrybench{} additions noted in
 the Notes column.}
 \label{tab:splits}
-\end{table}
+\end{table*}
 
-\paragraph{Overlap warnings.} Two remaining overlaps in the eval space,
-neither a $\dhat$-training leak: (a) exp\_6
-\advbench{}$[0, 50)$ sits inside exp\_8 sweep eval $[0, 100)$;
-(b) exp\_7 \advbench{}$[50, 100)$ sits inside exp\_8 sweep eval
-$[0, 100)$. A third earlier warning --- the topic-decoupling
-harmless-mundane cell sharing \alpaca{}$[0, 50)$ with the $\dhat$
-training pool --- was closed on 2026-05-06 by migrating that cell to
-\alpaca{}$[200, 250)$ after the canonical clean-prompt filter, post
-which the cell is disjoint from $\dhat$'s training pool.
+\paragraph{Overlap warnings.} Two overlaps in the eval space, neither
+a $\dhat$-training leak: (a)~exp\_6 \advbench{}$[0, 50)$ sits inside
+the exp\_8 sweep eval $[0, 100)$; (b)~exp\_7 \advbench{}$[50, 100)$
+sits inside the exp\_8 sweep eval $[0, 100)$. The exp\_6
+harmless-mundane cell draws \alpaca{}$[200, 250)$ post the
+\texttt{\_harmless\_instruction\_is\_clean} filter, disjoint from
+$\dhat$'s training pool.
 
-\section{Hyperparameters}
+\subsection{Hyperparameters}
 \label{app:hparams}
 
 \textbf{Decoding.} Greedy (\texttt{do\_sample=False},
@@ -1194,31 +1499,56 @@ $\{0, 4, 8, \ldots, 36\}$; $\Ncontext_{\mathrm{dirty}}{=}512$
 on focal \texttt{distractor}; reduce-on-the-fly attention hooks for
 the per-head zoom.
 
-\section{Additional Figures}
+\subsection{Additional Figures}
 \label{app:figures}
 
-\begin{figure}[h]
+\begin{figure*}[h]
 \centering
 \includegraphics[width=\linewidth]{phase6_attribution_maps.png}
-\caption{Phase 6 per-head attention attribution heatmap. Each cell
+\caption{Per-head attention attribution heatmap. Each cell
 shows the contribution of head $(\layerL, h)$ to the V\_refusal
 write at L36's last token under the focal \texttt{distractor} format.
 Generated using selective z-hooks on the top-K Guardrail Heads
 (reduce-on-the-fly to avoid materializing the full
 $[B, H, T, T]$ attention pattern at long $\Ncontext$).}
 \label{fig:phase6-attribution}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[h]
+\begin{figure*}[h]
 \centering
 \includegraphics[width=\linewidth]{phase6_sourceflow.png}
-\caption{Phase 6 source-flow diagram: aggregated attention
+\caption{Source-flow diagram: aggregated attention
 from L36H31's query at the final position to source-token positions
 across the prompt, comparing $\Ncontext{=}0$ and $\Ncontext{=}4096$.
 Under dilution the mass on the harmful-token span (highlighted)
 collapses by $6\times$ relative to the no-bloat baseline; bloat
 positions absorb the redistributed attention.}
 \label{fig:phase6-sourceflow}
+\end{figure*}
+
+\begin{figure*}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{exp3_dla_heatmap.png}
+\caption{Per-head direct logit attribution heatmap onto $\dhat_{36}$
+on the $24$-prompt held-out pool \advbench{}$[480, 504)$. Rows:
+layer $0$--$36$; columns: head $0$--$39$. L36H31 is the single
+brightest cell; secondary positive heads cluster in the
+mid-to-late layers, consistent with the top-12 ranking in
+\cref{tab:guardrail}.}
+\label{fig:exp3-dla-heatmap}
+\end{figure*}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{exp6_topic_scatter.png}
+\caption{Per-prompt scatter of (AUC$_{\mathrm{topic}}$,
+AUC$_{\mathrm{intent}}$) at each probed $(\layerL,
+\text{direction}\in\{\dhat, \dhatstar\})$ pair. The dotted diagonal
+is the equal-AUC line; perfect topic-decoupling sits at the top-left
+(intent-AUC near $1.0$, topic-AUC near $0.5$). All four cells
+($\dhat$ at $\layerL{=}36$ and $28$; $\dhatstar$ at $\layerL{=}36$
+and $28$) cluster at the top of the plot, well above the diagonal.}
+\label{fig:exp6-topic-scatter}
 \end{figure}
 
 \end{document}

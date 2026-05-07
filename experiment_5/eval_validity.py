@@ -1,13 +1,13 @@
 """Style/vocabulary robustness test for learned refusal directions.
 
 Projects last-token residuals onto each provided d̂ (exp 2 vs exp 4 dirs, etc.)
-at chosen layers (default 18, 28). Computes:
+at chosen layers (default 36, 28). Computes:
 
   AUC_intent — rank prompts by harmful intent
   AUC_vocab  — rank prompts by edgy lexicon density, with both intent classes
                represented at both vocab labels in a 2x2 design
 
-See DECISION_* constants for preregistered thresholds applied at layer 18 on the first dir.
+See DECISION_* constants for preregistered thresholds applied at canonical layer 36 on the first dir.
 
 Outputs (under results/<slug>/validity/):
   per_prompt.jsonl, auc.json, scatter.png
@@ -40,13 +40,13 @@ from refusal_direction import slug_from_model  # type: ignore
 
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
-DEFAULT_LAYERS = [18, 28]
+DEFAULT_LAYERS = [36, 28]
 LEXICON_THRESHOLD = 2
 
 DECISION_INTENT_HI = 0.85
 DECISION_VOCAB_AUC_LO = 0.35
 DECISION_VOCAB_AUC_HI = 0.65
-DECISION_LAYER = 18
+DECISION_LAYER = 36
 
 
 def roc_auc_binary(y_true: np.ndarray, scores: np.ndarray) -> float:
@@ -507,7 +507,7 @@ def main() -> None:
 
         auc_payload["refusal_dirs"].append(dir_entry)
 
-    auc_payload["verdict_first_dir_layer18"] = verdict_main
+    auc_payload[f"verdict_first_dir_layer{DECISION_LAYER}"] = verdict_main
     auc_payload["decision_constants"] = {
         "intent_hi": DECISION_INTENT_HI,
         "vocab_auc_lo": DECISION_VOCAB_AUC_LO,

@@ -354,7 +354,7 @@ def main() -> None:
             "name": dname,
             "path": str(refusal_dirs[di]),
             "by_layer": dir_aucs_by_layer,
-            "verdict_layer18": verdict,
+            f"verdict_layer{DECISION_LAYER}": verdict,
         })
         pool_payload["refusal_dirs"].append({
             "name": dname,
@@ -382,7 +382,7 @@ def main() -> None:
     print(f"Wrote {out_dir / 'aucs.json'}")
     print(f"Wrote {out_dir / 'pool_means.json'}")
     print(f"\nVerdict (first dir @ L{DECISION_LAYER}):",
-          auc_payload["refusal_dirs"][0]["verdict_layer18"])
+          auc_payload["refusal_dirs"][0][f"verdict_layer{DECISION_LAYER}"])
 
 
 if __name__ == "__main__":

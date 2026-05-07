@@ -1,4 +1,4 @@
-"""Regenerate exp_6 boxplot at canonical layer 18 from per_prompt.jsonl.
+"""Regenerate exp_6 boxplot at canonical layer 36 from per_prompt.jsonl.
 
 Standalone helper. Stale boxplot.png was rendered at L20 before cascade.
 No GPU needed — reads cached projections only.

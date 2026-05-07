@@ -1,14 +1,115 @@
+% =====================================================================
+% References for "Format Matters More Than Length: Attention Dilution
+% as a Mechanism for Long-Context Refusal Failure"
+%
+% Conventions:
+%   - Preprint-only work: journal = {arXiv preprint arXiv:XXXX.XXXXX}
+%   - Published work: include booktitle/journal + volume/pages where known
+%   - Where author lists are long and not all known with certainty, the
+%     'and others' placeholder is used; this expands to "et al." in
+%     plainnat.bst.
+% =====================================================================
+
+% ---------- refusal direction / mechanistic interpretability ----------
+
 @article{arditi2024refusal,
   title   = {Refusal in Language Models is Mediated by a Single Direction},
   author  = {Arditi, Andy and Obeso, Oscar and Syed, Aaquib and Paleka, Daniel and Panickssery, Nina and Gurnee, Wes and Nanda, Neel},
   journal = {arXiv preprint arXiv:2406.11717},
-  year    = {2024}
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2406.11717}
 }
+
+@article{wollschlaeger2025geometry,
+  title   = {The Geometry of Refusal in Large Language Models: Concept Cones and Representational Independence},
+  author  = {Wollschl{\"a}ger, Tom and Elstner, Jannes and Geisler, Simon and Cohen-Addad, Vincent and G{\"u}nnemann, Stephan and Gasteiger, Johannes},
+  journal = {arXiv preprint arXiv:2502.17420},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2502.17420}
+}
+
+@article{zhao2025separately,
+  title   = {LLMs Encode Harmfulness and Refusal Separately},
+  author  = {Zhao, Jiachen and Huang, Jing and Wu, Zhengxuan and others},
+  journal = {arXiv preprint arXiv:2507.11878},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2507.11878}
+}
+
+@article{jin2024jailbreaklens,
+  title   = {JailbreakLens: Interpreting Jailbreak Mechanism in the Lens of Representation and Circuit},
+  author  = {Jin, Zhe and others},
+  journal = {arXiv preprint arXiv:2411.11114},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2411.11114}
+}
+
+@article{zou2023representation,
+  title   = {Representation Engineering: A Top-Down Approach to AI Transparency},
+  author  = {Zou, Andy and Phan, Long and Chen, Sarah and Campbell, James and Guo, Phillip and Ren, Richard and Pan, Alexander and Yin, Xuwang and Mazeika, Mantas and Dombrowski, Ann-Kathrin and others},
+  journal = {arXiv preprint arXiv:2310.01405},
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2310.01405}
+}
+
+% ---------- attention heads / circuits ----------
+
+@article{olsson2022context,
+  title        = {In-context Learning and Induction Heads},
+  author       = {Olsson, Catherine and Elhage, Nelson and Nanda, Neel and Joseph, Nicholas and DasSarma, Nova and Henighan, Tom and Mann, Ben and Askell, Amanda and Bai, Yuntao and Chen, Anna and others},
+  journal      = {Transformer Circuits Thread},
+  year         = {2022},
+  howpublished = {\url{https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html}}
+}
+
+@article{elhage2021framework,
+  title        = {A Mathematical Framework for Transformer Circuits},
+  author       = {Elhage, Nelson and Nanda, Neel and Olsson, Catherine and Henighan, Tom and Joseph, Nicholas and Mann, Ben and Askell, Amanda and Bai, Yuntao and Chen, Anna and Conerly, Tom and others},
+  journal      = {Transformer Circuits Thread},
+  year         = {2021},
+  howpublished = {\url{https://transformer-circuits.pub/2021/framework/index.html}}
+}
+
+@inproceedings{conmy2023automated,
+  title     = {Towards Automated Circuit Discovery for Mechanistic Interpretability},
+  author    = {Conmy, Arthur and Mavor-Parker, Augustine N. and Lynch, Aengus and Heimersheim, Stefan and Garriga-Alonso, Adri{\`a}},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2304.14997}
+}
+
+% ---------- activation steering / interventions ----------
+
+@article{turner2023activation,
+  title   = {Activation Addition: Steering Language Models Without Optimization},
+  author  = {Turner, Alexander Matt and Thiergart, Lisa and Leech, Gavin and Udell, David and Vazquez, Juan J. and Mini, Ulisse and MacDiarmid, Monte},
+  journal = {arXiv preprint arXiv:2308.10248},
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2308.10248}
+}
+
+@article{panickssery2024steering,
+  title   = {Steering Llama 2 via Contrastive Activation Addition},
+  author  = {Panickssery, Nina and Gabrieli, Nick and Schulz, Julian and Tong, Meg and Hubinger, Evan and Turner, Alexander Matt},
+  journal = {arXiv preprint arXiv:2312.06681},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2312.06681}
+}
+
+@article{goldowskydill2023patching,
+  title   = {Localizing Model Behavior with Path Patching},
+  author  = {Goldowsky-Dill, Nicholas and MacLeod, Chris and Sato, Lucas and Arora, Aryaman},
+  journal = {arXiv preprint arXiv:2304.05969},
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2304.05969}
+}
+
+% ---------- long-context jailbreaks / safety failures ----------
 
 @inproceedings{anil2024manyshot,
   title     = {Many-Shot Jailbreaking},
   author    = {Anil, Cem and Durmus, Esin and Sharma, Mrinank and Benton, Joe and Kundu, Sandipan and Batson, Joshua and Rimsky, Nina and Tong, Meg and Mu, Jesse and Ford, Daniel and others},
-  booktitle = {NeurIPS},
+  booktitle = {Advances in Neural Information Processing Systems},
   year      = {2024}
 }
 
@@ -16,117 +117,59 @@
   title   = {Lost in the Middle: How Language Models Use Long Contexts},
   author  = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape, Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
   journal = {Transactions of the Association for Computational Linguistics},
-  year    = {2024}
+  volume  = {12},
+  pages   = {157--173},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2307.03172}
 }
 
-@article{zhao2025separately,
-  title   = {LLMs Encode Harmfulness and Refusal Separately},
-  author  = {Zhao, Jiachen and others},
-  journal = {arXiv preprint arXiv:2507.11878},
-  year    = {2025}
+@article{wei2023jailbroken,
+  title     = {Jailbroken: How Does LLM Safety Training Fail?},
+  author    = {Wei, Alexander and Haghtalab, Nika and Steinhardt, Jacob},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2307.02483}
 }
 
-@article{wollschlaeger2025geometry,
-  title   = {The Geometry of Refusal in Large Language Models},
-  author  = {Wollschl{\"a}ger, Tom and others},
-  journal = {arXiv preprint arXiv:2502.17420},
-  year    = {2025}
-}
-
-@article{jin2024jailbreaklens,
-  title   = {JailbreakLens: Interpreting Jailbreak Mechanism in the Lens of Representation and Circuit},
-  author  = {Jin, Zhe and others},
-  journal = {arXiv preprint},
-  year    = {2024}
-}
-
-@article{turner2023activation,
-  title   = {Activation Addition: Steering Language Models Without Optimization},
-  author  = {Turner, Alexander Matt and Thiergart, Lisa and Leech, Gavin and Udell, David and Vazquez, Juan J. and Mini, Ulisse and MacDiarmid, Monte},
-  journal = {arXiv preprint arXiv:2308.10248},
-  year    = {2023}
-}
-
-@article{panickssery2024steering,
-  title   = {Steering Llama 2 via Contrastive Activation Addition},
-  author  = {Panickssery, Nina and Gabrieli, Nick and Schulz, Julian and Tong, Meg and Hubinger, Evan and Turner, Alexander Matt},
-  journal = {arXiv preprint arXiv:2312.06681},
-  year    = {2024}
-}
-
-@article{goldowskydill2023patching,
-  title   = {Localizing Model Behavior with Path Patching},
-  author  = {Goldowsky-Dill, Nicholas and MacLeod, Chris and Sato, Lucas and Arora, Aryaman},
-  journal = {arXiv preprint arXiv:2304.05969},
-  year    = {2023}
-}
-
-@misc{nanda2022transformerlens,
-  title  = {TransformerLens},
-  author = {Nanda, Neel and Bloom, Joseph},
-  year   = {2022},
-  howpublished = {\url{https://github.com/neelnanda-io/TransformerLens}}
-}
+% ---------- benchmarks + datasets ----------
 
 @article{zou2023advbench,
   title   = {Universal and Transferable Adversarial Attacks on Aligned Language Models},
   author  = {Zou, Andy and Wang, Zifan and Carlini, Nicholas and Nasr, Milad and Kolter, J. Zico and Fredrikson, Matt},
   journal = {arXiv preprint arXiv:2307.15043},
-  year    = {2023}
-}
-
-@article{zou2023representation,
-  title   = {Representation Engineering: A Top-Down Approach to AI Transparency},
-  author  = {Zou, Andy and Phan, Long and Chen, Sarah and Campbell, James and Guo, Phillip and Ren, Richard and Pan, Alexander and Yin, Xuwang and Mazeika, Mantas and Dombrowski, Ann-Kathrin and others},
-  journal = {arXiv preprint arXiv:2310.01405},
-  year    = {2023}
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2307.15043}
 }
 
 @misc{taori2023alpaca,
-  title  = {Stanford Alpaca: An Instruction-following LLaMA Model},
-  author = {Taori, Rohan and Gulrajani, Ishaan and Zhang, Tianyi and Dubois, Yann and Li, Xuechen and Guestrin, Carlos and Liang, Percy and Hashimoto, Tatsunori B.},
-  year   = {2023},
+  title        = {Stanford Alpaca: An Instruction-following {LLaMA} Model},
+  author       = {Taori, Rohan and Gulrajani, Ishaan and Zhang, Tianyi and Dubois, Yann and Li, Xuechen and Guestrin, Carlos and Liang, Percy and Hashimoto, Tatsunori B.},
+  year         = {2023},
   howpublished = {\url{https://github.com/tatsu-lab/stanford_alpaca}}
 }
 
 @article{xie2024sorrybench,
-  title   = {SORRY-Bench: Systematically Evaluating Large Language Model Safety Refusal Behaviors},
+  title   = {{SORRY-Bench}: Systematically Evaluating Large Language Model Safety Refusal Behaviors},
   author  = {Xie, Tinghao and Qi, Xiangyu and Zeng, Yi and Huang, Yangsibo and Sehwag, Udari Madhushani and Huang, Kaixuan and He, Luxi and Wei, Boyi and Li, Dacheng and Sheng, Ying and others},
   journal = {arXiv preprint arXiv:2406.14598},
-  year    = {2024}
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2406.14598}
 }
 
-@article{wei2023jailbroken,
-  title   = {Jailbroken: How Does LLM Safety Training Fail?},
-  author  = {Wei, Alexander and Haghtalab, Nika and Steinhardt, Jacob},
-  journal = {NeurIPS},
-  year    = {2023}
+@inproceedings{lin2022truthfulqa,
+  title     = {{TruthfulQA}: Measuring How Models Mimic Human Falsehoods},
+  author    = {Lin, Stephanie and Hilton, Jacob and Evans, Owain},
+  booktitle = {Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {3214--3252},
+  year      = {2022},
+  url       = {https://aclanthology.org/2022.acl-long.229}
 }
 
-@article{olsson2022context,
-  title   = {In-context Learning and Induction Heads},
-  author  = {Olsson, Catherine and Elhage, Nelson and Nanda, Neel and Joseph, Nicholas and DasSarma, Nova and Henighan, Tom and Mann, Ben and Askell, Amanda and Bai, Yuntao and Chen, Anna and others},
-  journal = {Transformer Circuits Thread},
-  year    = {2022}
-}
+% ---------- tools / infrastructure ----------
 
-@article{elhage2021framework,
-  title   = {A Mathematical Framework for Transformer Circuits},
-  author  = {Elhage, Nelson and Nanda, Neel and Olsson, Catherine and Henighan, Tom and Joseph, Nicholas and Mann, Ben and Askell, Amanda and Bai, Yuntao and Chen, Anna and Conerly, Tom and others},
-  journal = {Transformer Circuits Thread},
-  year    = {2021}
-}
-
-@inproceedings{conmy2023automated,
-  title     = {Towards Automated Circuit Discovery for Mechanistic Interpretability},
-  author    = {Conmy, Arthur and Mavor-Parker, Augustine N. and Lynch, Aengus and Heimersheim, Stefan and Garriga-Alonso, Adri{\`a}},
-  booktitle = {NeurIPS},
-  year      = {2023}
-}
-
-@article{lin2025truthfulqa,
-  title   = {TruthfulQA: Measuring How Models Mimic Human Falsehoods},
-  author  = {Lin, Stephanie and Hilton, Jacob and Evans, Owain},
-  journal = {ACL},
-  year    = {2022}
+@misc{nanda2022transformerlens,
+  title        = {{TransformerLens}},
+  author       = {Nanda, Neel and Bloom, Joseph},
+  year         = {2022},
+  howpublished = {\url{https://github.com/neelnanda-io/TransformerLens}}
 }
