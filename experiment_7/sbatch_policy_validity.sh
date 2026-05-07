@@ -10,7 +10,9 @@
 # Experiment 7: policy-refusal vs harm-refusal validity for d_hat.
 #
 # Phase B (projection eval) produces the headline AUC(harm vs policy) number
-# at canonical layer 18 (post-cascade).
+# at canonical layer 36 (post Suraj-judge reconcile cascade; previous run was
+# at L18 under the long-window judge — see experiment_2/refusal_direction.py
+# docstring).
 #
 # Phase A (preflight refusal-rate gate) is OFF by default. Rationale: prior
 # preflight (2026-05-04) returned policy_refusal_rate=0.44 vs gate 0.90 on
@@ -73,7 +75,7 @@ REPO="${REPO:-${REPO_DEFAULT}}"
 MODEL="${MODEL:-Qwen/Qwen3-14B}"
 DTYPE="${DTYPE:-bfloat16}"
 BATCH_SIZE="${BATCH_SIZE:-8}"
-LAYERS="${LAYERS:-18 28}"
+LAYERS="${LAYERS:-36 28}"
 ORIG_DIR="${ORIG_DIR:-results/qwen3-14b/refusal_direction}"
 MATCHED_DIR="${MATCHED_DIR:-results/qwen3-14b/refusal_direction_matched}"
 OUT_DIR="${OUT_DIR:-results/qwen3-14b/policy_validity}"

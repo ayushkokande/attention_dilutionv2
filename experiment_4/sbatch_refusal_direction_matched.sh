@@ -6,8 +6,10 @@
 # quantify how much of the original direction was driven by the surface
 # confound the prof's mid-semester comment flagged.
 #
-# Cascade: canonical layer is L18 (Exp.2 causal sweep). compare_directions.py
-# defaults --canonical-layer 18, so verdict re-evaluates against L18 d_hat.
+# Cascade: canonical layer is L36 (Exp.2 causal sweep under the Suraj
+# 24-token / 26-phrase judge config; previous 128-token judge picked L18 —
+# see experiment_2/refusal_direction.py docstring). compare_directions.py
+# uses --canonical-layer 36 so verdict re-evaluates against L36 d_hat.
 #
 # Target host: RunPod pod with 2x A100 SXM 80GB and a network volume mounted at
 # /workspace. (NYU Greene slurm+singularity is no longer the active runner;
@@ -34,7 +36,7 @@ REPO="${REPO:-${WORKSPACE}/attention_dilutionv2}"
 MODEL="Qwen/Qwen3-14B"
 BATCH_SIZE=8
 MATCHED_OUT="results/qwen3-14b/refusal_direction_matched"
-CANONICAL_LAYER=18
+CANONICAL_LAYER=36
 
 mkdir -p "${REPO}/logs"
 
@@ -127,7 +129,7 @@ echo "=== step 2: refusal-direction forward pass on matched pools ==="
 # Causal-ablation-n: reuse exp_2's held-out pool (AdvBench[480:504],
 # n=24, default). Earlier runs passed --causal-ablation-n 0 which left
 # meta.json:causal_sweep_records=[] and forced compare_directions.py to
-# inherit canonical_layer=18 from the orig d_hat. Run the sweep on
+# inherit canonical_layer=36 from the orig d_hat. Run the sweep on
 # matched d_hat* as well so canonical_layer is independently validated
 # against the same held-out causal pool used for orig.
 time python experiment_2/refusal_direction.py \
