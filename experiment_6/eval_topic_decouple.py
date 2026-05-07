@@ -4,11 +4,11 @@
 d_hat at chosen layers, projects last-token residuals and computes:
 
   - per-cell mean / std projection
-  - 2-way ANOVA on layer 18 projection: proj ~ intent + topic + intent:topic
+  - 2-way ANOVA on layer 20 projection: proj ~ intent + topic + intent:topic
     with partial eta-squared per term
   - AUC_intent (collapse topic), AUC_topic (collapse intent)
 
-Decision rule (preregistered, applied to first refusal-dir at layer 18):
+Decision rule (preregistered, applied to first refusal-dir at layer 20):
   eta2(intent) >= 0.5 AND eta2(topic) <= 0.1            -> CLEAN
   eta2(intent) >= eta2(topic) AND eta2(topic) > 0.1     -> MIXED
   eta2(topic) > eta2(intent)                            -> TOPIC_DOMINANT
@@ -43,8 +43,8 @@ from refusal_direction import slug_from_model  # type: ignore
 
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
-DEFAULT_LAYERS = [18, 28]
-DECISION_LAYER = 18
+DEFAULT_LAYERS = [18, 20, 28]
+DECISION_LAYER = 20
 DECISION_INTENT_HI = 0.5
 DECISION_TOPIC_LO = 0.1
 
@@ -398,7 +398,7 @@ def main() -> None:
             "name": dname,
             "path": str(refusal_dirs[di]),
             "by_layer": dir_anova_by_layer,
-            "verdict_layer18": verdict,
+            "verdict_decision_layer": verdict,
         })
         cell_payload["refusal_dirs"].append({
             "name": dname,
@@ -430,7 +430,7 @@ def main() -> None:
     print(f"Wrote {out_dir / 'anova.json'}")
     print(f"Wrote {out_dir / 'cell_means.json'}")
     print(f"\nVerdict (first dir @ L{DECISION_LAYER}):",
-          anova_payload["refusal_dirs"][0]["verdict_layer18"])
+          anova_payload["refusal_dirs"][0]["verdict_decision_layer"])
 
 
 if __name__ == "__main__":
