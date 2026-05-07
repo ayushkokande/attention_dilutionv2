@@ -146,11 +146,11 @@
       }
     }
   ],
-  "verdict_first_dir_layer18": null,
+  "verdict_first_dir_layer36": "SEMANTIC — projection tracks harmful intent while edgy-vocab AUC stays near chance in the 2x2 design.",
   "decision_constants": {
     "intent_hi": 0.85,
     "vocab_auc_lo": 0.35,
     "vocab_auc_hi": 0.65,
-    "layer": 18
+    "layer": 36
   }
 }

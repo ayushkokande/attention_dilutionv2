@@ -20,7 +20,7 @@
           "auc_harm_vs_policy": 0.9632
         }
       },
-      "verdict_layer18": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
+      "verdict_layer36": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
     },
     {
       "name": "refusal_direction_matched",
@@ -37,7 +37,7 @@
           "auc_harm_vs_policy": 0.9612
         }
       },
-      "verdict_layer18": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
+      "verdict_layer36": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
     }
   ]
 }

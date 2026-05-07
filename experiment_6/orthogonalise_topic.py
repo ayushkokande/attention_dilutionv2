@@ -1,6 +1,6 @@
 """Orthogonalisation robustness check for exp_6 MIXED verdict.
 
-When 2x2 ANOVA at canonical layer 18 returns MIXED (eta2(topic) > 0.1),
+When 2x2 ANOVA at canonical layer 36 returns MIXED (eta2(topic) > 0.1),
 preregistered rule says: orthogonalise topic from projection, retest intent
 effect. If intent effect survives, topic-orthogonal harm-intent direction
 claim still defensible.

@@ -43,7 +43,7 @@ Two remaining overlap warnings live in `splits.json:overlap_warnings`: exp_6 and
 - d_hat artifact: `results/qwen3-14b/refusal_direction/d_hat_best_layer.pt` (`{V_refusal, layer}`); per-layer bank: `d_hat_all_layers.pt`.
 - L22 anomaly: independent of judge or pool, `d_hat[22]` fails causally (~0.7 post-ablate harmful refusal) while neighbors L20 / L24 succeed. Real layer-22 brittleness in Qwen3-14B's diff-of-means geometry; both Ayush and Suraj sweeps reproduce.
 
-Cascade impact: layer changed 18 → 36 (reconcile rerun), so downstream consumers re-run against the new d_hat: experiments 3 (head identification, done — top heads L36H31 / L35H38 / L33H35 reproduce Suraj's circuit), 4 (matched d_hat*), 5/6/7 (validity battery; preregistered DECISION_LAYER constants in `experiment_6/eval_topic_decouple.py`, `experiment_6/orthogonalise_topic.py`, `experiment_7/eval_policy_vs_harm.py` were updated 18 → 36 — frame any paper writeup as "primary analysis at reconciled canonical L36"), 8 (binary sweep, ABLATION_LAYER), 9 (continuous projection), 10 (attention mass), 11 (steering), 13 (mitigation training data), 14 (capability cost ablation arm).
+Cascade impact: layer changed 18 → 36 (reconcile rerun), so downstream consumers re-run against the new d_hat: experiments 3 (head identification, done — top heads L36H31 / L35H38 / L33H35 reproduce Suraj's circuit), 4 (matched d_hat*), 5/6/7 (validity battery; preregistered DECISION_LAYER constants in `experiment_6/eval_topic_decouple.py`, `experiment_6/orthogonalise_topic.py`, `experiment_7/eval_policy_vs_harm.py` were updated 18 → 36 — frame any paper writeup as "primary analysis at reconciled canonical L36"), 8 (binary sweep, ABLATION_LAYER), 9 (continuous projection), 10 (attention mass), 11 (steering), 13 (capability cost ablation arm).
 
 ## Bloat content (context-scaling experiments only)
 
@@ -83,5 +83,6 @@ Final order (project-narrative chronology, not authorship chronology):
 10. **NEW** — attention-mass on Guardrail Heads vs N (Suraj P2 H1 + P6 merged)
 11. **NEW** — activation steering rescue (Suraj P3)
 12. **NEW** — content-type ablation (Greg ext 2)
-13. **NEW** — long-context safety mitigation: LoRA SFT + DPO (Greg ext 1)
-14. **NEW** — capability cost MMLU/GSM8K (Suraj P4 extended)
+13. **NEW** — capability cost MMLU/GSM8K (Suraj P4 extended)
+
+(Greg ext 1 — LoRA SFT + DPO long-context mitigation — dropped from scope 2026-05-07. Project is diagnosis-only; no fix-side arm.)

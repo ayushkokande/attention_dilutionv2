@@ -1,6 +1,7 @@
 #!/bin/bash
 # Experiment 3: Guardrail Heads via Direct Logit Attribution onto d_hat at the
-# canonical read-out layer (L18 for Qwen3-14B per Exp.2 causal sweep).
+# canonical read-out layer (L36 for Qwen3-14B per Exp.2 reconciled causal sweep
+# under Suraj-style 24-token / 26-phrase judge, 2026-05-07).
 #
 # Target host: RunPod pod with 2x A100 SXM 80GB and a network volume mounted at
 # /workspace. (NYU Greene slurm+singularity is no longer the active runner;
@@ -19,7 +20,7 @@ WORKSPACE="${WORKSPACE:-/workspace}"
 REPO="${REPO:-${WORKSPACE}/attention_dilutionv2}"
 
 MODEL="Qwen/Qwen3-14B"
-# Reuse the held-out pool that defined L_read in Exp.2 causal sweep
+# Reuse the held-out pool that defined L_read in Exp.2 reconciled causal sweep
 # (AdvBench[480:504], n=24). Disjoint from d_hat training and from exp_8 sweep eval.
 N_PROMPTS=24
 START_IDX=480

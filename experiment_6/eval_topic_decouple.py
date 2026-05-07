@@ -4,11 +4,11 @@
 d_hat at chosen layers, projects last-token residuals and computes:
 
   - per-cell mean / std projection
-  - 2-way ANOVA on layer 18 projection: proj ~ intent + topic + intent:topic
+  - 2-way ANOVA on layer 36 projection: proj ~ intent + topic + intent:topic
     with partial eta-squared per term
   - AUC_intent (collapse topic), AUC_topic (collapse intent)
 
-Decision rule (applied to first refusal-dir at canonical layer 18):
+Decision rule (applied to first refusal-dir at canonical layer 36):
   eta2(intent) >= 0.5 AND eta2(topic) <= 0.1            -> CLEAN
   eta2(intent) >= eta2(topic) AND eta2(topic) > 0.1     -> MIXED
   eta2(topic) > eta2(intent)                            -> TOPIC_DOMINANT

@@ -10,9 +10,10 @@
     },
     "experiment_2_refusal_direction": {
       "purpose": "d_hat extraction (DiffMean) — disjoint from sweep eval",
-      "advbench": [100, 200],
-      "alpaca": [0, 100],
-      "constant": "SWEEP_HARMFUL_N=100"
+      "advbench": [100, 356],
+      "alpaca": [0, 256],
+      "constant_legacy": "SWEEP_HARMFUL_N=100",
+      "note": "registry updated 2026-05-07 to match results/qwen3-14b/refusal_direction/meta.json:n_harmful=256 (training pool extended to 256 paired prompts post-cascade); legacy SWEEP_HARMFUL_N constant referenced 100 prompts and is retained for cross-reference"
     },
     "experiment_3_guardrail_heads": {
       "purpose": "DLA per-head onto d_hat at canonical L_read; reuses Exp.2 causal-sweep held-out pool so heads are scored on the same prompts that defined L_read",
