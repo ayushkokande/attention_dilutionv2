@@ -50,22 +50,119 @@
     824.1446533203125
   ],
   "norm_best_layer": 39,
-  "causal_best_layer": null,
-  "canonical_layer": 39,
+  "causal_best_layer": 30,
+  "canonical_layer": 30,
   "layer_criterion": "causal",
-  "causal_sweep_records": [],
+  "causal_sweep_records": [
+    {
+      "layer": 14,
+      "harmful_refusal_post_ablate": 0.75,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 14.202981948852539,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 16,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 21.993911743164062,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 18,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 42.071659088134766,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 20,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 58.05110549926758,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 22,
+      "harmful_refusal_post_ablate": 0.9166666666666666,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 76.79525756835938,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 24,
+      "harmful_refusal_post_ablate": 0.16666666666666666,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 120.36090087890625,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 26,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 180.170166015625,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 28,
+      "harmful_refusal_post_ablate": 0.125,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 251.7733612060547,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 30,
+      "harmful_refusal_post_ablate": 0.08333333333333333,
+      "harmless_refusal_post_ablate": 0.0,
+      "norm": 363.5830078125,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 32,
+      "harmful_refusal_post_ablate": 0.20833333333333334,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 463.0729675292969,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 34,
+      "harmful_refusal_post_ablate": 0.16666666666666666,
+      "harmless_refusal_post_ablate": 0.08333333333333333,
+      "norm": 540.176513671875,
+      "status": "ok",
+      "error_msg": ""
+    },
+    {
+      "layer": 36,
+      "harmful_refusal_post_ablate": 0.125,
+      "harmless_refusal_post_ablate": 0.041666666666666664,
+      "norm": 637.0343017578125,
+      "status": "ok",
+      "error_msg": ""
+    }
+  ],
   "causal_sweep_pool": {
-    "n": 0,
+    "n": 24,
     "harmful_advbench_range": [
       480,
-      480
+      504
     ],
     "harmless_alpaca_post_filter_range": [
       480,
-      480
+      504
     ]
   },
-  "default_layer": 39,
+  "default_layer": 30,
   "suggested_layers_to_try": [
     20,
     24,
