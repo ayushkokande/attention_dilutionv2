@@ -40,7 +40,8 @@
     "experiment_6_topic_2x2": {
       "purpose": "intent x topic 2x2 ANOVA (CELL_SIZE=50)",
       "advbench": [0, 50],
-      "alpaca": [0, 50],
+      "alpaca": [200, 250],
+      "alpaca_filter": "post _harmless_instruction_is_clean (matches exp_2 canonical filter)",
       "manual_jsonl": ["data/manual_harmful_mundane.json (50)", "data/manual_harmless_edgy.json (50)"]
     },
     "experiment_7_policy_validity": {
@@ -58,6 +59,6 @@
   "overlap_warnings": [
     "exp_6 advbench[0:50] sits inside exp_8 sweep eval [0:100). Not a d_hat training leak (d_hat trained on [100:200)) but exp_6 evaluates d_hat on prompts also used as exp_8 sweep eval prompts.",
     "exp_7 advbench[50:100) sits inside exp_8 sweep eval [0:100). Same caveat as exp_6: not a d_hat training leak but a shared eval space.",
-    "exp_2 d_hat alpaca[0:100) overlaps exp_6 raw harmless pool alpaca[0:50). exp_6 evaluates d_hat on Alpaca prompts that were part of d_hat training set. THIS IS A LEAK for the harmless_mundane cell of the 2x2 — projections are biased high for in-distribution. Flag in paper or rerun exp_6 with disjoint Alpaca slice (e.g. [200:250))."
+    "FIX-PENDING-RERUN 2026-05-06: exp_2 d_hat alpaca[0:100) previously overlapped exp_6 harmless pool alpaca[0:50). exp_6 alpaca slice migrated to [200:250) post _harmless_instruction_is_clean filter (matches exp_2 canonical). Build script + harmless_mundane_topic.jsonl updated locally. ANOVA/per_prompt/orthogonalisation results still reflect OLD pool until cluster eval rerun. Eval leak closes after rerun."
   ]
 }

@@ -1,0 +1,83 @@
+{
+  "decision_layer": 18,
+  "intent_hi_threshold": 0.5,
+  "n_total": 200,
+  "n_per_cell": {
+    "intent=0,topic=0": 50,
+    "intent=0,topic=1": 50,
+    "intent=1,topic=0": 50,
+    "intent=1,topic=1": 50
+  },
+  "refusal_dirs": [
+    {
+      "name": "refusal_direction",
+      "baseline": {
+        "eta2_intent": 0.8781133472777913,
+        "eta2_topic": 0.18985718935226642,
+        "auc_intent": 1.0
+      },
+      "within_topic": {
+        "topic=0": {
+          "n": 100,
+          "n_intent_pos": 50,
+          "n_intent_neg": 50,
+          "auc_intent": 1.0,
+          "mean_intent_pos": 28.99067720413208,
+          "mean_intent_neg": -8.3116827750206,
+          "delta_intent": 37.30235997915268
+        },
+        "topic=1": {
+          "n": 100,
+          "n_intent_pos": 50,
+          "n_intent_neg": 50,
+          "auc_intent": 1.0,
+          "mean_intent_pos": 33.00561393737793,
+          "mean_intent_neg": 0.2998998475074768,
+          "delta_intent": 32.705714089870455
+        }
+      },
+      "topic_orthogonalised": {
+        "eta2_intent": 0.8781133472777913,
+        "eta2_topic": 3.039754589553151e-32,
+        "auc_intent": 1.0
+      },
+      "auc_within_min": 1.0,
+      "verdict": "ROBUST \u2014 intent effect survives topic orthogonalisation. d_hat tracks topic-orthogonal harm-intent direction; headline claim defensible despite MIXED 2x2 verdict."
+    },
+    {
+      "name": "refusal_direction_matched",
+      "baseline": {
+        "eta2_intent": 0.8473201336467786,
+        "eta2_topic": 0.14676032163771985,
+        "auc_intent": 0.9999
+      },
+      "within_topic": {
+        "topic=0": {
+          "n": 100,
+          "n_intent_pos": 50,
+          "n_intent_neg": 50,
+          "auc_intent": 1.0,
+          "mean_intent_pos": 25.342521347999572,
+          "mean_intent_neg": -9.441379010677338,
+          "delta_intent": 34.78390035867691
+        },
+        "topic=1": {
+          "n": 100,
+          "n_intent_pos": 50,
+          "n_intent_neg": 50,
+          "auc_intent": 1.0,
+          "mean_intent_pos": 29.392352714538575,
+          "mean_intent_neg": -1.8647028017044067,
+          "delta_intent": 31.257055516242982
+        }
+      },
+      "topic_orthogonalised": {
+        "eta2_intent": 0.8473201336467785,
+        "eta2_topic": 3.61939768228813e-32,
+        "auc_intent": 1.0
+      },
+      "auc_within_min": 1.0,
+      "verdict": "ROBUST \u2014 intent effect survives topic orthogonalisation. d_hat tracks topic-orthogonal harm-intent direction; headline claim defensible despite MIXED 2x2 verdict."
+    }
+  ]
+}
