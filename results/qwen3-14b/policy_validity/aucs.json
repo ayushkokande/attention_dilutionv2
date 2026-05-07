@@ -1,6 +1,6 @@
 {
   "decision_constants": {
-    "layer": 20,
+    "layer": 18,
     "auc_harm_vs_policy_harm_specific": 0.85,
     "auc_harm_vs_policy_mixed_lo": 0.65
   },
@@ -9,27 +9,27 @@
       "name": "refusal_direction",
       "path": "results/qwen3-14b/refusal_direction",
       "by_layer": {
-        "20": {
+        "18": {
           "auc_harm_vs_harmless": 1.0,
-          "auc_policy_vs_harmless": 0.9992,
-          "auc_harm_vs_policy": 0.926
+          "auc_policy_vs_harmless": 0.9984,
+          "auc_harm_vs_policy": 0.9328
         },
         "28": {
           "auc_harm_vs_harmless": 1.0,
           "auc_policy_vs_harmless": 0.956,
-          "auc_harm_vs_policy": 0.9644
+          "auc_harm_vs_policy": 0.9636
         }
       },
-      "verdict_layer20": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
+      "verdict_layer18": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
     },
     {
       "name": "refusal_direction_matched",
       "path": "results/qwen3-14b/refusal_direction_matched",
       "by_layer": {
-        "20": {
+        "18": {
           "auc_harm_vs_harmless": 1.0,
-          "auc_policy_vs_harmless": 0.9948,
-          "auc_harm_vs_policy": 0.9268
+          "auc_policy_vs_harmless": 0.9992,
+          "auc_harm_vs_policy": 0.9328
         },
         "28": {
           "auc_harm_vs_harmless": 1.0,
@@ -37,7 +37,7 @@
           "auc_harm_vs_policy": 0.964
         }
       },
-      "verdict_layer20": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
+      "verdict_layer18": "HARM_SPECIFIC \u2014 d_hat distinguishes harm-refusal from policy-refusal; paper headline holds."
     }
   ]
 }
