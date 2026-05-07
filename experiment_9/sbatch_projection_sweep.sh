@@ -30,9 +30,10 @@ MODEL="Qwen/Qwen3-14B"
 # Same L grid as context_sweep so the two metrics are directly comparable cell
 # by cell. Stay <=32K to avoid the YaRN extrapolation confound.
 LENGTHS="0 128 512 1024 2048 4096 8192 16384 32768"
-# Layer 18 is meta.json:default_layer (causal-ablation canonical, step 2);
-# 24/28 are suggested_layers_to_try.
-LAYERS="18 24 28"
+# Layer 36 is meta.json:canonical_layer (causal-ablation canonical, exp_2
+# reconcile rerun 2026-05-07; INVARIANTS.md §Refusal direction).
+# 32 is a causal-tied neighbour; 39 is norm_best_layer (peak-norm).
+LAYERS="32 36 39"
 HARMFUL_N=100
 SEED=0
 
