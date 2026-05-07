@@ -4,11 +4,11 @@
 d_hat at chosen layers, projects last-token residuals and computes:
 
   - per-cell mean / std projection
-  - 2-way ANOVA on layer 20 projection: proj ~ intent + topic + intent:topic
+  - 2-way ANOVA on layer 18 projection: proj ~ intent + topic + intent:topic
     with partial eta-squared per term
   - AUC_intent (collapse topic), AUC_topic (collapse intent)
 
-Decision rule (preregistered, applied to first refusal-dir at layer 20):
+Decision rule (applied to first refusal-dir at canonical layer 18):
   eta2(intent) >= 0.5 AND eta2(topic) <= 0.1            -> CLEAN
   eta2(intent) >= eta2(topic) AND eta2(topic) > 0.1     -> MIXED
   eta2(topic) > eta2(intent)                            -> TOPIC_DOMINANT
@@ -44,7 +44,7 @@ from refusal_direction import slug_from_model  # type: ignore
 DTYPES = {"bfloat16": torch.bfloat16, "float16": torch.float16, "float32": torch.float32}
 
 DEFAULT_LAYERS = [18, 20, 28]
-DECISION_LAYER = 20
+DECISION_LAYER = 18
 DECISION_INTENT_HI = 0.5
 DECISION_TOPIC_LO = 0.1
 

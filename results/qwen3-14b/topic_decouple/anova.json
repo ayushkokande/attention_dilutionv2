@@ -1,6 +1,6 @@
 {
   "decision_constants": {
-    "layer": 20,
+    "layer": 18,
     "intent_eta2_hi": 0.5,
     "topic_eta2_lo": 0.1
   },
@@ -36,7 +36,8 @@
           "residual_df": 196.0,
           "r_squared": 0.8819327959631379,
           "auc_intent": 1.0,
-          "auc_topic": 0.6307
+          "auc_topic": 0.6307,
+          "verdict": "MIXED — intent dominates but topic non-trivial; orthogonalise as robustness check."
         },
         "20": {
           "terms": {
@@ -65,7 +66,8 @@
           "residual_df": 196.0,
           "r_squared": 0.8948503447181072,
           "auc_intent": 1.0,
-          "auc_topic": 0.6102
+          "auc_topic": 0.6102,
+          "verdict_legacy_L20": "CLEAN — d_hat tracks harmful intent; topic effect negligible. (preregistration L20, superseded by L18 cascade)"
         },
         "28": {
           "terms": {
@@ -97,7 +99,7 @@
           "auc_topic": 0.5604
         }
       },
-      "verdict_decision_layer": "CLEAN \u2014 d_hat tracks harmful intent; topic effect negligible."
+      "verdict_decision_layer": "MIXED \u2014 intent dominates but topic non-trivial; orthogonalise as robustness check."
     },
     {
       "name": "refusal_direction_matched",
@@ -130,7 +132,8 @@
           "residual_df": 196.0,
           "r_squared": 0.8515766234911261,
           "auc_intent": 0.9999,
-          "auc_topic": 0.6224
+          "auc_topic": 0.6224,
+          "verdict": "MIXED — intent dominates but topic non-trivial; orthogonalise as robustness check."
         },
         "20": {
           "terms": {
@@ -159,7 +162,8 @@
           "residual_df": 196.0,
           "r_squared": 0.8743875452063735,
           "auc_intent": 0.9998,
-          "auc_topic": 0.5866
+          "auc_topic": 0.5866,
+          "verdict_legacy_L20": "CLEAN — d_hat tracks harmful intent; topic effect negligible. (preregistration L20, superseded by L18 cascade)"
         },
         "28": {
           "terms": {
@@ -191,7 +195,7 @@
           "auc_topic": 0.558
         }
       },
-      "verdict_decision_layer": "CLEAN \u2014 d_hat tracks harmful intent; topic effect negligible."
+      "verdict_decision_layer": "MIXED \u2014 intent dominates but topic non-trivial; orthogonalise as robustness check."
     }
   ]
 }
