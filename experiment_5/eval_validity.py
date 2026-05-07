@@ -237,11 +237,12 @@ def collect_projections_one_dir(
     cur_offset = [0]
 
     def make_hook(slot: int):
-        d_vec = d_hat_subset[slot].to(device=device, dtype=torch.float32)
+        d_vec_cpu = d_hat_subset[slot].to(dtype=torch.float32).cpu()
 
         def hook(module, inp, mod_out):
             h = mod_out[0] if isinstance(mod_out, tuple) else mod_out
             last = h[:, -1, :].detach().float()
+            d_vec = d_vec_cpu.to(device=last.device, non_blocking=True)
             p = (last * d_vec.unsqueeze(0)).sum(dim=-1)
             start = cur_offset[0]
             proj_row[slot, start : start + last.shape[0]] = p.cpu()
