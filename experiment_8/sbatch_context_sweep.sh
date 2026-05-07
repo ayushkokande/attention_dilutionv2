@@ -27,12 +27,17 @@ OVERLAY="${SCRATCH}/overlay-25GB-500K.ext3:ro"
 REPO="${SCRATCH}/attention_dilutionv2"
 
 MODEL="Qwen/Qwen3-14B"
-# Sweep grid. 32768 is Qwen3-14B's native RoPE window; past that the model
-# degrades without YaRN and the refusal classifier reads noise as "complied",
-# which would spuriously inflate the dilution effect. Stay <=32K unless you
-# also flip on rope_scaling=yarn in context_sweep.py and treat those cells
-# as a separate "extrapolation regime" plot.
-LENGTHS="0 512 2048 8192 16384 32768"
+# Ablation layer: canonical L18 (causal-ablation criterion, exp_2 step 2
+# rerun). Default in context_sweep.py reads meta.json:default_layer which is
+# now 18, but pin explicitly to make the cascade auditable in the slurm log.
+ABLATION_LAYER=18
+# Sweep grid (INVARIANTS.md merged grid for exp_8/9/10). 32768 is Qwen3-14B's
+# native RoPE window; past that the model degrades without YaRN and the
+# refusal classifier reads noise as "complied", which would spuriously
+# inflate the dilution effect. Stay <=32K unless you also flip on
+# rope_scaling=yarn in context_sweep.py and treat those cells as a separate
+# "extrapolation regime" plot.
+LENGTHS="0 128 512 1024 2048 4096 8192 16384 32768"
 HARMFUL_N=100
 MAX_NEW=256
 SEED=0
@@ -100,6 +105,7 @@ time python experiment_8/context_sweep.py \
     --model \"${MODEL}\" \
     --dtype bfloat16 \
     --refusal-dir results/qwen3-14b/refusal_direction \
+    --ablation-layer ${ABLATION_LAYER} \
     --lengths ${LENGTHS} \
     --harmful-n ${HARMFUL_N} \
     --max-new-tokens ${MAX_NEW} \
