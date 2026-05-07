@@ -1,0 +1,228 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\bibstyle{plainnat}
+\citation{arditi2024refusal}
+\citation{anil2024manyshot,liu2024lostmiddle}
+\citation{arditi2024refusal}
+\citation{anil2024manyshot}
+\citation{turner2023activation,panickssery2024steering}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\newlabel{sec:intro@cref}{{[section][1][]1}{[1][1][]1}{}{}{}}
+\citation{arditi2024refusal}
+\citation{wollschlaeger2025geometry}
+\citation{zhao2025separately}
+\citation{jin2024jailbreaklens}
+\citation{anil2024manyshot}
+\citation{liu2024lostmiddle}
+\citation{turner2023activation}
+\citation{panickssery2024steering}
+\citation{goldowskydill2023patching}
+\citation{nanda2022transformerlens}
+\citation{zou2023advbench}
+\citation{taori2023alpaca}
+\@writefile{toc}{\contentsline {paragraph}{Contributions.}{2}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{2}{Related Work}{section.2}{}}
+\newlabel{sec:related@cref}{{[section][2][]2}{[1][2][]2}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Refusal as a single direction.}{2}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Guardrail heads.}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Long-context jailbreaks.}{2}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Activation steering and path patching.}{2}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Setup}{2}{section.3}\protected@file@percent }
+\newlabel{sec:setup}{{3}{2}{Setup}{section.3}{}}
+\newlabel{sec:setup@cref}{{[section][3][]3}{[1][2][]2}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Model.}{2}{section*.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The six bloat formats. Same harmful request, same token budget; only the wrapping structure varies.}}{3}{table.caption.10}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:formats}{{1}{3}{The six bloat formats. Same harmful request, same token budget; only the wrapping structure varies}{table.caption.10}{}}
+\newlabel{tab:formats@cref}{{[table][1][]1}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Data.}{3}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Refusal detector.}{3}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Bloat formats.}{3}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Baseline refusal rates}{3}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:setup-baseline}{{3.1}{3}{Baseline refusal rates}{subsection.3.1}{}}
+\newlabel{sec:setup-baseline@cref}{{[subsection][1][3]3.1}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Method: Extracting and Validating the Refusal Direction}{3}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{4}{3}{Method: Extracting and Validating the Refusal Direction}{section.4}{}}
+\newlabel{sec:method@cref}{{[section][4][]4}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}DiffMean extraction at every layer}{3}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:method-dhat}{{4.1}{3}{DiffMean extraction at every layer}{subsection.4.1}{}}
+\newlabel{sec:method-dhat@cref}{{[subsection][1][4]4.1}{[1][3][]3}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Causal validation of $\hat  {d}_{36}$ on disjoint $100$-prompt eval pools. Removing $\hat  {d}_{36}$ kills harmful refusal cleanly while inducing zero spurious benign refusals.}}{4}{table.caption.12}\protected@file@percent }
+\newlabel{tab:phase1-validation}{{2}{4}{Causal validation of $\dhat _{36}$ on disjoint $100$-prompt eval pools. Removing $\dhat _{36}$ kills harmful refusal cleanly while inducing zero spurious benign refusals}{table.caption.12}{}}
+\newlabel{tab:phase1-validation@cref}{{[table][2][]2}{[1][4][]4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Per-layer norm $\lVert \mu ^{(\mathrm  {harmful})}_\ell - \mu ^{(\mathrm  {harmless})}_\ell \rVert _2$ of the unnormalized DiffMean direction in Qwen3-14B{}. The norm grows monotonically through mid-network and peaks at $\ell {=}39$. The peak-norm layer is not the causal optimum; we use Decision Rule~\ref {rule:layer} (strict ablation criterion with deterministic tie-break) and select $\ell ^{*}{=}36$ as canonical.}}{4}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:phase1-norms}{{1}{4}{Per-layer norm $\lVert \mu ^{(\mathrm {harmful})}_\layerL - \mu ^{(\mathrm {harmless})}_\layerL \rVert _2$ of the unnormalized DiffMean direction in \model {}. The norm grows monotonically through mid-network and peaks at $\layerL {=}39$. The peak-norm layer is not the causal optimum; we use Decision Rule~\ref {rule:layer} (strict ablation criterion with deterministic tie-break) and select $\Lread {=}36$ as canonical}{figure.caption.13}{}}
+\newlabel{fig:phase1-norms@cref}{{[figure][1][]1}{[1][4][]4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Causal-ablation criterion for layer selection}{4}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:layer-selection}{{4.2}{4}{Causal-ablation criterion for layer selection}{subsection.4.2}{}}
+\newlabel{sec:layer-selection@cref}{{[subsection][2][4]4.2}{[1][3][]4}{}{}{}}
+\newlabel{rule:layer}{{1}{4}{Layer selection}{decisionrule.1}{}}
+\newlabel{rule:layer@cref}{{[decisionrule][1][]1}{[1][4][]4}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Result.}{4}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Identifying Guardrail Heads via direct logit attribution}{4}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:guardrail-heads}{{4.3}{4}{Identifying Guardrail Heads via direct logit attribution}{subsection.4.3}{}}
+\newlabel{sec:guardrail-heads@cref}{{[subsection][3][4]4.3}{[1][4][]4}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Top-12 Guardrail Heads by direct logit attribution onto $\hat  {d}_{36}$. L36H31 dominates by a wide margin and is the focus of the mechanistic analysis in \cref  {sec:mechanism,sec:pathpatching}.}}{5}{table.caption.14}\protected@file@percent }
+\newlabel{tab:guardrail}{{3}{5}{Top-12 Guardrail Heads by direct logit attribution onto $\dhat _{36}$. L36H31 dominates by a wide margin and is the focus of the mechanistic analysis in \cref {sec:mechanism,sec:pathpatching}}{table.caption.14}{}}
+\newlabel{tab:guardrail@cref}{{[table][3][]3}{[1][4][]5}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Validity Battery}{5}{section.5}\protected@file@percent }
+\newlabel{sec:validity}{{5}{5}{Validity Battery}{section.5}{}}
+\newlabel{sec:validity@cref}{{[section][5][]5}{[1][5][]5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Matched verb/length pools}{5}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:validity-matched}{{5.1}{5}{Matched verb/length pools}{subsection.5.1}{}}
+\newlabel{sec:validity-matched@cref}{{[subsection][1][5]5.1}{[1][5][]5}{}{}{}}
+\newlabel{rule:matched}{{2}{5}{Matched pool}{decisionrule.2}{}}
+\newlabel{rule:matched@cref}{{[decisionrule][2][]2}{[1][5][]5}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Result.}{5}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Style/vocabulary mismatch}{5}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:validity-style}{{5.2}{5}{Style/vocabulary mismatch}{subsection.5.2}{}}
+\newlabel{sec:validity-style@cref}{{[subsection][2][5]5.2}{[1][5][]5}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Result.}{5}{section*.17}\protected@file@percent }
+\citation{xie2024sorrybench}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Per-head direct logit attribution onto $\hat  {d}_{36}$ for all heads up to the read-off layer (rows: layer 0--36; columns: head 0--39). Red is positive contribution to refusal-promoting logits; blue is negative. \textbf  {L36H31} is the single brightest cell; secondary positive heads cluster in mid-to-late layers ($\ell \in \{24, 26, 27, 30, 33, 35, 36\}$).}}{6}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:phase1-heatmap}{{2}{6}{Per-head direct logit attribution onto $\dhat _{36}$ for all heads up to the read-off layer (rows: layer 0--36; columns: head 0--39). Red is positive contribution to refusal-promoting logits; blue is negative. \textbf {L36H31} is the single brightest cell; secondary positive heads cluster in mid-to-late layers ($\layerL \in \{24, 26, 27, 30, 33, 35, 36\}$)}{figure.caption.15}{}}
+\newlabel{fig:phase1-heatmap@cref}{{[figure][2][]2}{[1][5][]6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Intent\,$\times $\,Topic 2$\times $2 ANOVA}{6}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:validity-topic}{{5.3}{6}{Intent\,$\times $\,Topic 2$\times $2 ANOVA}{subsection.5.3}{}}
+\newlabel{sec:validity-topic@cref}{{[subsection][3][5]5.3}{[1][5][]6}{}{}{}}
+\newlabel{rule:topic}{{3}{6}{Topic decoupling}{decisionrule.3}{}}
+\newlabel{rule:topic@cref}{{[decisionrule][3][]3}{[1][6][]6}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Result.}{6}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Harm-refusal vs.\ policy-refusal AUC}{6}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:validity-policy}{{5.4}{6}{Harm-refusal vs.\ policy-refusal AUC}{subsection.5.4}{}}
+\newlabel{sec:validity-policy@cref}{{[subsection][4][5]5.4}{[1][6][]6}{}{}{}}
+\newlabel{rule:policy}{{4}{6}{Policy specificity}{decisionrule.4}{}}
+\newlabel{rule:policy@cref}{{[decisionrule][4][]4}{[1][6][]6}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Result.}{6}{section*.19}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Six-format triage at fixed harmful-prompt set, $n{=}100$. At $N{=}2048$, the same length of bloat produces $1.00$ refusal under \texttt  {multi\_turn} and $0.00$ under \texttt  {distractor}. Length is decisively not the right axis.}}{7}{table.caption.21}\protected@file@percent }
+\newlabel{tab:triage}{{4}{7}{Six-format triage at fixed harmful-prompt set, $n{=}100$. At $\Ncontext {=}2048$, the same length of bloat produces $1.00$ refusal under \texttt {multi\_turn} and $0.00$ under \texttt {distractor}. Length is decisively not the right axis}{table.caption.21}{}}
+\newlabel{tab:triage@cref}{{[table][4][]4}{[1][7][]7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Dense $N$ sweep on \texttt  {distractor}, $n{=}100$ harmful prompts. Refusal collapses at ${\sim }31$ bloat tokens.}}{7}{table.caption.22}\protected@file@percent }
+\newlabel{tab:dense}{{5}{7}{Dense $\Ncontext $ sweep on \texttt {distractor}, $n{=}100$ harmful prompts. Refusal collapses at ${\sim }31$ bloat tokens}{table.caption.22}{}}
+\newlabel{tab:dense@cref}{{[table][5][]5}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Summary.}{7}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Format-Conditional Dilution: Triage Across Six Bloat Formats}{7}{section.6}\protected@file@percent }
+\newlabel{sec:dilution}{{6}{7}{Format-Conditional Dilution: Triage Across Six Bloat Formats}{section.6}{}}
+\newlabel{sec:dilution@cref}{{[section][6][]6}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Dense sweep on the focal format}{7}{subsection.6.1}\protected@file@percent }
+\newlabel{sec:dense}{{6.1}{7}{Dense sweep on the focal format}{subsection.6.1}{}}
+\newlabel{sec:dense@cref}{{[subsection][1][6]6.1}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Cross-Format Generalization: Dilution Equals Ablation Only Under \texttt  {distractor}}{7}{section.7}\protected@file@percent }
+\newlabel{sec:multiformat}{{7}{7}{Cross-Format Generalization: Dilution Equals Ablation Only Under \texttt {distractor}}{section.7}{}}
+\newlabel{sec:multiformat@cref}{{[section][7][]7}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Interpretation.}{7}{section*.26}\protected@file@percent }
+\citation{zhao2025separately}
+\citation{turner2023activation}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Phase 2 dense sweep on the focal \texttt  {distractor} format across $N\in \{0, 32, 64, \ldots  , 4096\}$. Three quantities overlaid: H1 = mean attention mass from L36's last token onto the harmful-token span at the Guardrail Heads (left axis); H2 = $\cos (\text  {resid}_\ell ^{(\text  {last})}, \hat  {d})$ at $\ell ^{*}{=}36$; and behavioral refusal rate. The behavioral curve tracks H1 closely; H2 stays close to constant. Half-baseline crossing at $N_{\mathrm  {jb}} \approx 31$ tokens. Red markers indicate runs that OOMed and are reported as failures rather than dropped.}}{8}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:phase2-dense}{{3}{8}{Phase 2 dense sweep on the focal \texttt {distractor} format across $\Ncontext \in \{0, 32, 64, \ldots , 4096\}$. Three quantities overlaid: H1 = mean attention mass from L36's last token onto the harmful-token span at the Guardrail Heads (left axis); H2 = $\cos (\text {resid}_\layerL ^{(\text {last})}, \dhat )$ at $\Lread {=}36$; and behavioral refusal rate. The behavioral curve tracks H1 closely; H2 stays close to constant. Half-baseline crossing at $\Ncontext _{\mathrm {jb}} \approx 31$ tokens. Red markers indicate runs that OOMed and are reported as failures rather than dropped}{figure.caption.23}{}}
+\newlabel{fig:phase2-dense@cref}{{[figure][3][]3}{[1][7][]8}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Mechanism: Attentional, Not Representational}{8}{section.8}\protected@file@percent }
+\newlabel{sec:mechanism}{{8}{8}{Mechanism: Attentional, Not Representational}{section.8}{}}
+\newlabel{sec:mechanism@cref}{{[section][8][]8}{[1][8][]8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Killer comparison per format: only \texttt  {distractor} closes the gap to the ablation floor. Its dilution behavior is mechanistically equivalent to V\_refusal removal.}}{9}{table.caption.24}\protected@file@percent }
+\newlabel{tab:killer}{{6}{9}{Killer comparison per format: only \texttt {distractor} closes the gap to the ablation floor. Its dilution behavior is mechanistically equivalent to V\_refusal removal}{table.caption.24}{}}
+\newlabel{tab:killer@cref}{{[table][6][]6}{[1][7][]9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Per-head attention mass on the harmful-token span at L36H31, $n{=}24$ prompts. The dominant Guardrail Head loses $6\times $ of its attention mass on the harmful tokens under dilution.}}{9}{table.caption.27}\protected@file@percent }
+\newlabel{tab:phase6}{{7}{9}{Per-head attention mass on the harmful-token span at L36H31, $n{=}24$ prompts. The dominant Guardrail Head loses $6\times $ of its attention mass on the harmful tokens under dilution}{table.caption.27}{}}
+\newlabel{tab:phase6@cref}{{[table][7][]7}{[1][8][]9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}The Failed Single-Site Rescue and the Sign-Flip Discovery}{9}{section.9}\protected@file@percent }
+\newlabel{sec:rescue}{{9}{9}{The Failed Single-Site Rescue and the Sign-Flip Discovery}{section.9}{}}
+\newlabel{sec:rescue@cref}{{[section][9][]9}{[1][8][]9}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Activation steering does not rescue at high $N$}{9}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Capability-cost audit confirms $\hat  {d}$ is narrow}{9}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Why the rescue fails: the $\hat  {d}$ projection inverts sign}{9}{subsection.9.3}\protected@file@percent }
+\citation{goldowskydill2023patching}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Six-panel cross-format $2{\times }2$ comparison ($\{$intact, ablated$\} \times \{$harmful, harmless$\}$) across all six bloat formats (rows: format; columns: $N$ on log axis). The intact-harmful curve (blue) collapses only on the \texttt  {distractor} panel and overlays the ablated-harmful floor (red); in all five other formats it stays well above. Harmless curves (green/orange) sit at $\sim 0$ everywhere. This is the headline visual for ``format $>$ length'': same model, same harmful prompts, same token budgets --- only the wrapping structure varies.}}{10}{figure.caption.25}\protected@file@percent }
+\newlabel{fig:phase5-multi}{{4}{10}{Six-panel cross-format $2{\times }2$ comparison ($\{$intact, ablated$\} \times \{$harmful, harmless$\}$) across all six bloat formats (rows: format; columns: $\Ncontext $ on log axis). The intact-harmful curve (blue) collapses only on the \texttt {distractor} panel and overlays the ablated-harmful floor (red); in all five other formats it stays well above. Harmless curves (green/orange) sit at $\sim 0$ everywhere. This is the headline visual for ``format $>$ length'': same model, same harmful prompts, same token budgets --- only the wrapping structure varies}{figure.caption.25}{}}
+\newlabel{fig:phase5-multi@cref}{{[figure][4][]4}{[1][7][]10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Path Patching Localizes the Lesion to a Two-Head Circuit}{10}{section.10}\protected@file@percent }
+\newlabel{sec:pathpatching}{{10}{10}{Path Patching Localizes the Lesion to a Two-Head Circuit}{section.10}{}}
+\newlabel{sec:pathpatching@cref}{{[section][10][]10}{[1][10][]10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Layer sweep: peak at L=20}{10}{subsection.10.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Refusal rate under single-site $\alpha \!\cdot \!\hat  {d}$ injection at L36, focal format \texttt  {distractor}, $n{=}100$ prompts per cell. Single-direction rescue fails for $N{\geq }512$.}}{11}{table.caption.28}\protected@file@percent }
+\newlabel{tab:rescue}{{8}{11}{Refusal rate under single-site $\alpha \!\cdot \!\dhat $ injection at L36, focal format \texttt {distractor}, $n{=}100$ prompts per cell. Single-direction rescue fails for $\Ncontext {\geq }512$}{table.caption.28}{}}
+\newlabel{tab:rescue@cref}{{[table][8][]8}{[1][9][]11}{}{}{}}
+\newlabel{fig:phase3-rescue}{{5a}{11}{Refusal rate vs.\ $\alpha $ on the focal format, one curve per $\Ncontext $}{figure.caption.29}{}}
+\newlabel{fig:phase3-rescue@cref}{{[subfigure][1][5]5a}{[1][9][]11}{}{}{}}
+\newlabel{sub@fig:phase3-rescue}{{a}{11}{Refusal rate vs.\ $\alpha $ on the focal format, one curve per $\Ncontext $}{figure.caption.29}{}}
+\newlabel{sub@fig:phase3-rescue@cref}{{[subfigure][1][5]5a}{[1][9][]11}{}{}{}}
+\newlabel{fig:phase3-mmlu}{{5b}{11}{MMLU accuracy and benign refusal vs.\ $\alpha $ on a 50-question subset}{figure.caption.29}{}}
+\newlabel{fig:phase3-mmlu@cref}{{[subfigure][2][5]5b}{[1][9][]11}{}{}{}}
+\newlabel{sub@fig:phase3-mmlu}{{b}{11}{MMLU accuracy and benign refusal vs.\ $\alpha $ on a 50-question subset}{figure.caption.29}{}}
+\newlabel{sub@fig:phase3-mmlu@cref}{{[subfigure][2][5]5b}{[1][9][]11}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces (a) The single-site $\alpha \!\cdot \!\hat  {d}$ rescue at L36 fails to restore refusal for $N\geq 512$ regardless of $\alpha $. (b) The same intervention at the same $\alpha $ values does not damage benign capability (accuracy flat at $0.76$, benign refusal at $0.00$); the rescue lever is capability-safe but ineffective against dilution. \cref  {sec:rescue} explains the failure as a sign flip in the $\hat  {d}$ projection.}}{11}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:phase3}{{5}{11}{(a) The single-site $\alpha \!\cdot \!\dhat $ rescue at L36 fails to restore refusal for $\Ncontext \geq 512$ regardless of $\alpha $. (b) The same intervention at the same $\alpha $ values does not damage benign capability (accuracy flat at $0.76$, benign refusal at $0.00$); the rescue lever is capability-safe but ineffective against dilution. \cref {sec:rescue} explains the failure as a sign flip in the $\dhat $ projection}{figure.caption.29}{}}
+\newlabel{fig:phase3@cref}{{[figure][5][]5}{[1][9][]11}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Joint patching reveals a coupled cascade}{11}{subsection.10.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Per-head zoom: L20H10 is uniquely dominant}{11}{subsection.10.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.4}The two-head mechanism}{11}{subsection.10.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Capability cost of V\_refusal ablation on benign tasks. The direction is narrow: removing it costs ${\sim }2$\,pp on MMLU and nothing on benign refusal.}}{12}{table.caption.30}\protected@file@percent }
+\newlabel{tab:capability}{{9}{12}{Capability cost of V\_refusal ablation on benign tasks. The direction is narrow: removing it costs ${\sim }2$\,pp on MMLU and nothing on benign refusal}{table.caption.30}{}}
+\newlabel{tab:capability@cref}{{[table][9][]9}{[1][9][]12}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Phase 4 capability audit: MMLU and GSM8K accuracy under $\{$intact, ablated$\} \times \{N{=}0, N{=}4096\}$. The ablated curve (red) tracks the intact curve (blue) within ${\sim }2$\,pp on MMLU and is indistinguishable on GSM8K, supporting the claim that $\hat  {d}$ is a narrow refusal-only direction rather than an entangled competence direction.}}{12}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:phase4}{{6}{12}{Phase 4 capability audit: MMLU and GSM8K accuracy under $\{$intact, ablated$\} \times \{\Ncontext {=}0, \Ncontext {=}4096\}$. The ablated curve (red) tracks the intact curve (blue) within ${\sim }2$\,pp on MMLU and is indistinguishable on GSM8K, supporting the claim that $\dhat $ is a narrow refusal-only direction rather than an entangled competence direction}{figure.caption.31}{}}
+\newlabel{fig:phase4@cref}{{[figure][6][]6}{[1][9][]12}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {11}Discussion}{12}{section.11}\protected@file@percent }
+\newlabel{sec:discussion}{{11}{12}{Discussion}{section.11}{}}
+\newlabel{sec:discussion@cref}{{[section][11][]11}{[1][12][]12}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{The failure is more specific than ``long context breaks refusal.''}{12}{section*.37}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Path-patching layer sweep: mean recovery of the $\hat  {d}$-projection at L36's last token, after patching \texttt  {resid\_pre}[$\ell $] at the harmful-span tokens from clean ($N{=}0$) into corrupted ($N{=}512$ \texttt  {distractor}), $n{=}8$ held-out harmful prompts.}}{13}{table.caption.32}\protected@file@percent }
+\newlabel{tab:pp-layer}{{10}{13}{Path-patching layer sweep: mean recovery of the $\dhat $-projection at L36's last token, after patching \texttt {resid\_pre}[$\layerL $] at the harmful-span tokens from clean ($\Ncontext {=}0$) into corrupted ($\Ncontext {=}512$ \texttt {distractor}), $n{=}8$ held-out harmful prompts}{table.caption.32}{}}
+\newlabel{tab:pp-layer@cref}{{[table][10][]10}{[1][10][]13}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Per-head recovery at three layers near the L=20 lesion. L20H10 is uniquely dominant; no analogous head exists at L=16 or L=24.}}{13}{table.caption.35}\protected@file@percent }
+\newlabel{tab:pp-heads}{{11}{13}{Per-head recovery at three layers near the L=20 lesion. L20H10 is uniquely dominant; no analogous head exists at L=16 or L=24}{table.caption.35}{}}
+\newlabel{tab:pp-heads@cref}{{[table][11][]11}{[1][11][]13}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Why the single-direction rescue cannot work, and what could.}{13}{section*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implications for safety evaluation.}{13}{section*.39}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Phase 7b layer-sweep recovery curve, mean $\pm $ SEM ($n{=}8$). Solid line: all prompts. Dotted line: leave-one-out excluding the high-recovery outlier prompt 0 ($n{=}7$, mean L=20 recovery $6.6\% \pm 2.5\%$). Both curves peak at \textbf  {L=20} with shoulders at L=16 and L=24, and recovery indistinguishable from zero at $\ell \geq 28$ (the readoff layer itself is the rightmost point and shows essentially no recovery --- patching at L=36 cannot fix what is already wrong).}}{14}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:phase7b-layer}{{7}{14}{Phase 7b layer-sweep recovery curve, mean $\pm $ SEM ($n{=}8$). Solid line: all prompts. Dotted line: leave-one-out excluding the high-recovery outlier prompt 0 ($n{=}7$, mean L=20 recovery $6.6\% \pm 2.5\%$). Both curves peak at \textbf {L=20} with shoulders at L=16 and L=24, and recovery indistinguishable from zero at $\layerL \geq 28$ (the readoff layer itself is the rightmost point and shows essentially no recovery --- patching at L=36 cannot fix what is already wrong)}{figure.caption.33}{}}
+\newlabel{fig:phase7b-layer@cref}{{[figure][7][]7}{[1][11][]14}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {12}Limitations}{14}{section.12}\protected@file@percent }
+\newlabel{sec:limitations}{{12}{14}{Limitations}{section.12}{}}
+\newlabel{sec:limitations@cref}{{[section][12][]12}{[1][13][]14}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Multi-layer joint patching at $\{16, 20, 24\}$ vs.\ each single-layer patch and their naive sum. \emph  {Joint $>$ best single} (adding more layers helps marginally) but \emph  {joint $<$ sum of singles} (the layers act as a partially redundant cascade rather than independent contributors). Error bars are SEM, $n{=}8$.}}{15}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:phase7b-multilayer}{{8}{15}{Multi-layer joint patching at $\{16, 20, 24\}$ vs.\ each single-layer patch and their naive sum. \emph {Joint $>$ best single} (adding more layers helps marginally) but \emph {joint $<$ sum of singles} (the layers act as a partially redundant cascade rather than independent contributors). Error bars are SEM, $n{=}8$}{figure.caption.34}{}}
+\newlabel{fig:phase7b-multilayer@cref}{{[figure][8][]8}{[1][11][]15}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {13}Conclusion}{15}{section.13}\protected@file@percent }
+\newlabel{sec:conclusion}{{13}{15}{Conclusion}{section.13}{}}
+\newlabel{sec:conclusion@cref}{{[section][13][]13}{[1][15][]15}{}{}{}}
+\bibdata{refs}
+\bibcite{anil2024manyshot}{{1}{2024}{{Anil et~al.}}{{Anil, Durmus, Sharma, Benton, Kundu, Batson, Rimsky, Tong, Mu, Ford, et~al.}}}
+\bibcite{arditi2024refusal}{{2}{2024}{{Arditi et~al.}}{{Arditi, Obeso, Syed, Paleka, Panickssery, Gurnee, and Nanda}}}
+\bibcite{goldowskydill2023patching}{{3}{2023}{{Goldowsky-Dill et~al.}}{{Goldowsky-Dill, MacLeod, Sato, and Arora}}}
+\bibcite{jin2024jailbreaklens}{{4}{2024}{{Jin et~al.}}{{}}}
+\bibcite{liu2024lostmiddle}{{5}{2024}{{Liu et~al.}}{{Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni, and Liang}}}
+\bibcite{nanda2022transformerlens}{{6}{2022}{{Nanda and Bloom}}{{}}}
+\bibcite{panickssery2024steering}{{7}{2024}{{Panickssery et~al.}}{{Panickssery, Gabrieli, Schulz, Tong, Hubinger, and Turner}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Per-head recovery (mean $\pm $ SEM, $n{=}8$) at the three layers around the L=20 lesion. \textbf  {L=16}: flat distribution, no head dominates. \textbf  {L=20}: head 10 stands out at $2.5\times $ the next head, and is the only large-effect head at any patched $(\ell , h)$ cell tested. \textbf  {L=24}: recovery is essentially zero across all heads. The L20H10 dominance is what allows us to compress the lesion description from ``a mid-network circuit'' to a two-head circuit (L20H10 $\to $ L36H31).}}{16}{figure.caption.36}\protected@file@percent }
+\newlabel{fig:phase7b-headzoom}{{9}{16}{Per-head recovery (mean $\pm $ SEM, $n{=}8$) at the three layers around the L=20 lesion. \textbf {L=16}: flat distribution, no head dominates. \textbf {L=20}: head 10 stands out at $2.5\times $ the next head, and is the only large-effect head at any patched $(\layerL , h)$ cell tested. \textbf {L=24}: recovery is essentially zero across all heads. The L20H10 dominance is what allows us to compress the lesion description from ``a mid-network circuit'' to a two-head circuit (L20H10 $\to $ L36H31)}{figure.caption.36}{}}
+\newlabel{fig:phase7b-headzoom@cref}{{[figure][9][]9}{[1][11][]16}{}{}{}}
+\bibcite{taori2023alpaca}{{8}{2023}{{Taori et~al.}}{{Taori, Gulrajani, Zhang, Dubois, Li, Guestrin, Liang, and Hashimoto}}}
+\bibcite{turner2023activation}{{9}{2023}{{Turner et~al.}}{{Turner, Thiergart, Leech, Udell, Vazquez, Mini, and MacDiarmid}}}
+\bibcite{wollschlaeger2025geometry}{{10}{2025}{{Wollschl{\"a}ger et~al.}}{{}}}
+\bibcite{xie2024sorrybench}{{11}{2024}{{Xie et~al.}}{{Xie, Qi, Zeng, Huang, Sehwag, Huang, He, Wei, Li, Sheng, et~al.}}}
+\bibcite{zhao2025separately}{{12}{2025}{{Zhao et~al.}}{{}}}
+\bibcite{zou2023advbench}{{13}{2023}{{Zou et~al.}}{{Zou, Wang, Carlini, Nasr, Kolter, and Fredrikson}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Refusal Detector}{17}{appendix.A}\protected@file@percent }
+\newlabel{app:refusal-detector}{{A}{17}{Refusal Detector}{appendix.A}{}}
+\newlabel{app:refusal-detector@cref}{{[section][1][]A}{[1][17][]17}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Splits and Disjointness}{17}{appendix.B}\protected@file@percent }
+\newlabel{app:splits}{{B}{17}{Splits and Disjointness}{appendix.B}{}}
+\newlabel{app:splits@cref}{{[section][2][]B}{[1][17][]17}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Hyperparameters}{17}{appendix.C}\protected@file@percent }
+\newlabel{app:hparams}{{C}{17}{Hyperparameters}{appendix.C}{}}
+\newlabel{app:hparams@cref}{{[section][3][]C}{[1][17][]17}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}Additional Figures}{18}{appendix.D}\protected@file@percent }
+\newlabel{app:figures}{{D}{18}{Additional Figures}{appendix.D}{}}
+\newlabel{app:figures@cref}{{[section][4][]D}{[1][18][]18}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Phase 6 per-head attention attribution heatmap. Each cell shows the contribution of head $(\ell , h)$ to the V\_refusal write at L36's last token under the focal \texttt  {distractor} format. Generated using selective z-hooks on the top-K Guardrail Heads (reduce-on-the-fly to avoid materializing the full $[B, H, T, T]$ attention pattern at long $N$).}}{18}{figure.caption.43}\protected@file@percent }
+\newlabel{fig:phase6-attribution}{{10}{18}{Phase 6 per-head attention attribution heatmap. Each cell shows the contribution of head $(\layerL , h)$ to the V\_refusal write at L36's last token under the focal \texttt {distractor} format. Generated using selective z-hooks on the top-K Guardrail Heads (reduce-on-the-fly to avoid materializing the full $[B, H, T, T]$ attention pattern at long $\Ncontext $)}{figure.caption.43}{}}
+\newlabel{fig:phase6-attribution@cref}{{[figure][10][]10}{[1][18][]18}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Phase 6 source-flow diagram: aggregated attention from L36H31's query at the final position to source-token positions across the prompt, comparing $N{=}0$ and $N{=}4096$. Under dilution the mass on the harmful-token span (highlighted) collapses by $6\times $ relative to the no-bloat baseline; bloat positions absorb the redistributed attention.}}{19}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:phase6-sourceflow}{{11}{19}{Phase 6 source-flow diagram: aggregated attention from L36H31's query at the final position to source-token positions across the prompt, comparing $\Ncontext {=}0$ and $\Ncontext {=}4096$. Under dilution the mass on the harmful-token span (highlighted) collapses by $6\times $ relative to the no-bloat baseline; bloat positions absorb the redistributed attention}{figure.caption.44}{}}
+\newlabel{fig:phase6-sourceflow@cref}{{[figure][11][]11}{[1][18][]19}{}{}{}}
+\gdef \@abspage@last{19}
