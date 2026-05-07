@@ -434,9 +434,22 @@ $\eta^{2}(\text{topic}) \leq 0.1$.
 \end{decisionrule}
 
 \paragraph{Result.}
-$\eta^{2}(\text{intent}) = 0.894$, $\eta^{2}(\text{topic}) = 0.089$ at
-$\layerL{=}20$. $\dhat$ is overwhelmingly intent-driven; topic explains
-$<\!10\%$ of variance.
+At canonical $\layerL{=}18$,
+$\eta^{2}(\text{intent}) = 0.882$ and $\eta^{2}(\text{topic}) = 0.187$
+on $\dhat$ (matched $\dhat^{*}$: $0.847$, $0.151$). Intent dominates
+($>17\times$ topic effect size) but topic exceeds the $0.10$ pre-registered
+ceiling: \textbf{MIXED} verdict. The pre-registered fallback
+mandates a topic-orthogonalisation robustness check.
+
+\paragraph{Robustness check.}
+Within-topic discrimination is perfect:
+$\mathrm{AUC}_{\text{intent}}{=}1.000$ on both topic strata
+(mundane and edgy) for $\dhat$ and $\dhat^{*}$. Linearly orthogonalising
+the projection against the topic indicator and re-running the ANOVA
+preserves $\eta^{2}(\text{intent}){=}0.882$ ($0.847$ for $\dhat^{*}$)
+with $\eta^{2}(\text{topic}){\approx}10^{-32}$. The headline harm-intent
+claim is therefore \textbf{robust} to topic-orthogonal projection: $\dhat$
+tracks topic-orthogonal harm-intent, not a harmful-topic detector.
 
 \subsection{Harm-refusal vs.\ policy-refusal AUC}
 \label{sec:validity-policy}
@@ -455,9 +468,11 @@ $\mathrm{AUC}(\text{harm vs.\ policy}) \geq 0.85$.
 $\mathrm{AUC} = 0.926$ at $\layerL{=}20$. $\dhat$ separates
 harm-driven refusal from policy-driven refusal cleanly.
 
-\paragraph{Summary.} All four validity checks pass at the threshold or
-better. $\dhat$ is harm-specific, not a verb-class artefact, not a
-lexical-register artefact, not a topic artefact, and not a generic
+\paragraph{Summary.} Three of four validity checks pass at threshold;
+the topic-decoupling 2$\times$2 returns MIXED but the pre-registered
+robustness check (topic orthogonalisation) is ROBUST.
+$\dhat$ is harm-specific, not a verb-class artefact, not a
+lexical-register artefact, robust to topic confound, and not a generic
 compliance-decline direction. It is safe to use as the refusal
 read-off for the dilution analysis that follows.
 
@@ -980,10 +995,13 @@ single scalar of how attentionally fragile a model's refusal is.
         does not fit on a single A100-80GB with the current hook
         setup; longer-context rows are inferred indirectly via
         projection.
-  \item \textbf{Three known overlap warnings} in \texttt{splits.json};
-        the harmless-mundane cell of the topic-decoupling test
-        (\cref{sec:validity-topic}) shares prompts with the $\dhat$
-        training pool (flagged, not corrected).
+  \item \textbf{Two remaining overlap warnings} in \texttt{splits.json}
+        (shared eval space across exp\_6/exp\_7/exp\_8, not training
+        leaks). The earlier $\dhat$-training-pool overlap with the
+        topic-decoupling harmless-mundane cell
+        (\cref{sec:validity-topic}) was closed: that cell now draws
+        \alpaca{}\texttt{[200:250)} after the canonical clean-prompt
+        filter, disjoint from the $\dhat$ pool \alpaca{}\texttt{[0:100)}.
   \item \textbf{Path patching only at the harmful-span tokens.}
         Patching all positions would likely yield higher recovery and
         may shift the localization. The $9\text{--}12\%$ recovery is
@@ -1060,9 +1078,14 @@ scoring.
 \section{Splits and Disjointness}
 \label{app:splits}
 \todo{Reproduce table from \texttt{splits.json}: per-experiment
-\advbench{} and \alpaca{} row indices. Three known overlap
-warnings: (a) topic-decoupling harmless-mundane cell vs.\ $\dhat$
-training pool, (b) \todo{...}, (c) \todo{...}.}
+\advbench{} and \alpaca{} row indices. Two remaining overlap
+warnings (shared eval space, not $\dhat$-training leaks):
+(a) exp\_6 \advbench{}\texttt{[0:50)} sits inside exp\_8 sweep eval
+\texttt{[0:100)}; (b) exp\_7 \advbench{}\texttt{[50:100)} sits inside
+exp\_8 sweep eval \texttt{[0:100)}. The previous third warning
+(topic-decoupling harmless-mundane cell vs.\ $\dhat$ training pool) was
+closed on 2026-05-06 by migrating the cell to
+\alpaca{}\texttt{[200:250)}.}
 
 \section{Hyperparameters}
 \label{app:hparams}

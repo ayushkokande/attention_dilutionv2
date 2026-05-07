@@ -12,8 +12,8 @@
     {
       "name": "refusal_direction",
       "baseline": {
-        "eta2_intent": 0.8781133472777913,
-        "eta2_topic": 0.18985718935226642,
+        "eta2_intent": 0.8819893337310593,
+        "eta2_topic": 0.18747629450292813,
         "auc_intent": 1.0
       },
       "within_topic": {
@@ -23,8 +23,8 @@
           "n_intent_neg": 50,
           "auc_intent": 1.0,
           "mean_intent_pos": 28.99067720413208,
-          "mean_intent_neg": -8.3116827750206,
-          "delta_intent": 37.30235997915268
+          "mean_intent_neg": -7.9164958930015565,
+          "delta_intent": 36.90717309713364
         },
         "topic=1": {
           "n": 100,
@@ -37,8 +37,8 @@
         }
       },
       "topic_orthogonalised": {
-        "eta2_intent": 0.8781133472777913,
-        "eta2_topic": 3.039754589553151e-32,
+        "eta2_intent": 0.8819893337310593,
+        "eta2_topic": 6.683945412514272e-32,
         "auc_intent": 1.0
       },
       "auc_within_min": 1.0,
@@ -47,8 +47,8 @@
     {
       "name": "refusal_direction_matched",
       "baseline": {
-        "eta2_intent": 0.8473201336467786,
-        "eta2_topic": 0.14676032163771985,
+        "eta2_intent": 0.8502766062508522,
+        "eta2_topic": 0.15132451324695065,
         "auc_intent": 0.9999
       },
       "within_topic": {
@@ -58,8 +58,8 @@
           "n_intent_neg": 50,
           "auc_intent": 1.0,
           "mean_intent_pos": 25.342521347999572,
-          "mean_intent_neg": -9.441379010677338,
-          "delta_intent": 34.78390035867691
+          "mean_intent_neg": -9.533187465667725,
+          "delta_intent": 34.875708813667295
         },
         "topic=1": {
           "n": 100,
@@ -72,8 +72,8 @@
         }
       },
       "topic_orthogonalised": {
-        "eta2_intent": 0.8473201336467785,
-        "eta2_topic": 3.61939768228813e-32,
+        "eta2_intent": 0.8502766062508521,
+        "eta2_topic": 4.003159293449503e-31,
         "auc_intent": 1.0
       },
       "auc_within_min": 1.0,
