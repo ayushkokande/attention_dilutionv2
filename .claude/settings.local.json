@@ -102,7 +102,13 @@
       "Bash(head -30 Suraj/results_v3/phase5_multi.csv)",
       "Bash(grep *)",
       "Bash(awk -F, 'NR==1{print; next} {print}' \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/Suraj/results_v3/phase7b_path_patching/layer_sweep.csv\")",
-      "Bash(awk -F, 'NR>1 && $2==36 {print $1\",\"$2\",\"$3\",\"$4\",\"$5\",\"$6\",\"$7}' \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/Suraj/results_v3/phase7b_path_patching/layer_sweep.csv\")"
+      "Bash(awk -F, 'NR>1 && $2==36 {print $1\",\"$2\",\"$3\",\"$4\",\"$5\",\"$6\",\"$7}' \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/Suraj/results_v3/phase7b_path_patching/layer_sweep.csv\")",
+      "Bash(awk 'NR>=966 && NR<=1100' \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/paper/main.tex\")",
+      "Bash(awk *)",
+      "Bash(xargs -I {} basename {})",
+      "Bash(sed -n '47,82p' refs.bib)",
+      "Bash(sed -n '126,135p' refs.bib)",
+      "Bash(sed -n '159,169p' refs.bib)"
     ]
   }
 }
