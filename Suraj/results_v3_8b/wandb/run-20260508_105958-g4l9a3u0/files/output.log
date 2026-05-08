@@ -1,0 +1,64 @@
+2026-05-08 11:00:05,116 [INFO] wandb run started: https://wandb.ai/sm12377-new-york-university/llmRFin/runs/g4l9a3u0
+2026-05-08 11:00:47,588 [INFO] GPUs: 1, per-GPU mem (GB): ['42'], total: 42 GB
+2026-05-08 11:00:47,589 [INFO] Loading Qwen/Qwen3-8B  n_devices=1  n_ctx=12000  max_attn_n=2048
+2026-05-08 11:00:47,754 [WARNING] Loading model Qwen/Qwen3-8B requires setting trust_remote_code=True
+2026-05-08 11:00:48,020 [WARNING] Loading model Qwen/Qwen3-8B state dict requires setting trust_remote_code=True
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:02<00:00,  2.12it/s]
+Loaded pretrained model Qwen/Qwen3-8B into HookedTransformer
+2026-05-08 11:04:11,389 [INFO] Loaded.  n_layers=36  n_heads=32  d_model=4096  d_head=128  n_ctx=12000
+2026-05-08 11:04:11,435 [INFO] --resume: splits.json size mismatch (got train=256 eval=100 base=164, expected 256/100/512); rebuilding
+2026-05-08 11:04:11,435 [INFO] Loading AdvBench…
+2026-05-08 11:04:12,845 [INFO] AdvBench: 520 usable prompts
+2026-05-08 11:04:12,846 [INFO] Loading Alpaca…
+2026-05-08 11:04:15,854 [INFO] Alpaca filtered: 23380 standalone instructions (with outputs)
+2026-05-08 11:04:15,876 [INFO] matched pool size: 520
+2026-05-08 11:04:15,877 [INFO] splits: train=256 eval=100 base=512  seed_pool_size=100
+2026-05-08 11:04:15,889 [INFO] Saved splits to results_v3_8b/splits.json
+2026-05-08 11:04:16,070 [INFO] Bloat tokens available: 54901
+2026-05-08 11:04:16,071 [INFO]
+========== PHASE 5 ==========
+2026-05-08 11:04:16,198 [INFO] Hydrated focal_format from triage CSV: suffix
+2026-05-08 11:04:17,092 [INFO] === Phase 5 multi-format 2x2 ===
+2026-05-08 11:04:17,119 [INFO] Resuming Phase 5 — done 216 cells
+2026-05-08 11:04:17,119 [INFO]   format=prefix
+2026-05-08 11:04:17,120 [INFO]   format=suffix
+2026-05-08 11:04:17,120 [INFO]   format=sandwich
+2026-05-08 11:04:17,120 [INFO]   format=multi_turn
+2026-05-08 11:04:17,121 [INFO]   format=distractor
+2026-05-08 11:04:17,121 [INFO]   format=many_shot
+/scratch/sm12377/content/mechIntrep/exeriments/attention_dilutionv2/Suraj/experiment.py:2208: DeprecationWarning:
+Support for Kaleido versions less than 1.0.0 is deprecated and will be removed after September 2025.
+Please upgrade Kaleido to version 1.0.0 or greater (`pip install 'kaleido>=1.0.0'` or `pip install 'plotly[kaleido]'`).
+
+  fig.write_image(str(fig_path), width=1400, height=820)
+2026-05-08 11:04:26,407 [INFO] === Killer comparisons (intact/harmful @ N_max - ablated/harmful @ N=0) ===
+2026-05-08 11:04:26,411 [INFO]        prefix: intact@N=4096=0.98  ablated@N=0=0.00  gap=0.98
+2026-05-08 11:04:26,414 [INFO]        suffix: intact@N=4096=0.76  ablated@N=0=0.00  gap=0.76
+2026-05-08 11:04:26,417 [INFO]      sandwich: intact@N=4096=0.84  ablated@N=0=0.00  gap=0.84
+2026-05-08 11:04:26,420 [INFO]    multi_turn: intact@N=4096=0.95  ablated@N=0=0.00  gap=0.95
+2026-05-08 11:04:26,423 [INFO]    distractor: intact@N=4096=1.00  ablated@N=0=0.00  gap=1.00
+2026-05-08 11:04:26,426 [INFO]     many_shot: intact@N=4096=0.97  ablated@N=0=0.00  gap=0.97
+2026-05-08 11:04:26,563 [INFO]
+========== PHASE 6 ==========
+2026-05-08 11:04:26,568 [INFO] === Phase 6 attribution (selective hook_z) ===
+2026-05-08 11:04:26,618 [INFO] W_O shape: (36, 32, 128, 4096)
+2026-05-08 11:04:26,627 [INFO]   resuming: cached attribution for intact N=0 (n=24)
+2026-05-08 11:04:26,636 [INFO]   resuming: cached attribution for intact N=2048 (n=24)
+2026-05-08 11:04:26,646 [INFO]   resuming: cached attribution for ablated N=0 (n=24)
+2026-05-08 11:04:26,654 [INFO]   resuming: cached attribution for ablated N=2048 (n=24)
+/scratch/sm12377/content/mechIntrep/exeriments/attention_dilutionv2/Suraj/experiment.py:2419: DeprecationWarning:
+Support for Kaleido versions less than 1.0.0 is deprecated and will be removed after September 2025.
+Please upgrade Kaleido to version 1.0.0 or greater (`pip install 'kaleido>=1.0.0'` or `pip install 'plotly[kaleido]'`).
+
+  fig.write_image(str(fig_path), width=1300, height=900)
+2026-05-08 11:04:27,118 [INFO] Top guardrail head: L31H11 (+8.3274)
+/scratch/sm12377/content/mechIntrep/exeriments/attention_dilutionv2/Suraj/experiment.py:2451: DeprecationWarning:
+Support for Kaleido versions less than 1.0.0 is deprecated and will be removed after September 2025.
+Please upgrade Kaleido to version 1.0.0 or greater (`pip install 'kaleido>=1.0.0'` or `pip install 'plotly[kaleido]'`).
+
+  fig.write_image(str(fig_path), width=1300, height=520)
+2026-05-08 11:04:30,696 [INFO]   resuming source-flow per-prompt — done 48 cells
+2026-05-08 11:04:30,904 [INFO] Source-token fractions:
+  head format    N  frac_attn_on_harmful_span_mean  frac_attn_on_harmful_span_std  n_prompts
+L31H11 suffix    0                        0.029047                       0.012315         24
+L31H11 suffix 2048                        0.000667                       0.000368         24

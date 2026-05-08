@@ -1,0 +1,212 @@
+[
+  {
+    "path": "V_refusal.pt",
+    "bytes": 18103,
+    "mtime": 1777941045
+  },
+  {
+    "path": "capability_set.json",
+    "bytes": 98455,
+    "mtime": 1777937191
+  },
+  {
+    "path": "fig_phase1_heatmap.png",
+    "bytes": 65205,
+    "mtime": 1777942554
+  },
+  {
+    "path": "fig_phase1_norms.png",
+    "bytes": 34828,
+    "mtime": 1777937383
+  },
+  {
+    "path": "fig_phase2_dense_suffix.png",
+    "bytes": 91720,
+    "mtime": 1777953901
+  },
+  {
+    "path": "fig_phase3_mmlu.png",
+    "bytes": 36585,
+    "mtime": 1777963040
+  },
+  {
+    "path": "fig_phase3_rescue_suffix.png",
+    "bytes": 45809,
+    "mtime": 1777962882
+  },
+  {
+    "path": "fig_phase4_capability.png",
+    "bytes": 50378,
+    "mtime": 1777966856
+  },
+  {
+    "path": "fig_phase5_multi.png",
+    "bytes": 121162,
+    "mtime": 1778252663
+  },
+  {
+    "path": "fig_phase6_attribution_maps.png",
+    "bytes": 74185,
+    "mtime": 1778252667
+  },
+  {
+    "path": "fig_phase6_attribution_sourceflow.png",
+    "bytes": 62966,
+    "mtime": 1778252670
+  },
+  {
+    "path": "guardrail_heads.pt",
+    "bytes": 6113,
+    "mtime": 1777942554
+  },
+  {
+    "path": "phase1_acts.pt",
+    "bytes": 301991813,
+    "mtime": 1777937373
+  },
+  {
+    "path": "phase1_baseline.csv",
+    "bytes": 95,
+    "mtime": 1777938043
+  },
+  {
+    "path": "phase1_layer_sweep.csv",
+    "bytes": 518,
+    "mtime": 1777941044
+  },
+  {
+    "path": "phase1_validation.csv",
+    "bytes": 190,
+    "mtime": 1777942541
+  },
+  {
+    "path": "phase2_focal_suffix.csv",
+    "bytes": 6208,
+    "mtime": 1777953900
+  },
+  {
+    "path": "phase2_triage.csv",
+    "bytes": 412,
+    "mtime": 1777945711
+  },
+  {
+    "path": "phase3_mmlu_steering.csv",
+    "bytes": 214,
+    "mtime": 1777963040
+  },
+  {
+    "path": "phase3_rescue_suffix.csv",
+    "bytes": 919,
+    "mtime": 1777962881
+  },
+  {
+    "path": "phase4_capability.csv",
+    "bytes": 307,
+    "mtime": 1777966856
+  },
+  {
+    "path": "phase5_killer_comparison.csv",
+    "bytes": 248,
+    "mtime": 1778252666
+  },
+  {
+    "path": "phase5_multi.csv",
+    "bytes": 9568,
+    "mtime": 1778120011
+  },
+  {
+    "path": "phase6_attn_fraction_perprompt.csv",
+    "bytes": 1326,
+    "mtime": 1778120143
+  },
+  {
+    "path": "phase6_attrib_ablated_N0.pt",
+    "bytes": 6496,
+    "mtime": 1778120070
+  },
+  {
+    "path": "phase6_attrib_ablated_N2048.pt",
+    "bytes": 6517,
+    "mtime": 1778120103
+  },
+  {
+    "path": "phase6_attrib_intact_N0.pt",
+    "bytes": 6489,
+    "mtime": 1778120029
+  },
+  {
+    "path": "phase6_attrib_intact_N2048.pt",
+    "bytes": 6510,
+    "mtime": 1778120058
+  },
+  {
+    "path": "phase6_attribution_maps.pt",
+    "bytes": 21053,
+    "mtime": 1778252666
+  },
+  {
+    "path": "phase6_top_head_attn_fraction.csv",
+    "bytes": 211,
+    "mtime": 1778252670
+  },
+  {
+    "path": "phase7_circuit_tracing/fig_phase7_proxy_attn.png",
+    "bytes": 60909,
+    "mtime": 1778252960
+  },
+  {
+    "path": "phase7_circuit_tracing/phase7_circuit_metrics.csv",
+    "bytes": 1467,
+    "mtime": 1778252958
+  },
+  {
+    "path": "phase7_circuit_tracing/phase7_prompt_manifest.json",
+    "bytes": 1774,
+    "mtime": 1778252958
+  },
+  {
+    "path": "phase7b_path_patching/fig_phase7b_layer_curve.png",
+    "bytes": 49772,
+    "mtime": 1778252986
+  },
+  {
+    "path": "phase7b_path_patching/layer_sweep.csv",
+    "bytes": 6140,
+    "mtime": 1778252986
+  },
+  {
+    "path": "run_20260504_191837.log",
+    "bytes": 882,
+    "mtime": 1777936719
+  },
+  {
+    "path": "run_20260504_192231.log",
+    "bytes": 29904,
+    "mtime": 1778000513
+  },
+  {
+    "path": "run_20260506_105210.log",
+    "bytes": 15644,
+    "mtime": 1778120156
+  },
+  {
+    "path": "run_20260508_105950.log",
+    "bytes": 4425,
+    "mtime": 1778252681
+  },
+  {
+    "path": "run_20260508_110816.log",
+    "bytes": 13111,
+    "mtime": 1778253055
+  },
+  {
+    "path": "splits.json",
+    "bytes": 104292,
+    "mtime": 1778252947
+  },
+  {
+    "path": "wandb_results_manifest.json",
+    "bytes": 3303,
+    "mtime": 1778252671
+  }
+]

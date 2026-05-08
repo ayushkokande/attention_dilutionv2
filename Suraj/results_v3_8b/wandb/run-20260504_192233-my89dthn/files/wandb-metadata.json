@@ -1,0 +1,82 @@
+{
+  "os":  "Linux-5.14.0-570.62.1.el9_6.x86_64-x86_64-with-glibc2.34",
+  "python":  "CPython 3.9.18",
+  "startedAt":  "2026-05-04T23:22:33.249863Z",
+  "args":  [
+    "--output_dir",
+    "./results_v3_8b",
+    "--phases",
+    "1,2_triage,2_dense,2_5,3_rescue,3_mmlu,4,5,6"
+  ],
+  "program":  "/scratch/sm12377/content/mechIntrep/exeriments/attention_dilutionv2/Suraj/experiment.py",
+  "codePath":  "Suraj/experiment.py",
+  "codePathLocal":  "experiment.py",
+  "git":  {
+    "remote":  "https://github.com/ayushkokande/attention_dilutionv2.git",
+    "commit":  "2bbbbd4b502ccad13a308afbeadac4418fe40af7"
+  },
+  "email":  "sm12377@nyu.edu",
+  "root":  "results_v3_8b",
+  "host":  "b-19-19",
+  "executable":  "/share/apps/pyenv/py3.9/bin/python",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "gpu":  "NVIDIA A100-SXM4-40GB",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "20122152960",
+      "used":  "8245952512"
+    }
+  },
+  "memory":  {
+    "total":  "89078546432"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA A100-SXM4-40GB",
+      "memoryTotal":  "42949672960",
+      "cudaCores":  6912,
+      "architecture":  "Ampere",
+      "uuid":  "GPU-9df16b1f-17b6-04f6-7a8c-e2e3dbdbeb0e"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "slurm":  {
+    "cluster_name":  "(null)",
+    "conf":  "/opt/slurm/data/slurmd/conf-cache/slurm.conf",
+    "cpus_on_node":  "12",
+    "export_env":  "NONE",
+    "get_user_env":  "1",
+    "gpus_on_node":  "1",
+    "gtids":  "0",
+    "job_account":  "csci_ga_2590_001-2026sp",
+    "job_cpus_per_node":  "12",
+    "job_end_time":  "1778001082",
+    "job_gid":  "4335087",
+    "job_gpus":  "0",
+    "job_id":  "183255",
+    "job_name":  "ood-jupyter",
+    "job_nodelist":  "b-19-19",
+    "job_num_nodes":  "1",
+    "job_partition":  "c12m85-a100-1",
+    "job_qos":  "normal",
+    "job_start_time":  "1777936282",
+    "job_uid":  "4335087",
+    "job_user":  "sm12377",
+    "jobid":  "183255",
+    "localid":  "0",
+    "nnodes":  "1",
+    "nodeid":  "0",
+    "nodelist":  "b-19-19",
+    "prio_process":  "0",
+    "procid":  "0",
+    "submit_dir":  "/var/www/ood/apps/sys/dashboard",
+    "submit_host":  "ood-burst-001.hpc.nyu.edu",
+    "task_pid":  "5326",
+    "tasks_per_node":  "12",
+    "topology_addr":  "b-19-19",
+    "topology_addr_pattern":  "node"
+  },
+  "writerId":  "cp474jikizljckibbhf08boyffzzo1pa"
+}

@@ -1,0 +1,7 @@
+format,intact_at_nmax,ablated_at_n0,gap,nmax
+prefix,0.979375,0.0,0.979375,4096
+suffix,0.7584375,0.0,0.7584375,4096
+sandwich,0.8375,0.0,0.8375,4096
+multi_turn,0.94875,0.0,0.94875,4096
+distractor,1.0,0.0,1.0,4096
+many_shot,0.969375,0.0,0.969375,4096

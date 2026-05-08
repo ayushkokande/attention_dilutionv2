@@ -1,0 +1,194 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            vxp0zasllrrtz5s8sxbob3m8ivcu66tm:
+                args:
+                    - --output_dir
+                    - results_v3_8b
+                    - --phases
+                    - 7,7_analyze,7_pp,package
+                    - --resume
+                codePath: Suraj/experiment.py
+                codePathLocal: experiment.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "20122152960"
+                        used: "8245903360"
+                email: sm12377@nyu.edu
+                executable: /share/apps/pyenv/py3.9/bin/python
+                git:
+                    commit: 2bbbbd4b502ccad13a308afbeadac4418fe40af7
+                    remote: https://github.com/ayushkokande/attention_dilutionv2.git
+                gpu: NVIDIA A100-SXM4-40GB
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "42949672960"
+                      name: NVIDIA A100-SXM4-40GB
+                      uuid: GPU-de1bcf57-54ff-05e2-da97-1d7c2c669e5a
+                host: b-19-11
+                memory:
+                    total: "89078546432"
+                os: Linux-5.14.0-570.62.1.el9_6.x86_64-x86_64-with-glibc2.34
+                program: /scratch/sm12377/content/mechIntrep/exeriments/attention_dilutionv2/Suraj/experiment.py
+                python: CPython 3.9.18
+                root: results_v3_8b
+                slurm:
+                    cluster_name: (null)
+                    conf: /opt/slurm/data/slurmd/conf-cache/slurm.conf
+                    cpus_on_node: "12"
+                    export_env: NONE
+                    get_user_env: "1"
+                    gpus_on_node: "1"
+                    gtids: "0"
+                    job_account: csci_ga_2590_001-2026sp
+                    job_cpus_per_node: "12"
+                    job_end_time: "1778317032"
+                    job_gid: "4335087"
+                    job_gpus: "0"
+                    job_id: "185624"
+                    job_name: ood-jupyter
+                    job_nodelist: b-19-11
+                    job_num_nodes: "1"
+                    job_partition: c12m85-a100-1
+                    job_qos: normal
+                    job_start_time: "1778252232"
+                    job_uid: "4335087"
+                    job_user: sm12377
+                    jobid: "185624"
+                    localid: "0"
+                    nnodes: "1"
+                    nodeid: "0"
+                    nodelist: b-19-11
+                    prio_process: "0"
+                    procid: "0"
+                    submit_dir: /var/www/ood/apps/sys/dashboard
+                    submit_host: ood-burst-001.hpc.nyu.edu
+                    task_pid: "5325"
+                    tasks_per_node: "12"
+                    topology_addr: b-19-11
+                    topology_addr_pattern: node
+                startedAt: "2026-05-08T15:08:19.314070Z"
+                writerId: vxp0zasllrrtz5s8sxbob3m8ivcu66tm
+        m: []
+        python_version: 3.9.18
+        t:
+            "2":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 51
+                - 53
+                - 71
+                - 105
+            "3":
+                - 2
+                - 16
+            "4": 3.9.18
+            "5": 0.26.1
+            "10":
+                - 20
+            "12": 0.26.1
+            "13": linux-x86_64
+a100_80gb:
+    value: false
+force_redo:
+    value: false
+force_redo_phase1:
+    value: false
+force_redo_phase2_dense:
+    value: false
+force_redo_phase2_triage:
+    value: false
+force_redo_phase3:
+    value: false
+force_redo_phase4:
+    value: false
+force_redo_phase5:
+    value: false
+force_redo_phase6:
+    value: false
+force_redo_phase7:
+    value: false
+max_attn_n:
+    value: null
+model:
+    value: null
+n_ctx:
+    value: null
+n_devices:
+    value: null
+no_wandb:
+    value: false
+output_dir:
+    value: results_v3_8b
+phase1_skip_cache:
+    value: false
+phase7b_head_zoom:
+    value: false
+phase7b_layer_step:
+    value: 4
+phase7b_n_dirty:
+    value: 512
+phase7b_n_prompts:
+    value: 8
+phase7_analyze_only:
+    value: false
+phase7_backend:
+    value: transformerlens
+phase7_batch_size:
+    value: 64
+phase7_compare_formats:
+    value: ""
+phase7_compliance_targets:
+    value: Sure,Here,First,To
+phase7_ct_max_graphs:
+    value: 0
+phase7_desired_logit_prob:
+    value: 0.5
+phase7_edge_threshold:
+    value: 0.95
+phase7_max_feature_nodes:
+    value: 1024
+phase7_max_n_logits:
+    value: 3
+phase7_max_prompts:
+    value: 2
+phase7_node_threshold:
+    value: 0.7
+phase7_ns:
+    value: 0,128,4096
+phase7_offload:
+    value: cpu
+phase7_refusal_targets:
+    value: I,Sorry,cannot,can't,unable
+phase7_run_ct:
+    value: false
+phase7_skip_ct:
+    value: false
+phase7_top_heads:
+    value: 5
+phase7_transcoder_set:
+    value: null
+phases:
+    value: 7,7_analyze,7_pp,package
+resume:
+    value: true
+skip_smoke_test:
+    value: true
+smoke:
+    value: false
+verbose:
+    value: false
+wandb_entity:
+    value: sm12377-new-york-university
+wandb_name:
+    value: null
+wandb_project:
+    value: llmRFin
