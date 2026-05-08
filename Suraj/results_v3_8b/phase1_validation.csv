@@ -1,0 +1,2 @@
+best_layer,n_harmful_eval,n_harmless_eval,intact_harmful,ablated_harmful,intact_harmless,ablated_harmless,delta_harmful,delta_harmless
+32,100,100,0.94,0.02,0.01,0.0,0.9199999999999999,-0.01

@@ -1,0 +1,1 @@
+{"columns": ["alpha", "n_quick", "accuracy", "refusal_rate_on_benign", "n_evaluated", "status", "error_msg"], "data": [[0.0, 50, 0.58, 0.0, 50, "ok", NaN], [1.0, 50, 0.58, 0.0, 50, "ok", NaN], [2.0, 50, 0.56, 0.0, 50, "ok", NaN], [4.0, 50, 0.56, 0.0, 50, "ok", NaN], [8.0, 50, 0.58, 0.0, 50, "ok", NaN], [16.0, 50, 0.58, 0.0, 50, "ok", NaN]]}
