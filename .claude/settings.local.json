@@ -88,7 +88,21 @@
       "Bash(rm -f attention_dilution_overleaf.zip)",
       "Bash(zip -r attention_dilution_overleaf.zip main.tex refs.bib figures/ -x \"*.DS_Store\" \"figures/.*\")",
       "Bash(unzip -l attention_dilution_overleaf.zip)",
-      "Bash(zip -rq attention_dilution_overleaf.zip main.tex refs.bib figures/ -x \"*.DS_Store\" \"figures/.*\")"
+      "Bash(zip -rq attention_dilution_overleaf.zip main.tex refs.bib figures/ -x \"*.DS_Store\" \"figures/.*\")",
+      "Bash(find . -name \"*.json\" -path \"*phase1*\")",
+      "Bash(find . -path \"*qwen3-14b*\" -name \"*validat*\")",
+      "Bash(find . -path \"*qwen3-14b*\" -name \"*100_prompt*\")",
+      "Bash(head -20 results/qwen3-14b/guardrail_heads/dla_ranked.csv)",
+      "Bash(cat results/qwen3-14b/guardrail_heads/meta.json)",
+      "Bash(grep -rln \"23380\\\\|23,380\\\\|alpaca.*empty.input.*[0-9]\\\\|empty.input.*23\\\\|cleaned.*[0-9]\\\\{5\\\\}\" results Suraj/results_v3 INVARIANTS.md MEMORY.md memory)",
+      "Bash(ls results/qwen3-14b/topic_decouple/)",
+      "Bash(head -3 results/qwen3-14b/topic_decouple/per_prompt.jsonl)",
+      "Bash(awk -F',' '{print $3, $2, \"refusal=\"$12, \"attn=\"$2, \"cos=\"$6}')",
+      "Bash(cat Suraj/results_v3/phase5_killer_comparison.csv)",
+      "Bash(head -30 Suraj/results_v3/phase5_multi.csv)",
+      "Bash(grep *)",
+      "Bash(awk -F, 'NR==1{print; next} {print}' \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/Suraj/results_v3/phase7b_path_patching/layer_sweep.csv\")",
+      "Bash(awk -F, 'NR>1 && $2==36 {print $1\",\"$2\",\"$3\",\"$4\",\"$5\",\"$6\",\"$7}' \"/Users/kokande/Desktop/NYU/Semester 2/Building LLM Reasoners/attention_dilutionv2/Suraj/results_v3/phase7b_path_patching/layer_sweep.csv\")"
     ]
   }
 }
